@@ -4,10 +4,10 @@ import mysql.connector
 
 def conectar_banco():
     return mysql.connector.connect(
-        host="127.0.0.1",
+        host="mysql",
         port="3306",
-        user="gustavo",
-        password="Juranda22!!",
+        user="root",
+        password="root",
         database="imobiliaria"
     )
 
@@ -695,4 +695,7 @@ def deletar_telefone(id):
 #########################################################################################
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host= "0.0.0.0", port=5000)
+
+#if __name__ == "__main__":
+ #   app.run(debug=True)
