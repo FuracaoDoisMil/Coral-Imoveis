@@ -27,7 +27,7 @@ Funcionalidades implementadas:
 2. Executar o arquivo database/alteracoes.sql
 3. Executar o arquivo database/insercoes.sql (opcional)
 
-
+## 
 
 # Sprint 2 - Backend e Banco de Dados
 
