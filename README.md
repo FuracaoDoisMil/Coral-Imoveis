@@ -25,7 +25,7 @@ Funcionalidades implementadas:
 Como executar:
 1. Executar o arquivo database/schema.sql
 2. Executar o arquivo database/alteracoes.sql
-3. Executar o arquivo database/seed.sql (opcional)
+3. Executar o arquivo database/insercoes.sql (opcional)
 
 
 
