@@ -64,7 +64,7 @@ O backend da imobiliária está funcionando com integração ao banco de dados, 
 
 
 Como executar:
--no terminal, escreva docker-compose up
+  -no terminal, escreva docker-compose up
 
 
 
