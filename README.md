@@ -63,8 +63,8 @@ Como executar:
 O backend da imobiliária está funcionando com integração ao banco de dados, execução via Docker e endpoints CRUD operando corretamente.
 
 
-Como executar:
-  -no terminal, escreva docker-compose up
+## Como executar:
+-no terminal, escreva: docker-compose up
 
 
 
