@@ -22,7 +22,7 @@ Funcionalidades implementadas:
 - Controle de uso de veículos
 - Cadastro de telefones
 
-Como executar:
+## Como executar:
 1. Executar o arquivo database/schema.sql
 2. Executar o arquivo database/alteracoes.sql
 3. Executar o arquivo database/insercoes.sql (opcional)
