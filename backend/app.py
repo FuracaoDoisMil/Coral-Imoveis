@@ -54,6 +54,7 @@ def criar_imovel():
             cep,
             endereco,
             numero,
+            complemento,
             bairro,
             cidade,
             estado,
@@ -63,9 +64,11 @@ def criar_imovel():
             quartos,
             suites,
             vagas_garagem,
-            area
+            area,
+            iptu,
+            observacoes
         )
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """, (
         dados["id_proprietario"],
         dados["id_funcionario"],
@@ -74,20 +77,22 @@ def criar_imovel():
         dados["cep"],
         dados["endereco"],
         dados["numero"],
+        dados.get("complemento"),
         dados["bairro"],
         dados["cidade"],
         dados["estado"],
         dados["status"],
-        dados["valor_locacao"],
-        dados["valor_venda"],
-        dados["quartos"],
-        dados["suites"],
-        dados["vagas_garagem"],
-        dados["area"]
+        dados.get("valor_locacao"),
+        dados.get("valor_venda"),
+        dados.get("quartos"),
+        dados.get("suites"),
+        dados.get("vagas_garagem"),
+        dados.get("area"),
+        dados.get("iptu"),
+        dados.get("observacoes")
     ))
 
     conexao.commit()
-
     cursor.close()
     conexao.close()
 
@@ -108,6 +113,7 @@ def atualizar_imovel(id):
             cep = %s,
             endereco = %s,
             numero = %s,
+            complemento = %s,
             bairro = %s,
             cidade = %s,
             estado = %s,
@@ -117,7 +123,9 @@ def atualizar_imovel(id):
             quartos = %s,
             suites = %s,
             vagas_garagem = %s,
-            area = %s
+            area = %s,
+            iptu = %s,
+            observacoes = %s
         WHERE id_imovel = %s
     """, (
         dados["nome_imovel"],
@@ -125,26 +133,27 @@ def atualizar_imovel(id):
         dados["cep"],
         dados["endereco"],
         dados["numero"],
+        dados.get("complemento"),
         dados["bairro"],
         dados["cidade"],
         dados["estado"],
         dados["status"],
-        dados["valor_locacao"],
-        dados["valor_venda"],
-        dados["quartos"],
-        dados["suites"],
-        dados["vagas_garagem"],
-        dados["area"],
+        dados.get("valor_locacao"),
+        dados.get("valor_venda"),
+        dados.get("quartos"),
+        dados.get("suites"),
+        dados.get("vagas_garagem"),
+        dados.get("area"),
+        dados.get("iptu"),
+        dados.get("observacoes"),
         id
     ))
 
     conexao.commit()
-
     cursor.close()
     conexao.close()
 
     return {"mensagem": "Imóvel atualizado com sucesso ;D"}
-
 
 @app.route("/imoveis/<int:id>", methods=["DELETE"])
 def deletar_imovel(id):
@@ -432,16 +441,17 @@ def criar_carro():
     cursor.execute("""
         INSERT INTO carro(
             modelo_carro,
-            placa_carro
+            placa_carro,
+            situacao
         )
-        VALUES (%s, %s)
+        VALUES (%s, %s, %s)
     """, (
         dados["modelo_carro"],
-        dados["placa_carro"]
+        dados["placa_carro"],
+        dados["situacao"]
     ))
 
     conexao.commit()
-
     cursor.close()
     conexao.close()
 
@@ -458,16 +468,17 @@ def atualizar_carro(id):
     cursor.execute("""
         UPDATE carro SET
             modelo_carro = %s,
-            placa_carro = %s
+            placa_carro = %s,
+            situacao = %s
         WHERE id_carro = %s
     """, (
         dados["modelo_carro"],
         dados["placa_carro"],
+        dados["situacao"],
         id
     ))
 
     conexao.commit()
-
     cursor.close()
     conexao.close()
 
