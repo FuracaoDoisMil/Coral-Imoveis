@@ -282,4 +282,105 @@ input::placeholder{
     color: white;
 }
 
+.cadastro-container{
+
+    width: 90%;
+
+    margin: auto;
+
+    text-align: center;
+
+}
+
+.form-grid{
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+
+    margin-top: 30px;
+
+}
+
+.form-grid input{
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    background-color: rgba(255,255,255,0.1);
+
+    color: white;
+
+    backdrop-filter: blur(8px);
+
+    box-sizing: border-box;
+
+}
+
+.form-grid select{
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    background-color: rgba(255,255,255,0.1);
+
+    color: white;
+
+    backdrop-filter: blur(8px);
+
+    box-sizing: border-box;
+
+}
+
+.botao-cadastrar{
+
+    margin-top: 30px;
+
+    padding: 15px 40px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: linear-gradient(135deg, #ff7f50, #ff4500);
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+.botao-cadastrar:hover{
+
+    transform: scale(1.05);
+
+    box-shadow: 0 0 15px rgba(255,127,80,0.5);
+
+}
 
