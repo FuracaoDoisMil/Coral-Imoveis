@@ -306,6 +306,24 @@ def listar_funcionarios():
 
     return resultados
 
+@app.route("/funcionarios/<int:id>", methods=["GET"])
+def buscar_funcionario(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM funcionarios WHERE id_funcionario = %s",
+        (id,)
+    )
+    resultado = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if resultado is None:
+        return {"mensagem": "Funcionário não encontrado"}, 404
+
+    return resultado
 
 @app.route("/funcionarios", methods=["POST"])
 def criar_funcionario():
