@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MostrarFuncionarios(){
 
@@ -7,6 +8,8 @@ function MostrarFuncionarios(){
     const [pesquisa, setPesquisa] = useState("")
 
     const [filtro, setFiltro] = useState("nome")
+
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -61,6 +64,10 @@ function MostrarFuncionarios(){
 
                     <option value="cnh_validade">Validade da CNH</option>
 
+                    <option value="com_cnh">Possui CNH</option>
+
+                    <option value="sem_cnh">Não possui CNH</option>
+
 
                 </select>
 
@@ -93,6 +100,7 @@ function MostrarFuncionarios(){
                             <th>Número da CNH</th>
                             <th>Categoria da CNH</th>
                             <th>Validade da CNH</th>
+                            <th>Ações</th>
 
                         </tr>
 
@@ -201,6 +209,14 @@ function MostrarFuncionarios(){
 
                                 }
 
+                                if(filtro === "com_cnh"){
+                                    return funcionario.CNH_numero !== null
+                                }
+
+                                if(filtro === "sem_cnh"){
+                                    return funcionario.CNH_numero === null
+                                }
+                                    
                             })
 
 
@@ -246,6 +262,17 @@ function MostrarFuncionarios(){
                                             ? new Date(funcionario.CNH_validade).toLocaleDateString("pt-BR")
                                             : "Sem CNH"}
                                     </td>
+
+                                    <td>
+                                        <button onClick={() => navigate(`/funcionarios/atualizar-funcionarios/${funcionario.id_funcionario}`)}>
+                                            Editar
+                                        </button>
+
+                                        <button onClick={() => navigate(`/funcionarios/deletar-funcionarios/${funcionario.id_funcionario}`)}>
+                                            Deletar
+                                        </button>
+                                    </td>
+
 
                                 </tr>
 
