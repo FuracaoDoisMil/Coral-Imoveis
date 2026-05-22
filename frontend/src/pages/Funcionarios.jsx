@@ -31,17 +31,20 @@ function Funcionarios(){
                     <h3>Mostrar Funcionarios</h3>
                 
                 </Link>
-                <div className="caixinha">
-                    <h3>Cadastrar Funcionarios</h3>
-                </div>
-                   
-                <div className="caixinha">
-                     <h3>Atualizar Funcionarios</h3>
-                </div>
 
-                <div className="caixinha">
+                <Link to="/funcionarios/cadastrar-funcionarios" className="caixinha">
+
+                    <h3>Cadastrar Funcionarios</h3>
+
+                </Link>
+                   
+                <Link to = "/funcionarios/atualizar-funcionarios" className="caixinha">
+                     <h3>Atualizar Funcionarios</h3>
+                </Link>
+
+                <Link to = "/funcionarios/deletar-funcionarios" className="caixinha">
                     <h3>Deletar Funcionarios</h3>
-                </div>
+                </Link>
             </div>
         </div>
     )
