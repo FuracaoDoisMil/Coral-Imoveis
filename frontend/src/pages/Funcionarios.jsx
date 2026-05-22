@@ -38,13 +38,6 @@ function Funcionarios(){
 
                 </Link>
                    
-                <Link to = "/funcionarios/atualizar-funcionarios" className="caixinha">
-                     <h3>Atualizar Funcionarios</h3>
-                </Link>
-
-                <Link to = "/funcionarios/deletar-funcionarios" className="caixinha">
-                    <h3>Deletar Funcionarios</h3>
-                </Link>
             </div>
         </div>
     )
