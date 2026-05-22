@@ -323,13 +323,14 @@ def criar_funcionario():
             CPF,
             dt_nascimento,
             email,
+            senha,
             salario,
             situacao,
             CNH_numero,
             CNH_categoria,
             CNH_validade
         )
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """, (
         dados["tipo_funcionario"],
         dados["nome"],
@@ -338,8 +339,9 @@ def criar_funcionario():
         dados["CPF"],
         dados["dt_nascimento"],
         dados["email"],
+        dados["senha"],
         dados["salario"],
-        dados["situacao"],
+        dados.get("situacao", "ativo"),
         dados["CNH_numero"],
         dados["CNH_categoria"],
         dados["CNH_validade"]
