@@ -6,7 +6,9 @@ import Navbar from "./components/Navbar"
 
 import Funcionarios from "./pages/Funcionarios"
 import MostrarFuncionarios from "./pages/pages-Funcionarios/MostrarFuncionarios"
-
+import CadastrarFuncionarios from "./pages/pages-Funcionarios/CadastrarFuncionarios"
+import AtualizarFuncionarios from "./pages/pages-Funcionarios/AtualizarFuncionarios"
+import DeletarFuncionario from "./pages/pages-Funcionarios/DeletarFuncionarios"
 
 import Clientes from "./pages/Clientes"
 import Proprietarios from "./pages/Proprietarios"
@@ -90,8 +92,11 @@ function App() {
 
           } />
 
-          <Route path="/funcionarios" element={<Funcionarios />} />
+          <Route path = "/funcionarios" element={<Funcionarios />} />
           <Route path = "/funcionarios/mostrar-funcionarios" element={<MostrarFuncionarios/>}></Route>
+          <Route path = "/funcionarios/atualizar-funcionarios/:id" element={<AtualizarFuncionarios/>}></Route>
+          <Route path = "/funcionarios/cadastrar-funcionarios" element={<CadastrarFuncionarios/>}></Route>
+          <Route path = "/funcionarios/deletar-funcionarios/:id" element={<DeletarFuncionario/>}></Route>
 
           <Route path="/clientes" element={<Clientes />} />
 
