@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 function AtualizarFuncionarios() {
     const { id } = useParams()
+    const navigate = useNavigate()
 
     const [tipo_funcionario, setTipo_funcionario] = useState("")
     const [nome, setNome] = useState("")
@@ -18,23 +20,30 @@ function AtualizarFuncionarios() {
     const [CNH_validade, setCNH_validade] = useState("")
     const [senha, setSenha] = useState("")
 
+    // Função auxiliar — coloca lá no topo do componente, antes do useEffect
+    function formatarData(dataStr) {
+    if (!dataStr) return ""
+    const data = new Date(dataStr)
+    return data.toISOString().split("T")[0]
+    }
 
     useEffect(() => {
-        fetch("http://localhost:5000/funcionarios/?{id}")
+        fetch(`http://localhost:5000/funcionarios/${id}`)
             .then(resposta => resposta.json())
             .then(dados => {
+                console.log(dados)
                 setTipo_funcionario(dados.tipo_funcionario)
                 setNome(dados.nome)
                 setSobrenome(dados.sobrenome)
                 setSexo(dados.sexo)
                 setCPF(dados.CPF)
-                setDt_nascimento(dados.dt_nascimento)
+                setDt_nascimento(formatarData(dados.dt_nascimento))
                 setEmail(dados.email)
                 setSalario(dados.salario)
                 setSituacao(dados.situacao)
                 setCNH_numero(dados.CNH_numero || "")
                 setCNH_categoria(dados.CNH_categoria || "")
-                setCNH_validade(dados.CNH_validade || "")
+                setCNH_validade(formatarData(dados.CNH_validade))
                 
             })
             .catch(erro => console.error("ERRO ao buscar funcionário ;-; :", erro))
@@ -54,7 +63,7 @@ function AtualizarFuncionarios() {
             return
         }
 
-        const boby = {
+        const body = {
             tipo_funcionario,
             nome,
             sobrenome,
@@ -71,7 +80,7 @@ function AtualizarFuncionarios() {
 
         if(senha) body.senha = senha
 
-        fetch("http://localhost:5000/funcionarios/?{id}", {
+        fetch(`http://localhost:5000/funcionarios/${id}`, {
             method: "PUT",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(body)  
@@ -168,6 +177,18 @@ function AtualizarFuncionarios() {
                     onChange={(e) => setSalario(e.target.value)}
                 />
                 
+                <select value={situacao}
+                        onChange={(e) => setSituacao(e.target.value)}
+                >
+
+                    <option value="">Selecione a situação do Funcionario</option>
+
+                    <option value="ativo">Ativo</option>
+
+                    <option value="inativo">Inativo</option>
+
+                </select>
+
                 <input type="text"
                     placeholder="Numero da CNH"
                     value={CNH_numero}
@@ -195,6 +216,10 @@ function AtualizarFuncionarios() {
 
             <button className="botao-cadastrar" onClick={atualizarFuncionarios}>
                 Atualizar Funcionario
+            </button>
+
+            <button className="botao-cadastrar" onClick={() => navigate("/funcionarios/mostrar-funcionarios")}>
+                    Cancelar
             </button>
         </div>
     )
