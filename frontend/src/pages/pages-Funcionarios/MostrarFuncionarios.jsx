@@ -5,6 +5,8 @@ function MostrarFuncionarios(){
 
     const [funcionarios, setFuncionarios] = useState([])
 
+    const [telefone, setTelefone] = useState([])
+
     const [pesquisa, setPesquisa] = useState("")
 
     const [filtro, setFiltro] = useState("nome")
@@ -13,13 +15,26 @@ function MostrarFuncionarios(){
 
     useEffect(() => {
 
-        fetch("http://localhost:5000/funcionarios")
+        fetch(`http://localhost:5000/funcionarios`)
 
             .then(resposta => resposta.json())
 
             .then(dados => {
                 console.log(dados)
                 setFuncionarios(dados)
+            })
+
+            .catch(erro => {
+                console.log("ERRO:", erro)
+            })
+
+        fetch(`http://localhost:5000/telefones`)
+
+            .then(resposta => resposta.json())
+
+            .then(dados => {
+                console.log(dados)
+                setTelefone(dados)
             })
 
             .catch(erro => {
@@ -40,7 +55,10 @@ function MostrarFuncionarios(){
                     value={filtro}
                     onChange={(e) => setFiltro(e.target.value)}
                 >
+
                     <option value="id">ID</option>
+
+                    <option value="tipo_funcionario">Cargo</option>
 
                     <option value="nome">Nome</option>
 
@@ -51,6 +69,8 @@ function MostrarFuncionarios(){
                     <option value="cpf">CPF</option>
 
                     <option value="dt_nascimento">Data de Nascimento</option>
+
+                    <option value="telefone">Telefone</option>
 
                     <option value="email">E-mail</option>
 
@@ -67,7 +87,6 @@ function MostrarFuncionarios(){
                     <option value="com_cnh">Possui CNH</option>
 
                     <option value="sem_cnh">Não possui CNH</option>
-
 
                 </select>
 
@@ -89,12 +108,14 @@ function MostrarFuncionarios(){
                         <tr>
 
                             <th>ID</th>
+                            <th>Cargo</th>
                             <th>Nome</th>
                             <th>Sobrenome</th>
                             <th>Sexo</th>
                             <th>CPF</th>
                             <th>Data de Nascimento</th>
                             <th>Email</th>
+                            <th>Telefone</th>
                             <th>Salário</th>
                             <th>Situação</th>
                             <th>Número da CNH</th>
@@ -111,7 +132,11 @@ function MostrarFuncionarios(){
                         {funcionarios
 
                             .filter(funcionario => {
-                               
+
+                                const telefoneFuncionario = telefone.find(
+                                    tel => tel.id_funcionario === funcionario.id_funcionario
+                                )
+
                                 if(filtro === "id"){
 
                                     return funcionario.id_funcionario
@@ -119,7 +144,14 @@ function MostrarFuncionarios(){
                                         .includes(pesquisa)
 
                                 }
+                                
 
+                                if(filtro === "tipo_funcionario"){
+                                    return funcionario.tipo_funcionario
+                                        ?.toLowerCase()
+                                        .includes(pesquisa.toLowerCase())
+                                }
+                                
                                 if(filtro === "nome"){
 
                                     return funcionario.nome
@@ -131,6 +163,14 @@ function MostrarFuncionarios(){
                                 if(filtro === "sobrenome"){
 
                                     return funcionario.sobrenome
+                                        ?.toLowerCase()
+                                        .includes(pesquisa.toLowerCase())
+
+                                }
+
+                                if(filtro === "sexo"){
+
+                                    return funcionario.sexo
                                         ?.toLowerCase()
                                         .includes(pesquisa.toLowerCase())
 
@@ -151,6 +191,13 @@ function MostrarFuncionarios(){
 
                                 }
 
+                                if(filtro === "telefone"){
+
+                                    return telefoneFuncionario?.numero
+                                        ?.includes(pesquisa)
+
+                                }
+
                                 if(filtro === "email"){
 
                                     return funcionario.email
@@ -158,20 +205,12 @@ function MostrarFuncionarios(){
                                         .includes(pesquisa.toLowerCase())
 
                                 }
-                                                            
+
                                 if(filtro === "salario"){
 
                                     return funcionario.salario
                                         ?.toString()
                                         .includes(pesquisa)
-
-                                }
-
-                                if(filtro === "sexo"){
-
-                                    return funcionario.sexo
-                                        ?.toLowerCase()
-                                        .includes(pesquisa.toLowerCase())
 
                                 }
 
@@ -210,73 +249,100 @@ function MostrarFuncionarios(){
                                 }
 
                                 if(filtro === "com_cnh"){
+
                                     return funcionario.CNH_numero !== null
+
                                 }
 
                                 if(filtro === "sem_cnh"){
+
                                     return funcionario.CNH_numero === null
+
                                 }
-                                    
+
                             })
 
+                            .map(funcionario => {
 
+                                const telefoneFuncionario = telefone.find(
+                                    tel => tel.id_funcionario === funcionario.id_funcionario
+                                )
 
-                            .map(funcionario => (
+                                return(
 
-                                <tr key={funcionario.id_funcionario}>
+                                    <tr key={funcionario.id_funcionario}>
 
-                                    <td>{funcionario.id_funcionario}</td>
+                                        <td>{funcionario.id_funcionario}</td>
 
-                                    <td>{funcionario.nome}</td>
+                                        <td>{funcionario.tipo_funcionario}</td>
 
-                                    <td>{funcionario.sobrenome}</td>
+                                        <td>{funcionario.nome}</td>
 
-                                    <td>{funcionario.sexo}</td>
+                                        <td>{funcionario.sobrenome}</td>
 
-                                    <td>{funcionario.CPF}</td>
+                                        <td>{funcionario.sexo}</td>
 
-                                    <td>
-                                        {new Date(funcionario.dt_nascimento).toLocaleDateString("pt-BR")}
-                                    </td>
+                                        <td>{funcionario.CPF}</td>
 
-                                    <td>{funcionario.email}</td>
+                                        <td>
+                                            {new Date(funcionario.dt_nascimento).toLocaleDateString("pt-BR")}
+                                        </td>
 
-                                    <td>{funcionario.salario}</td>
+                                        <td>{funcionario.email}</td>
 
-                                    <td>{funcionario.situacao}</td>
+                                        <td>
+                                            {telefoneFuncionario
+                                                ? telefoneFuncionario.numero
+                                                : "Sem telefone"}
+                                        </td>
 
-                                    <td>
-                                        {funcionario.CNH_numero
-                                            ? funcionario.CNH_numero
-                                            : "Sem CNH"}
-                                    </td>
+                                        <td>{funcionario.salario}</td>
 
-                                    <td>
-                                        {funcionario.CNH_categoria
-                                            ? funcionario.CNH_categoria
-                                            : "Sem CNH"}
-                                    </td>
+                                        <td>{funcionario.situacao}</td>
 
-                                    <td>
-                                        {funcionario.CNH_validade
-                                            ? new Date(funcionario.CNH_validade).toLocaleDateString("pt-BR")
-                                            : "Sem CNH"}
-                                    </td>
+                                        <td>
+                                            {funcionario.CNH_numero
+                                                ? funcionario.CNH_numero
+                                                : "Sem CNH"}
+                                        </td>
 
-                                    <td>
-                                        <button onClick={() => navigate(`/funcionarios/atualizar-funcionarios/${funcionario.id_funcionario}`)}>
-                                            Editar
-                                        </button>
+                                        <td>
+                                            {funcionario.CNH_categoria
+                                                ? funcionario.CNH_categoria
+                                                : "Sem CNH"}
+                                        </td>
 
-                                        <button onClick={() => navigate(`/funcionarios/deletar-funcionarios/${funcionario.id_funcionario}`)}>
-                                            Deletar
-                                        </button>
-                                    </td>
+                                        <td>
+                                            {funcionario.CNH_validade
+                                                ? new Date(funcionario.CNH_validade).toLocaleDateString("pt-BR")
+                                                : "Sem CNH"}
+                                        </td>
 
+                                        <td>
 
-                                </tr>
+                                            <button
+                                                onClick={() =>
+                                                    navigate(`/funcionarios/atualizar-funcionarios/${funcionario.id_funcionario}`)
+                                                }
+                                            >
+                                                Editar
+                                            </button>
 
-                            ))}
+                                            <button
+                                                onClick={() =>
+                                                    navigate(`/funcionarios/deletar-funcionarios/${funcionario.id_funcionario}`)
+                                                }
+                                            >
+                                                Deletar
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                )
+
+                            })}
 
                     </tbody>
 
@@ -291,4 +357,3 @@ function MostrarFuncionarios(){
 }
 
 export default MostrarFuncionarios
-
