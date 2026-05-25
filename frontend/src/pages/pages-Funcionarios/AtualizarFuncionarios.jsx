@@ -208,7 +208,7 @@ function AtualizarFuncionarios() {
                 />
 
                 <input type="password" 
-                    placeholder="Nova senha (não deixe em branco!!!)"
+                    placeholder="Nova senha (Ou senha atual, caso não queira trocar)"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                 />
