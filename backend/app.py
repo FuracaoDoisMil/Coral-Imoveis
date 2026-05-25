@@ -194,6 +194,21 @@ def listar_proprietarios():
 
     return resultados
 
+@app.route("/proprietarios/<int:id>", methods=["GET"])
+def buscar_proprietario(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM proprietarios WHERE id_proprietario = %s", (id,))
+
+    proprietario = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not proprietario:
+        return {"ERRO:", "Proprietario não encontrado :("}, 404
+    return proprietario, 200
 
 @app.route("/proprietarios", methods=["POST"])
 def criar_proprietario():
@@ -222,7 +237,7 @@ def criar_proprietario():
         dados["CNPJ"],
         dados["dt_nascimento"],
         dados["email"],
-        dados["situacao"]
+        dados.get("situacao", "ativo")
     ))
 
     conexao.commit()
@@ -308,22 +323,23 @@ def listar_funcionarios():
 
 @app.route("/funcionarios/<int:id>", methods=["GET"])
 def buscar_funcionario(id):
+
     conexao = conectar_banco()
     cursor = conexao.cursor(dictionary=True)
 
-    cursor.execute(
-        "SELECT * FROM funcionarios WHERE id_funcionario = %s",
-        (id,)
-    )
-    resultado = cursor.fetchone()
+
+    cursor.execute("SELECT * FROM funcionarios WHERE id_funcionario = %s", (id,))
+
+    funcionario = cursor.fetchone()
 
     cursor.close()
     conexao.close()
 
-    if resultado is None:
-        return {"mensagem": "Funcionário não encontrado"}, 404
+    if not funcionario:
+        return {"erro": "Funcionário não encontrado :("}, 404
 
-    return resultado
+    return funcionario, 200
+
 
 @app.route("/funcionarios", methods=["POST"])
 def criar_funcionario():
@@ -660,6 +676,24 @@ def listar_telefones():
 
     return resultados
 
+@app.route("/telefones/<int:id>")
+def buscar_telefone(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM telefone WHERE id_funcionario = %s", (id,))
+
+    telefone = cursor.fetchall()
+
+    cursor.close()
+    conexao.close()
+
+    if not telefone:
+        return {"ERRO": "Telefone não encontrado"}, 404
+    
+    return telefone, 200
+
+
 
 @app.route("/telefones", methods=["POST"])
 def criar_telefone():
@@ -751,13 +785,35 @@ def listar_clientes():
 
     return resultados
 
+@app.route("/clientes/<int:id>", methods=["GET"])
+def buscar_cliente(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM clientes WHERE id_cliente = %s", (id,))
+
+    cliente = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not cliente:
+        return {"Erro": "Cliente não encontrado :("}, 404
+
+    return cliente, 200
+
+
 
 @app.route("/clientes", methods=["POST"])
 def criar_cliente():
+    print("chegou a nova rota!!")
+    
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
     dados = request.json
+    
+    print(dados)
 
     cursor.execute("""
         INSERT INTO clientes(
@@ -781,7 +837,7 @@ def criar_cliente():
         dados["email"],
         dados["senha"],
         dados["telefone"],
-        dados["situacao"]
+        dados.get("situacao", "ativo")
     ))
 
     conexao.commit()
