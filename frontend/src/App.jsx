@@ -11,7 +11,18 @@ import AtualizarFuncionarios from "./pages/pages-Funcionarios/AtualizarFuncionar
 import DeletarFuncionario from "./pages/pages-Funcionarios/DeletarFuncionarios"
 
 import Clientes from "./pages/Clientes"
+import MostrarClientes from "./pages/pages-Clientes/MostrarClientes"
+import CadastrarClientes from "./pages/pages-Clientes/CadastrarClientes"
+import AtualizarClientes from "./pages/pages-Clientes/AtualizarClientes"
+import DeletarClientes from "./pages/pages-Clientes/DeletarClientes"
+
+
 import Proprietarios from "./pages/Proprietarios"
+import MostrarProprietarios from "./pages/pages-Proprietarios/MostrarProprietarios"
+import CadastrarProprietarios from "./pages/pages-Proprietarios/CadastrarProprietarios"
+import AtualizarProprietarios from "./pages/pages-Proprietarios/AtualizarProprietarios"
+import DeletarProprietarios from "./pages/pages-Proprietarios/DeletarProprietarios"
+
 import Imoveis from "./pages/Imoveis"
 import Vendas from "./pages/Vendas"
 import Locacoes from "./pages/Locacoes"
@@ -93,14 +104,22 @@ function App() {
           } />
 
           <Route path = "/funcionarios" element={<Funcionarios />} />
+          <Route path = "/funcionarios/cadastrar-funcionarios" element={<CadastrarFuncionarios/>}></Route>
           <Route path = "/funcionarios/mostrar-funcionarios" element={<MostrarFuncionarios/>}></Route>
           <Route path = "/funcionarios/atualizar-funcionarios/:id" element={<AtualizarFuncionarios/>}></Route>
-          <Route path = "/funcionarios/cadastrar-funcionarios" element={<CadastrarFuncionarios/>}></Route>
           <Route path = "/funcionarios/deletar-funcionarios/:id" element={<DeletarFuncionario/>}></Route>
 
           <Route path="/clientes" element={<Clientes />} />
+          <Route path="/clientes/mostrar-clientes" element={<MostrarClientes/>}></Route>
+          <Route path="/clientes/cadastrar-clientes" element={<CadastrarClientes/>}></Route>
+          <Route path="/clientes/atualizar-clientes/:id" element={<AtualizarClientes/>}></Route>
+          <Route path="/clientes/deletar-clientes/:id" element={<DeletarClientes/>}></Route>
 
           <Route path="/proprietarios" element={<Proprietarios />} />
+          <Route path="/proprietarios/mostrar-proprietarios" element={<MostrarProprietarios/>}></Route>
+          <Route path="/proprietarios/cadastrar-proprietarios" element={<CadastrarProprietarios/>}></Route>
+          <Route path="/proprietarios/atualizar-proprietarios" element={<AtualizarProprietarios/>}></Route>
+          <Route path="/proprietarios/deletar-proprietarios" element={<DeletarProprietarios/>}></Route>
 
           <Route path="/imoveis" element={<Imoveis />} />
 
