@@ -1,203 +1,179 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react"
 
-function DeletarFuncionarios() {
+import { useNavigate, useParams } from "react-router-dom"
 
-    const { id } = useParams();
+function DeletarFuncionarios(){
 
-    const [funcionario, setFuncionario] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [erro, setErro] = useState(null);
-    const [deletando, setDeletando] = useState(false);
+    const { id } = useParams()
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+
+    const [funcionario, setFuncionario] = useState(null)
+
+    const [telefone, setTelefone] = useState(null)
 
     useEffect(() => {
 
         fetch(`http://localhost:5000/funcionarios/${id}`)
-            .then(resposta => {
-                if (!resposta.ok) {
-                    throw new Error("Funcionário não encontrado.");
-                }
-                return resposta.json();
-            })
+
+            .then(resposta => resposta.json())
 
             .then(dados => {
-                setFuncionario(dados);
-                setLoading(false);
+                console.log(dados)
+                setFuncionario(dados)
             })
 
             .catch(erro => {
-                console.log("ERRO:", erro);
-                setErro("Não foi possível carregar os dados do funcionário.");
-                setLoading(false);
-            });
+                console.log("ERRO:", erro)
+            })
 
-    }, [id]);
+    }, [id])
 
-    function handleDeletar() {
 
-        setDeletando(true);
+    useEffect(() => {
+        fetch(`http://localhost:5000/telefones/${id}`)
 
-        fetch(`http://localhost:5000/funcionarios/${id}`, {
-            method: "DELETE"
+        .then(resposta => resposta.json())
+
+        .then(dados => {
+            console.log(dados)
+            setTelefone(dados[0])
         })
 
-            .then(resposta => {
-                if (!resposta.ok) {
-                    throw new Error("Erro ao deletar funcionário.");
-                }
-                return resposta.json();
-            })
+        .catch(erro => {
+            console.log("ERRO", erro)
+        })
+    },[id])
 
-            .then(() => {
-                alert("Funcionário deletado com sucesso!");
-                navigate("/funcionarios");
-            })
+    function deletarFuncionario(){
 
-            .catch(erro => {
-                console.log("ERRO:", erro);
-                alert("Erro ao deletar funcionário. Tente novamente.");
-                setDeletando(false);
-            });
+        const confirmar = window.confirm(
+            "Tem certeza que deseja deletar este funcionário?"
+        )
+
+        if(!confirmar){
+            return
+        }
+
+        fetch(`http://localhost:5000/funcionarios/${id}`, {
+
+            method: "DELETE"
+
+        })
+
+        .then(resposta => resposta.json())
+
+        .then(dados => {
+
+            console.log(dados)
+
+            alert("Funcionário deletado com sucesso!")
+
+            navigate("/funcionarios/mostrar-funcionarios")
+
+        })
+
+        .catch(erro => {
+
+            console.log("ERRO:", erro)
+
+        })
 
     }
 
-    function handleCancelar() {
-        navigate("/funcionarios");
+    if(!funcionario){
+
+        return <h2>Carregando...</h2>
+
     }
 
-    if (loading) {
-        return <p>Carregando dados do funcionário...</p>;
-    }
+return(
 
-    if (erro) {
-        return (
-            <div>
-                <p>{erro}</p>
-                <button onClick={handleCancelar}>Voltar</button>
-            </div>
-        );
-    }
+    <div>
 
-    return (
+        <h1>Deletar Funcionário</h1>
 
-        <div>
+        <div className="card-deletar">
 
-            <h1>Deletar Funcionário</h1>
+            <p>
+                <strong>ID:</strong> {funcionario.id_funcionario}
+            </p>
+           
+            <p>
+                <strong>Cargo:</strong> {funcionario.tipo_funcionario}
+            </p>                
+                
+            <p>
+                <strong>Nome:</strong> {funcionario.nome}
+            </p>
 
-            <p>Tem certeza que deseja deletar o funcionário abaixo? Essa ação não pode ser desfeita.</p>
+            <p>
+                <strong>Sobrenome:</strong> {funcionario.sobrenome}
+            </p>
 
-            {funcionario && (
+            <p>
+                <strong>Sexo:</strong> {funcionario.sexo}
+            </p>
 
-                <div>
+            <p>
+                <strong>CPF:</strong> {funcionario.CPF}
+            </p>
 
-                    <table>
+            <p>
+                <strong>Data de Nascimento:</strong>{" "}
+                {new Date(funcionario.dt_nascimento)
+                    .toLocaleDateString("pt-BR")}
+            </p>
 
-                        <tbody>
+            <p>
+                <strong>Telefone:</strong>{" "}
+                {telefone?.numero || "Sem telefone"}
+            </p>
+            
+            <p>
+                <strong>E-mail:</strong> {funcionario.email}
+            </p>
 
-                            <tr>
-                                <th>ID</th>
-                                <td>{funcionario.id_funcionario}</td>
-                            </tr>
+            <p>
+                <strong>Salário:</strong> {funcionario.salario}
+            </p>
 
-                            <tr>
-                                <th>Nome</th>
-                                <td>{funcionario.nome}</td>
-                            </tr>
+            <p>
+                <strong>Situação:</strong> {funcionario.situacao}
+            </p>
 
-                            <tr>
-                                <th>Sobrenome</th>
-                                <td>{funcionario.sobrenome}</td>
-                            </tr>
+            <p>
+                <strong>Número da CNH:</strong>{" "}
+                {funcionario.CNH_numero || "Sem CNH"}
+            </p>
 
-                            <tr>
-                                <th>Sexo</th>
-                                <td>{funcionario.sexo}</td>
-                            </tr>
+            <p>
+                <strong>Categoria da CNH:</strong>{" "}
+                {funcionario.CNH_categoria || "Sem CNH"}
+            </p>
 
-                            <tr>
-                                <th>CPF</th>
-                                <td>{funcionario.CPF}</td>
-                            </tr>
+            <p>
+                <strong>Validade da CNH:</strong>{" "}
+                {funcionario.CNH_validade
+                    ? new Date(funcionario.CNH_validade)
+                        .toLocaleDateString("pt-BR")
+                    : "Sem CNH"}
+            </p>
 
-                            <tr>
-                                <th>Data de Nascimento</th>
-                                <td>
-                                    {new Date(funcionario.dt_nascimento).toLocaleDateString("pt-BR")}
-                                </td>
-                            </tr>
+            <button className="btn-deletar" onClick={deletarFuncionario}>
+                Confirmar Exclusão
+            </button>
 
-                            <tr>
-                                <th>E-mail</th>
-                                <td>{funcionario.email}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Salário</th>
-                                <td>{funcionario.salario}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Situação</th>
-                                <td>{funcionario.situacao}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Número da CNH</th>
-                                <td>
-                                    {funcionario.CNH_numero
-                                        ? funcionario.CNH_numero
-                                        : "Sem CNH"}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>Categoria da CNH</th>
-                                <td>
-                                    {funcionario.CNH_categoria
-                                        ? funcionario.CNH_categoria
-                                        : "Sem CNH"}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>Validade da CNH</th>
-                                <td>
-                                    {funcionario.CNH_validade
-                                        ? new Date(funcionario.CNH_validade).toLocaleDateString("pt-BR")
-                                        : "Sem CNH"}
-                                </td>
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            )}
-
-            <div>
-
-                <button onClick={handleDeletar} disabled={deletando}>
-                    
-                    {deletando ? "Deletando..." : "Confirmar Exclusão"}
-
-                </button>
-
-                <button onClick={handleCancelar} disabled={deletando}>
-
-                    Cancelar
-
-                </button>
-
-            </div>
+            <button className="btn-cancelar" onClick={() => navigate("/funcionarios/mostrar-funcionarios")}>
+                Cancelar
+            </button>
 
         </div>
 
-    );
+    </div>
+
+)
 
 }
 
-export default DeletarFuncionarios;
+export default DeletarFuncionarios
