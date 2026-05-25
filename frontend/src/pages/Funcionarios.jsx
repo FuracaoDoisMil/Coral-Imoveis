@@ -25,7 +25,7 @@ function Funcionarios(){
 
     return(
         <div>
-            <h1>Funcionarios</h1>
+            <h1>Gerenciar Funcionarios 👨‍💼👩‍💼</h1>
             <div className="caixinhas_aba_funcionarios">
                 <Link to = "/funcionarios/mostrar-funcionarios" className ="caixinha">
                     <h3>Mostrar Funcionarios</h3>
