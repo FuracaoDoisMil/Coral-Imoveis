@@ -21,7 +21,7 @@ function MostrarProprietarios(){
 
             .then(dados => {
                 console.log(dados)
-                setClientes(dados)
+                setProprietarios(dados)
             })
 
             .catch(erro => {
@@ -31,7 +31,7 @@ function MostrarProprietarios(){
     }, [])
 
     useEffect(()=>{
-        fetch(`http://localhost:5000/telefone`)
+        fetch(`http://localhost:5000/telefones`)
 
         .then(resposta => resposta.json())
 
@@ -73,6 +73,7 @@ function MostrarProprietarios(){
                     <option value="dt_nascimento">Data de Nascimento</option>
 
                     <option value="telefone">Telefone</option>
+                    <option value="sem_telefone">Sem Telefone</option>
 
                     <option value="email">E-mail</option>
 
@@ -116,6 +117,10 @@ function MostrarProprietarios(){
                     <tbody>
                         {proprietarios
                             .filter(proprietarios => {
+                                const telefoneProprietario = telefone.find(
+                                    tel => tel.id_proprietario === proprietarios.id_proprietario
+                                ) 
+
                                 if(filtro === "id"){
                                     return proprietarios.id_proprietario?.toString().includes(pesquisa)
                                 }
@@ -138,7 +143,12 @@ function MostrarProprietarios(){
                                     return new Date(proprietarios.dt_nascimento).toLocaleDateString("pt-BR").includes(pesquisa)
                                 }
                                 if(filtro === "telefone"){
-                                    return proprietarios.telefone?.includes(pesquisa)
+                                    return telefoneProprietario?.numero
+                                        ?.includes(pesquisa)
+                                }
+                                if(filtro === "sem_telefone"){
+                                    return telefoneProprietario?.numero === null
+                                        ?.includes(pesquisa)
                                 }
                                 if(filtro === "email"){
                                     return proprietarios.email?.toLowerCase().includes(pesquisa.toLowerCase())
@@ -154,8 +164,8 @@ function MostrarProprietarios(){
                                 )                       
 
                                 return(
-                                    <tr key={proprietarios.id_cliente}>
-                                    <td>{proprietarios.id_cliente}</td>
+                                    <tr key={proprietarios.id_proprietario}>
+                                    <td>{proprietarios.id_proprietario}</td>
                                     <td>{proprietarios.nome}</td>
                                     <td>{proprietarios.sobrenome}</td>
                                     <td>{proprietarios.sexo}</td>
@@ -167,7 +177,10 @@ function MostrarProprietarios(){
                                     </td>
                                     <td>{new Date(proprietarios.dt_nascimento).toLocaleDateString("pt-BR")}</td>
                                     <td>{proprietarios.email}</td>
-                                    <td>{proprietarios.telefone}</td>
+                                    <td>{telefoneProprietario
+                                            ? telefoneProprietario.numero
+                                            : "Sem telefone"}
+                                    </td>
                                     <td>{proprietarios.situacao}</td>
                                     <td>
                                         <button onClick={() => navigate(`/proprietarios/atualizar-proprietarios/${proprietarios.id_proprietario}`)}>
@@ -194,4 +207,4 @@ function MostrarProprietarios(){
 
 }
 
-export default MostrarClientes
+export default MostrarProprietarios
