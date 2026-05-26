@@ -241,11 +241,11 @@ def criar_proprietario():
     ))
 
     conexao.commit()
-
+    idProprietario = cursor.lastrowid
     cursor.close()
     conexao.close()
 
-    return {"mensagem": "Proprietário criado com sucesso ;D"}
+    return {"mensagem": "Proprietário criado com sucesso ;D", "id_proprietario":idProprietario}
 
 
 @app.route("/proprietarios/<int:id>", methods=["PUT"])
@@ -383,10 +383,12 @@ def criar_funcionario():
 
     conexao.commit()
 
+    idFuncionario = cursor.lastrowid
+
     cursor.close()
     conexao.close()
 
-    return {"mensagem": "Funcionário criado com sucesso ;D"}
+    return {"mensagem": "Funcionário criado com sucesso ;D", "id_funcionario":idFuncionario}
 
 
 @app.route("/funcionarios/<int:id>", methods=["PUT"])
@@ -676,23 +678,6 @@ def listar_telefones():
 
     return resultados
 
-@app.route("/telefones/<int:id>")
-def buscar_telefone(id):
-    conexao = conectar_banco()
-    cursor = conexao.cursor(dictionary=True)
-
-    cursor.execute("SELECT * FROM telefone WHERE id_funcionario = %s", (id,))
-
-    telefone = cursor.fetchall()
-
-    cursor.close()
-    conexao.close()
-
-    if not telefone:
-        return {"ERRO": "Telefone não encontrado"}, 404
-    
-    return telefone, 200
-
 
 
 @app.route("/telefones", methods=["POST"])
@@ -716,7 +701,7 @@ def criar_telefone():
     ))
 
     conexao.commit()
-
+    
     cursor.close()
     conexao.close()
 
