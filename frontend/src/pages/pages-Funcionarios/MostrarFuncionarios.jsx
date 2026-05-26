@@ -72,6 +72,8 @@ function MostrarFuncionarios(){
 
                     <option value="telefone">Telefone</option>
 
+                    <option value="sem_telefone">Sem Telefone</option>
+
                     <option value="email">E-mail</option>
 
                     <option value="salario">Salário</option>
@@ -197,6 +199,12 @@ function MostrarFuncionarios(){
                                         ?.includes(pesquisa)
 
                                 }
+
+                                if(filtro === "sem_telefone"){
+                                    return telefoneFuncionario?.numero === null
+                                        ?.includes(pesquisa)
+                                }
+
 
                                 if(filtro === "email"){
 
