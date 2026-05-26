@@ -8,7 +8,7 @@ function CadastrarClientes(){
     const[CPF, setCPF] = useState("")
     const[dt_nascimento, setDt_nascimento] = useState("")
     const[email, setEmail] = useState("")
-    const[telefone, setTelefone] = useState("")
+    const[numero, setNumero] = useState("")
     const[senha, setSenha] = useState("")
 
     const navigate = useNavigate()
@@ -23,7 +23,6 @@ function CadastrarClientes(){
             !CPF ||
             !dt_nascimento ||
             !email ||
-            !telefone||
             !senha
         ){
 
@@ -46,7 +45,7 @@ function CadastrarClientes(){
             CPF,
             dt_nascimento,
             email,
-            telefone,
+            numero:numero || null,
             senha
         })
 
@@ -60,7 +59,7 @@ function CadastrarClientes(){
             setCPF("")
             setDt_nascimento("")
             setEmail("")
-            setTelefone("")
+            setNumero("")
             setSenha("")
         })
         .catch(erro =>{console.error("ERRO ao cadastrar cliente:", erro)})
@@ -129,8 +128,8 @@ function CadastrarClientes(){
                 />
                 <input
                     type="text"
-                    placeholder="Telefone"
-                    value={telefone}
+                    placeholder="Numero de Telefone"
+                    value={numero}
                     maxLength={15}
 
                     onChange={(e) => {
@@ -143,7 +142,7 @@ function CadastrarClientes(){
 
                         valor = valor.replace(/(\d{5})(\d)/, "$1-$2")
 
-                        setTelefone(valor)
+                        setNumero(valor)
                     }}
                 />
 
