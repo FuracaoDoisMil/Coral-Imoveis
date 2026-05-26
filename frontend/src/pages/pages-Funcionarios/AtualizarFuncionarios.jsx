@@ -158,7 +158,7 @@ function AtualizarFuncionarios() {
                 />
                 
                 <input type="date"
-                    placeholder="Data de Nascimento"
+                    title="Data de Nascimento"
                     value={dt_nascimento}
                     onChange={(e) => setDt_nascimento(e.target.value)}
                 />
@@ -202,7 +202,7 @@ function AtualizarFuncionarios() {
                 />
                 
                 <input type="date"
-                    placeholder="Validade da CNH"
+                    title="Validade da CNH"
                     value={CNH_validade}
                     onChange={(e) => setCNH_validade(e.target.value)}
                 />
