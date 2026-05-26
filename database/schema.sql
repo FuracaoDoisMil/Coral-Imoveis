@@ -14,12 +14,24 @@ CREATE TABLE funcionarios(
     CNH_categoria VARCHAR(3),
     CNH_validade DATE
 );
+CREATE TABLE clientes(
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
 
-CREATE TABLE carro(
-    id_carro INT AUTO_INCREMENT PRIMARY KEY,
-    modelo_carro VARCHAR(50) NOT NULL,
-    placa_carro VARCHAR(8) UNIQUE NOT NULL,
-    situacao ENUM('disponivel', 'indisponivel') NOT NULL
+    nome VARCHAR(50) NOT NULL,
+    sobrenome VARCHAR(50),
+
+    sexo CHAR(1) NOT NULL,
+
+    CPF CHAR(14) UNIQUE NOT NULL,
+
+    dt_nascimento DATE NOT NULL,
+
+    email VARCHAR(50) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+
+    telefone VARCHAR(20),
+
+    situacao ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo'
 );
 
 CREATE TABLE proprietarios(
@@ -31,7 +43,15 @@ CREATE TABLE proprietarios(
     CNPJ CHAR(18) UNIQUE,
     dt_nascimento DATE,
     email VARCHAR(50),
-    situacao ENUM('ativo', 'inativo') NOT NULL
+    situacao ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
+    senha VARCHAR(255)
+);
+
+CREATE TABLE carro(
+    id_carro INT AUTO_INCREMENT PRIMARY KEY,
+    modelo_carro VARCHAR(50) NOT NULL,
+    placa_carro VARCHAR(8) UNIQUE NOT NULL,
+    situacao ENUM('disponivel', 'indisponivel') NOT NULL
 );
 
 CREATE TABLE telefone(
@@ -39,6 +59,7 @@ CREATE TABLE telefone(
     numero VARCHAR(20) NOT NULL,
     id_funcionario INT,
     id_proprietario INT,
+    id_cliente INT,
 
     FOREIGN KEY (id_proprietario)
     REFERENCES proprietarios(id_proprietario)
@@ -47,11 +68,17 @@ CREATE TABLE telefone(
     FOREIGN KEY (id_funcionario)
     REFERENCES funcionarios(id_funcionario)
     ON DELETE CASCADE,
+    
+    FOREIGN KEY(id_cliente) 
+    REFERENCES clientes(id_cliente)
+    ON DELETE CASCADE,
 
     CHECK (
-        (id_funcionario IS NOT NULL AND id_proprietario IS NULL)
+        (id_funcionario IS NOT NULL AND id_proprietario IS NULL AND id_cliente IS NULL)
         OR
-        (id_funcionario IS NULL AND id_proprietario IS NOT NULL)
+        (id_funcionario IS NULL AND id_proprietario IS NOT NULL AND id_cliente IS NULL)
+        OR
+        (id_funcionario IS NULL AND id_proprietario IS NULL AND id_cliente IS NOT NULL)
     )
 );
 
@@ -116,25 +143,7 @@ CREATE TABLE uso_do_carro(
     REFERENCES carro(id_carro)
 );
 
-CREATE TABLE clientes(
-    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
 
-    nome VARCHAR(50) NOT NULL,
-    sobrenome VARCHAR(50),
-
-    sexo CHAR(1) NOT NULL,
-
-    CPF CHAR(14) UNIQUE NOT NULL,
-
-    dt_nascimento DATE NOT NULL,
-
-    email VARCHAR(50) UNIQUE NOT NULL,
-    senha VARCHAR(255) NOT NULL,
-
-    telefone VARCHAR(20),
-
-    situacao ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo'
-);
 
 CREATE TABLE visitas(
     id_visita INT AUTO_INCREMENT PRIMARY KEY,
