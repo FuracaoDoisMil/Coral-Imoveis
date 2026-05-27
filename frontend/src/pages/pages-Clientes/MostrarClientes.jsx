@@ -5,6 +5,8 @@ function MostrarClientes(){
 
     const [clientes, setClientes] = useState([])
 
+    const [telefone, setTelefone] = useState([])
+
     const [pesquisa, setPesquisa] = useState("")
 
     const [filtro, setFiltro] = useState("nome")
@@ -14,7 +16,6 @@ function MostrarClientes(){
     useEffect(() => {
 
         fetch(`http://localhost:5000/clientes`)
-
             .then(resposta => resposta.json())
 
             .then(dados => {
@@ -22,24 +23,26 @@ function MostrarClientes(){
                 setClientes(dados)
             })
 
-            .catch(erro => {
-                console.log("ERRO:", erro)
+            .catch(erro => console.log("ERRO:", erro))
+
+        fetch(`http://localhost:5000/telefones`) 
+            .then(resposta => resposta.json())
+
+            .then(dados => {
+                console.log(dados)
+                setTelefone(dados)  
             })
+
+            .catch(erro => console.log("ERRO:", erro))
 
     }, [])
 
     return(
-
         <div>
-
             <h1>Clientes</h1>
 
             <div className="filtro-container">
-
-                <select
-                    value={filtro}
-                    onChange={(e) => setFiltro(e.target.value)}
-                >
+                <select value={filtro} onChange={(e) => setFiltro(e.target.value)}>
 
                     <option value="id">ID</option>
 
@@ -55,10 +58,12 @@ function MostrarClientes(){
 
                     <option value="telefone">Telefone</option>
 
+                    <option value="sem_telefone">Sem Telefone</option>
+
                     <option value="email">E-mail</option>
 
                     <option value="situacao">Situação</option>
-
+                    
                 </select>
 
                 <input
@@ -67,17 +72,12 @@ function MostrarClientes(){
                     value={pesquisa}
                     onChange={(e) => setPesquisa(e.target.value)}
                 />
-
             </div>
 
             <div className="tabela-container">
-
                 <table>
-
                     <thead>
-
                         <tr>
-
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Sobrenome</th>
@@ -88,73 +88,96 @@ function MostrarClientes(){
                             <th>Telefone</th>
                             <th>Situação</th>
                             <th>Ações</th>
-
                         </tr>
-
                     </thead>
 
                     <tbody>
                         {clientes
                             .filter(cliente => {
+                                const telefoneCliente = telefone.find(
+                                    tel => tel.id_cliente === cliente.id_cliente
+                                )
+
                                 if(filtro === "id"){
-                                    return cliente.id_cliente?.toString().includes(pesquisa)
+                                    return cliente.id_cliente
+                                    ?.toString()
+                                    .includes(pesquisa)
                                 }
                                 if(filtro === "nome"){
-                                    return cliente.nome?.toLowerCase().includes(pesquisa.toLowerCase())
+                                    return cliente.nome
+                                    ?.toLowerCase()
+                                    .includes(pesquisa.toLowerCase())
                                 }
                                 if(filtro === "sobrenome"){
-                                    return cliente.sobrenome?.toLowerCase().includes(pesquisa.toLowerCase())
+                                    return cliente.sobrenome
+                                    ?.toLowerCase()
+                                    .includes(pesquisa.toLowerCase())
                                 }
                                 if(filtro === "sexo"){
-                                    return cliente.sexo?.toLowerCase().includes(pesquisa.toLowerCase())
+                                    return cliente.sexo
+                                    ?.toLowerCase()
+                                    .includes(pesquisa.toLowerCase())
                                 }
                                 if(filtro === "cpf"){
-                                    return cliente.CPF?.includes(pesquisa)
+                                    return cliente.CPF
+                                    ?.includes(pesquisa)
                                 }
                                 if(filtro === "dt_nascimento"){
-                                    return new Date(cliente.dt_nascimento).toLocaleDateString("pt-BR").includes(pesquisa)
+                                    return new Date(cliente.dt_nascimento)
+                                    .toLocaleDateString("pt-BR")
+                                    .includes(pesquisa)
                                 }
                                 if(filtro === "telefone"){
-                                    return cliente.telefone?.includes(pesquisa)
+                                    return telefoneCliente?.numero
+                                    ?.includes(pesquisa)
+                                }
+                                if(filtro === "sem_telefone"){
+                                    return telefoneCliente?.numero === null
+                                    ?.includes(pesquisa)
                                 }
                                 if(filtro === "email"){
-                                    return cliente.email?.toLowerCase().includes(pesquisa.toLowerCase())
+                                    return cliente.email
+                                    ?.toLowerCase()
+                                    .includes(pesquisa.toLowerCase())
                                 }
                                 if(filtro === "situacao"){
-                                    return cliente.situacao?.toLowerCase().includes(pesquisa.toLowerCase())
+                                    return cliente.situacao
+                                    ?.toLowerCase()
+                                    .includes(pesquisa.toLowerCase())
                                 }
                             })
-                            .map(cliente => (   
-                                <tr key={cliente.id_cliente}>
-                                    <td>{cliente.id_cliente}</td>
-                                    <td>{cliente.nome}</td>
-                                    <td>{cliente.sobrenome}</td>
-                                    <td>{cliente.sexo}</td>
-                                    <td>{cliente.CPF}</td>
-                                    <td>{new Date(cliente.dt_nascimento).toLocaleDateString("pt-BR")}</td>
-                                    <td>{cliente.email}</td>
-                                    <td>{cliente.telefone}</td>
-                                    <td>{cliente.situacao}</td>
-                                    <td>
-                                        <button onClick={() => navigate(`/clientes/atualizar-clientes/${cliente.id_cliente}`)}>
-                                            Editar
-                                        </button>
-                                        <button onClick={() => navigate(`/clientes/deletar-clientes/${cliente.id_cliente}`)}>
-                                            Deletar
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                            .map(cliente => {
+                                const telefoneCliente = telefone.find(
+                                    tel => tel.id_cliente === cliente.id_cliente
+                                )
+
+                                return(
+                                    <tr key={cliente.id_cliente}>
+                                        <td>{cliente.id_cliente}</td>
+                                        <td>{cliente.nome}</td>
+                                        <td>{cliente.sobrenome}</td>
+                                        <td>{cliente.sexo}</td>
+                                        <td>{cliente.CPF}</td>
+                                        <td>{new Date(cliente.dt_nascimento).toLocaleDateString("pt-BR")}</td>
+                                        <td>{cliente.email}</td>
+                                        <td>{telefoneCliente ? telefoneCliente.numero : "Sem telefone"}</td>
+                                        <td>{cliente.situacao}</td>
+                                        <td>
+                                            <button onClick={() => navigate(`/clientes/atualizar-clientes/${cliente.id_cliente}`)}>
+                                                Editar
+                                            </button>
+                                            <button onClick={() => navigate(`/clientes/deletar-clientes/${cliente.id_cliente}`)}>
+                                                Deletar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     )
-
 }
 
 export default MostrarClientes
