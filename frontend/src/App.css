@@ -1,13 +1,6 @@
 .app{
   min-height: 100vh;
 
-  background-image:
-    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-    url("./assets/background.png");
-
-  background-size: cover;
-  background-position: center;
-
   color: white;
 }
 
@@ -130,6 +123,34 @@
 }
 
 .caixinhas_aba_proprietarios{
+  display: grid;
+
+  grid-template-columns: repeat(2, 250px);
+
+  gap: 20px;
+
+  justify-content: center;
+
+  margin-top: 40px;
+
+  /*flex-wrap: wrap; */
+}
+
+.caixinhas_aba_imoveis{
+  display: grid;
+
+  grid-template-columns: repeat(2, 250px);
+
+  gap: 20px;
+
+  justify-content: center;
+
+  margin-top: 40px;
+
+  /*flex-wrap: wrap; */
+}
+
+.caixinhas_aba_carros{
   display: grid;
 
   grid-template-columns: repeat(2, 250px);
