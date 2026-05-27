@@ -20,6 +20,17 @@ function CadastrarFuncionarios(){
     const navigate = useNavigate()
 
     function cadastrarfuncionarios(){
+        console.log({
+        tipo_funcionario,
+        nome,
+        sobrenome,
+        sexo,
+        CPF,
+        dt_nascimento,
+        email,
+        salario,
+        senha
+        })
 
         if(
             !tipo_funcionario ||
@@ -208,6 +219,7 @@ function CadastrarFuncionarios(){
                     title="Data de Nascimento"
                     value={dt_nascimento}
                     onChange={(e) => setDt_nascimento(e.target.value)}
+                    onBlur={(e) => setDt_nascimento(e.target.value)}
                 />
 
                 <input
@@ -266,6 +278,7 @@ function CadastrarFuncionarios(){
                     title="Validade da CNH"
                     value={CNH_validade}
                     onChange={(e) => setCNH_validade(e.target.value)}
+                    onBlur={(e) => setCNH_validade(e.target.value)}
                 />
 
                 <input
