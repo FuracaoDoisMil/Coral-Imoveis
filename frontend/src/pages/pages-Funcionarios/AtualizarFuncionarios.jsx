@@ -3,8 +3,12 @@ import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
 function AtualizarFuncionarios() {
+
     const { id } = useParams()
+
     const navigate = useNavigate()
+
+    const [idTelefone, setIdTelefone] = useState(null)
 
     const [tipo_funcionario, setTipo_funcionario] = useState("")
     const [nome, setNome] = useState("")
@@ -13,6 +17,7 @@ function AtualizarFuncionarios() {
     const [CPF, setCPF] = useState("")
     const [dt_nascimento, setDt_nascimento] = useState("")
     const [email, setEmail] = useState("")
+    const [numero, setNumero] = useState("")
     const [salario, setSalario] = useState("")
     const [situacao, setSituacao] = useState("")
     const [CNH_numero, setCNH_numero] = useState("")
@@ -20,50 +25,106 @@ function AtualizarFuncionarios() {
     const [CNH_validade, setCNH_validade] = useState("")
     const [senha, setSenha] = useState("")
 
-    // Função auxiliar — coloca lá no topo do componente, antes do useEffect
-    function formatarData(dataStr) {
-    if (!dataStr) return ""
-    const data = new Date(dataStr)
-    return data.toISOString().split("T")[0]
+    function formatarData(dataStr){
+
+        if(!dataStr) return ""
+
+        const data = new Date(dataStr)
+
+        return data.toISOString().split("T")[0]
+
     }
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/funcionarios/${id}`)
-            .then(resposta => resposta.json())
-            .then(dados => {
-                console.log(dados)
-                setTipo_funcionario(dados.tipo_funcionario)
-                setNome(dados.nome)
-                setSobrenome(dados.sobrenome)
-                setSexo(dados.sexo)
-                setCPF(dados.CPF)
-                setDt_nascimento(formatarData(dados.dt_nascimento))
-                setEmail(dados.email)
-                setSalario(dados.salario)
-                setSituacao(dados.situacao)
-                setCNH_numero(dados.CNH_numero || "")
-                setCNH_categoria(dados.CNH_categoria || "")
-                setCNH_validade(formatarData(dados.CNH_validade))
-                
-            })
-            .catch(erro => console.error("ERRO ao buscar funcionário ;-; :", erro))
-    }, [id])
+useEffect(() => {
+
+    fetch(`http://localhost:5000/funcionarios/${id}`)
+
+        .then(resposta => resposta.json())
+
+        .then(dados => {
+
+            setTipo_funcionario(dados.tipo_funcionario)
+            setNome(dados.nome)
+            setSobrenome(dados.sobrenome)
+            setSexo(dados.sexo)
+            setCPF(dados.CPF)
+            setDt_nascimento(formatarData(dados.dt_nascimento))
+            setEmail(dados.email)
+            setSalario(dados.salario)
+            setSituacao(dados.situacao)
+
+            setCNH_numero(dados.CNH_numero || "")
+            setCNH_categoria(dados.CNH_categoria || "")
+
+            setCNH_validade(
+                dados.CNH_validade
+                    ? formatarData(dados.CNH_validade)
+                    : ""
+            )
+
+            return fetch(`http://localhost:5000/telefones/funcionarios/${id}`)
+
+        })
+
+        .then(resposta => {
+
+            if(!resposta.ok){
+
+                return null
+
+            }
+
+            return resposta.json()
+
+        })
+
+        .then(dados => {
+
+            if(dados){
+
+                setIdTelefone(dados.id_telefone)
+
+                const telefoneFormatado = dados.numero
+                    .replace(/^(\d{2})(\d)/g, "($1) $2")
+                    .replace(/(\d{5})(\d)/, "$1-$2")
+
+                setNumero(telefoneFormatado)
+
+            }
+
+        })
+
+        .catch(erro => {
+
+            console.error("ERRO:", erro)
+
+        })
+
+}, [id])
+
     function atualizarFuncionarios(){
-        if(!tipo_funcionario ||
-           !nome ||
-           !sobrenome ||
-           !sexo ||
-           !CPF ||
-           !dt_nascimento ||
-           !email ||
-           !salario ||
-           !situacao
+
+        if(
+            !tipo_funcionario ||
+            !nome ||
+            !sobrenome ||
+            !sexo ||
+            !CPF ||
+            !dt_nascimento ||
+            !email ||
+            !numero ||
+            !salario ||
+            !situacao
         ){
-            alert("Preencha todos os campos obrigatórios! ;)")
+
+            alert("Preencha todos os campos obrigatórios!")
+
             return
+
         }
 
         const body = {
+
             tipo_funcionario,
             nome,
             sobrenome,
@@ -73,36 +134,102 @@ function AtualizarFuncionarios() {
             email,
             salario,
             situacao,
+
             CNH_numero: CNH_numero || null,
             CNH_categoria: CNH_categoria || null,
             CNH_validade: CNH_validade || null
+
         }
 
-        if(senha) body.senha = senha
+        if(senha){
+
+            body.senha = senha
+
+        }
 
         fetch(`http://localhost:5000/funcionarios/${id}`, {
+
             method: "PUT",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(body)  
-        })
-        .then(resposta => resposta.json())
-        .then(dados => {
-            console.log(dados)
-            alert("Funcionario atualizado com sucesso! :D")
-            setSenha("")
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(body)
+
         })
 
-        .catch(erro => console.error("ERRO:", erro))
-    
+        .then(resposta => resposta.json())
+
+        .then(() => {
+
+            if(idTelefone){
+
+                return fetch(`http://localhost:5000/telefones/${idTelefone}`, {
+
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        numero: numero.replace(/\D/g, ""),
+
+                        id_funcionario: Number(id),
+
+                        id_proprietario: null,
+
+                        id_cliente: null
+
+                    })
+
+                })
+
+            }
+
+        })
+
+        .then(resposta => {
+
+            if(resposta && resposta.ok){
+
+                return resposta.json()
+
+            }
+
+        })
+
+        .then(() => {
+
+            alert("Funcionário atualizado com sucesso! :D")
+
+            navigate("/funcionarios/mostrar-funcionarios")
+
+        })
+
+        .catch(erro => {
+
+            console.error("ERRO ao atualizar funcionário:", erro)
+
+        })
+
     }
 
     return(
+
         <div className="cadastro-container">
+
             <h2>Atualizar Funcionario</h2>
+
             <div className="form-grid">
-                <select value={tipo_funcionario}
-                        onChange={(e) => setTipo_funcionario(e.target.value)}
+
+                <select
+                    value={tipo_funcionario}
+                    onChange={(e) => setTipo_funcionario(e.target.value)}
                 >
+
                     <option value="">Selecione o Cargo do Funcionario</option>
 
                     <option value="Corretor">Corretor</option>
@@ -113,28 +240,33 @@ function AtualizarFuncionarios() {
 
                 </select>
 
-                <input type="text"
+                <input
+                    type="text"
                     placeholder="Nome"
                     value={nome}
-                    onChange={(e) =>setNome(e.target.value)}
+                    onChange={(e) => setNome(e.target.value)}
                 />
 
-                <input type="text"
+                <input
+                    type="text"
                     placeholder="Sobrenome"
                     value={sobrenome}
                     onChange={(e) => setSobrenome(e.target.value)}
                 />
-                
-                <select value={sexo}
-                        onChange={(e) => setSexo(e.target.value)}
+
+                <select
+                    value={sexo}
+                    onChange={(e) => setSexo(e.target.value)}
                 >
+
                     <option value="">Selecione o Sexo</option>
-                    
+
                     <option value="M">Masculino</option>
 
                     <option value="F">Feminino</option>
+
                 </select>
-                
+
                 <input
                     type="text"
                     placeholder="CPF"
@@ -154,31 +286,56 @@ function AtualizarFuncionarios() {
                         valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
 
                         setCPF(valor)
+
                     }}
                 />
-                
-                <input type="date"
+
+                <input
+                    type="date"
                     title="Data de Nascimento"
                     value={dt_nascimento}
                     onChange={(e) => setDt_nascimento(e.target.value)}
                 />
-                
-                <input type="email"
+
+                <input
+                    type="email"
                     placeholder="E-mail"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                 />
-                
-                <input type="number"
-                    step={"0.01"} 
+
+                <input
+                    type="text"
+                    placeholder="Numero de Telefone"
+                    value={numero}
+                    maxLength={15}
+
+                    onChange={(e) => {
+
+                        let valor = e.target.value
+
+                        valor = valor.replace(/\D/g, "")
+
+                        valor = valor.replace(/^(\d{2})(\d)/g, "($1) $2")
+
+                        valor = valor.replace(/(\d{5})(\d)/, "$1-$2")
+
+                        setNumero(valor)
+
+                    }}
+                />
+
+                <input
+                    type="number"
+                    step="0.01"
                     placeholder="Salário"
                     value={salario}
                     onChange={(e) => setSalario(e.target.value)}
                 />
-                
-                <select value={situacao}
-                        onChange={(e) => setSituacao(e.target.value)}
+
+                <select
+                    value={situacao}
+                    onChange={(e) => setSituacao(e.target.value)}
                 >
 
                     <option value="">Selecione a situação do Funcionario</option>
@@ -189,40 +346,54 @@ function AtualizarFuncionarios() {
 
                 </select>
 
-                <input type="text"
+                <input
+                    type="text"
                     placeholder="Numero da CNH"
                     value={CNH_numero}
                     onChange={(e) => setCNH_numero(e.target.value)}
                 />
-                
-                <input type="text"
+
+                <input
+                    type="text"
                     placeholder="Categoria da CNH"
                     value={CNH_categoria}
                     onChange={(e) => setCNH_categoria(e.target.value)}
                 />
-                
-                <input type="date"
+
+                <input
+                    type="date"
                     title="Validade da CNH"
                     value={CNH_validade}
                     onChange={(e) => setCNH_validade(e.target.value)}
                 />
 
-                <input type="password" 
-                    placeholder="Nova senha (Ou senha atual, caso não queira trocar)"
+                <input
+                    type="password"
+                    placeholder="Nova senha (ou deixe vazio)"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                 />
+
             </div>
 
-            <button className="botao-cadastrar" onClick={atualizarFuncionarios}>
+            <button
+                className="botao-cadastrar"
+                onClick={atualizarFuncionarios}
+            >
                 Atualizar Funcionario
             </button>
 
-            <button className="botao-cadastrar" onClick={() => navigate("/funcionarios/mostrar-funcionarios")}>
-                    Cancelar
+            <button
+                className="botao-cadastrar"
+                onClick={() => navigate("/funcionarios/mostrar-funcionarios")}
+            >
+                Cancelar
             </button>
+
         </div>
+
     )
+
 }
 
 export default AtualizarFuncionarios
