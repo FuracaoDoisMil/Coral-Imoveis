@@ -1,4 +1,6 @@
-from flask import Flask, request
+from werkzeug.utils import secure_filename
+import os
+from flask import Flask, request, send_from_directory
 from flask_cors import CORS
 import mysql.connector
 
@@ -14,6 +16,12 @@ def conectar_banco():
 
 
 app = Flask(__name__)
+
+UPLOAD_FOLDER = "uploads"
+
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 CORS(app)
 
@@ -490,7 +498,7 @@ def criar_carro():
     """, (
         dados["modelo_carro"],
         dados["placa_carro"],
-        dados["situacao"]
+        dados.get("situacao", "disponivel")
     ))
 
     conexao.commit()
@@ -678,6 +686,63 @@ def listar_telefones():
 
     return resultados
 
+@app.route("/telefones/funcionarios/<int:id>", methods=["GET"])
+def buscar_telefone_funcionario(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+
+    cursor.execute("SELECT * FROM telefone WHERE id_funcionario = %s", (id,))
+
+    telefone_funcionario = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not telefone_funcionario:
+        return {"erro": "Telefone do funcionario não encontrado :("}, 404
+
+    return telefone_funcionario, 200
+
+
+@app.route("/telefones/proprietarios/<int:id>", methods=["GET"])
+def buscar_telefone_proprietarios(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+
+    cursor.execute("SELECT * FROM telefone WHERE id_proprietario = %s", (id,))
+
+    telefone_proprietario = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not telefone_proprietario:
+        return {"erro": "Telefone do proprietario não encontrado :("}, 404
+
+    return telefone_proprietario, 200
+
+@app.route("/telefones/clientes/<int:id>", methods=["GET"])
+def buscar_telefone_clientes(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+
+    cursor.execute("SELECT * FROM telefone WHERE id_cliente = %s", (id,))
+
+    telefone_clientes = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not telefone_clientes:
+        return {"erro": "Telefone do cliente não encontrado :("}, 404
+
+    return telefone_clientes, 200
 
 
 @app.route("/telefones", methods=["POST"])
@@ -691,13 +756,15 @@ def criar_telefone():
         INSERT INTO telefone(
             numero,
             id_funcionario,
-            id_proprietario
+            id_proprietario,
+            id_cliente
         )
-        VALUES (%s, %s, %s)
+        VALUES (%s, %s, %s, %s)
     """, (
         dados["numero"],
         dados.get("id_funcionario"),
-        dados.get("id_proprietario")
+        dados.get("id_proprietario"),
+        dados.get("id_cliente")
     ))
 
     conexao.commit()
@@ -719,12 +786,14 @@ def atualizar_telefone(id):
         UPDATE telefone SET
             numero = %s,
             id_funcionario = %s,
-            id_proprietario = %s
+            id_proprietario = %s,
+            id_cliente= %s
         WHERE id_telefone = %s
     """, (
         dados["numero"],
         dados.get("id_funcionario"),
         dados.get("id_proprietario"),
+        dados.get("id_cliente"),
         id
     ))
 
@@ -791,7 +860,6 @@ def buscar_cliente(id):
 
 @app.route("/clientes", methods=["POST"])
 def criar_cliente():
-    print("chegou a nova rota!!")
     
     conexao = conectar_banco()
     cursor = conexao.cursor()
@@ -809,10 +877,9 @@ def criar_cliente():
             dt_nascimento,
             email,
             senha,
-            telefone,
             situacao
         )
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """, (
         dados["nome"],
         dados["sobrenome"],
@@ -821,16 +888,15 @@ def criar_cliente():
         dados["dt_nascimento"],
         dados["email"],
         dados["senha"],
-        dados["telefone"],
         dados.get("situacao", "ativo")
     ))
 
     conexao.commit()
-
+    idCliente = cursor.lastrowid
     cursor.close()
     conexao.close()
 
-    return {"mensagem": "Cliente criado com sucesso ;D"}
+    return {"mensagem": "Cliente criado com sucesso ;D", "id_cliente": idCliente}
 
 
 @app.route("/clientes/<int:id>", methods=["PUT"])
@@ -849,7 +915,6 @@ def atualizar_cliente(id):
             dt_nascimento = %s,
             email = %s,
             senha = %s,
-            telefone = %s,
             situacao = %s
         WHERE id_cliente = %s
     """, (
@@ -860,7 +925,6 @@ def atualizar_cliente(id):
         dados["dt_nascimento"],
         dados["email"],
         dados["senha"],
-        dados["telefone"],
         dados["situacao"],
         id
     ))
@@ -1344,10 +1408,28 @@ def listar_imagens():
 
 @app.route("/imagens-imovel", methods=["POST"])
 def criar_imagem():
+
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
-    dados = request.json
+    id_imovel = request.form.get("id_imovel")
+
+    imagem = request.files.get("imagem")
+
+    if not imagem:
+
+        return {"erro": "Nenhuma imagem enviada"}, 400
+
+    nome_arquivo = secure_filename(imagem.filename)
+
+    caminho_arquivo = os.path.join(
+        app.config["UPLOAD_FOLDER"],
+        nome_arquivo
+    )
+
+    imagem.save(caminho_arquivo)
+
+    caminho_banco = f"uploads/{nome_arquivo}"
 
     cursor.execute("""
         INSERT INTO imagens_imovel(
@@ -1356,8 +1438,8 @@ def criar_imagem():
         )
         VALUES (%s, %s)
     """, (
-        dados["id_imovel"],
-        dados["caminho_imagem"]
+        id_imovel,
+        caminho_banco
     ))
 
     conexao.commit()
@@ -1365,7 +1447,10 @@ def criar_imagem():
     cursor.close()
     conexao.close()
 
-    return {"mensagem": "Imagem cadastrada com sucesso ;D"}
+    return {
+        "mensagem": "Imagem cadastrada com sucesso ;D",
+        "caminho": caminho_banco
+    }
 
 
 @app.route("/imagens-imovel/<int:id>", methods=["PUT"])
@@ -1410,6 +1495,16 @@ def deletar_imagem(id):
     conexao.close()
 
     return {"mensagem": "Imagem removida com sucesso ;D"}
+
+
+@app.route("/uploads/<filename>")
+def uploaded_file(filename):
+
+    return send_from_directory(
+        app.config["UPLOAD_FOLDER"],
+        filename
+    )
+
 ###############################################################################################
 if __name__ == "__main__":
     app.run(host= "0.0.0.0", port=5000)
