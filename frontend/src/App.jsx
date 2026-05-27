@@ -24,10 +24,24 @@ import AtualizarProprietarios from "./pages/pages-Proprietarios/AtualizarProprie
 import DeletarProprietarios from "./pages/pages-Proprietarios/DeletarProprietarios"
 
 import Imoveis from "./pages/Imoveis"
+import MostrarImoveis from "./pages/pages-Imoveis/MostrarImoveis"
+import CadastrarImoveis from "./pages/pages-Imoveis/CadastrarImoveis"
+import AtualizarImoveis from "./pages/pages-Imoveis/AtualizarImoveis"
+import DeletarImoveis from "./pages/pages-Imoveis/DeletarImoveis"
+
+
 import Vendas from "./pages/Vendas"
 import Locacoes from "./pages/Locacoes"
 import Visitas from "./pages/Visitas"
+
+
 import Carros from "./pages/Carros"
+import MostrarCarros from "./pages/pages-Carros/MostrarCarros" 
+import CadastrarCarros from "./pages/pages-Carros/CadastrarCarros"
+import AtualizarCarros from "./pages/pages-Carros/AtualizarCarros"
+import DeletarCarros from "./pages/pages-Carros/DeletarCarros"
+
+
 import Contratos from "./pages/Contratos"
 
 function App() {
@@ -118,10 +132,15 @@ function App() {
           <Route path="/proprietarios" element={<Proprietarios />} />
           <Route path="/proprietarios/mostrar-proprietarios" element={<MostrarProprietarios/>}></Route>
           <Route path="/proprietarios/cadastrar-proprietarios" element={<CadastrarProprietarios/>}></Route>
-          <Route path="/proprietarios/atualizar-proprietarios" element={<AtualizarProprietarios/>}></Route>
-          <Route path="/proprietarios/deletar-proprietarios" element={<DeletarProprietarios/>}></Route>
+          <Route path="/proprietarios/atualizar-proprietarios/:id" element={<AtualizarProprietarios/>}></Route>
+          <Route path="/proprietarios/deletar-proprietarios/:id" element={<DeletarProprietarios/>}></Route>
 
           <Route path="/imoveis" element={<Imoveis />} />
+          <Route path="/imoveis/mostrar-imoveis" element={<MostrarImoveis/>}></Route>
+          <Route path="/imoveis/cadastrar-imoveis" element={<CadastrarImoveis/>}></Route>
+          <Route path="/imoveis/atualizar-imoveis/:id" element={<AtualizarImoveis/>}></Route>
+          <Route path="/imoveis/deletar-imoveis/:id" element={<DeletarImoveis/>}></Route>
+
 
           <Route path="/vendas" element={<Vendas />} />
 
@@ -130,6 +149,10 @@ function App() {
           <Route path="/visitas" element={<Visitas />} />
 
           <Route path="/carros" element={<Carros />} />
+          <Route path="/carros/mostrar-carros" element={<MostrarCarros/>}></Route>
+          <Route path="/carros/cadastrar-carros" element={<CadastrarCarros/>}></Route>
+          <Route path="/carros/atualizar-carros/:id" element={<AtualizarCarros/>}></Route>
+          <Route path="/carros/deletar-carros/:id" element={<DeletarCarros/>}></Route>
 
           <Route path="/contratos" element={<Contratos />} />
 
