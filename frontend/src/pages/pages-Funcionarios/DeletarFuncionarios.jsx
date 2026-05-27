@@ -31,13 +31,13 @@ function DeletarFuncionarios(){
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/telefones/${id}`)
+        fetch(`http://localhost:5000/telefones/funcionarios/${id}`)
 
         .then(resposta => resposta.json())
 
         .then(dados => {
             console.log(dados)
-            setTelefone(dados[0])
+            setTelefone(dados)
         })
 
         .catch(erro => {
