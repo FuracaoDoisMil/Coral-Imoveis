@@ -446,22 +446,3 @@ VALUES
 (1,NULL,1,'venda','ativo','Contrato venda'),
 (NULL,1,2,'locacao','ativo','Contrato locação 1'),
 (NULL,2,3,'locacao','ativo','Contrato locação 2');
-
-
--- =========================
--- IMAGENS IMOVEL
--- =========================
-
-INSERT INTO imagens_imovel
-(id_imovel, caminho_imagem)
-VALUES
-(1,'/img/imovel1a.jpg'),
-(1,'/img/imovel1b.jpg'),
-(2,'/img/imovel2.jpg'),
-(3,'/img/imovel3.jpg'),
-(4,'/img/imovel4.jpg'),
-(5,'/img/imovel5.jpg'),
-(6,'/img/imovel6.jpg'),
-(7,'/img/imovel7.jpg'),
-(8,'/img/imovel8.jpg'),
-(9,'/img/imovel9.jpg');
