@@ -30,6 +30,10 @@ function CadastrarProprietarios(){
 
                 return
             }
+
+            alert("Preencha todos os campos obrigatórios!")
+
+            return
         }
 
         fetch("http://localhost:5000/proprietarios", {
@@ -204,6 +208,7 @@ function CadastrarProprietarios(){
                     title="Data de Nascimento"
                     value={dt_nascimento}
                     onChange={(e) => setDt_nascimento(e.target.value)}
+                    onBlur={(e) => setDt_nascimento(e.target.value)}
                 />
 
                 <input
