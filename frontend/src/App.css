@@ -150,6 +150,48 @@
   /*flex-wrap: wrap; */
 }
 
+.caixinhas_aba_vendas{
+  display: grid;
+
+  grid-template-columns: repeat(1, 250px);
+
+  gap: 20px;
+
+  justify-content: center;
+
+  margin-top: 40px;
+
+  /*flex-wrap: wrap; */
+}
+
+.caixinhas_aba_locacoes{
+  display: grid;
+
+  grid-template-columns: repeat(1, 250px);
+
+  gap: 20px;
+
+  justify-content: center;
+
+  margin-top: 40px;
+
+  /*flex-wrap: wrap; */
+}
+
+.caixinhas_aba_visitas{
+  display: grid;
+
+  grid-template-columns: repeat(2, 250px);
+
+  gap: 20px;
+
+  justify-content: center;
+
+  margin-top: 40px;
+
+  /*flex-wrap: wrap; */
+}
+
 .caixinhas_aba_carros{
   display: grid;
 
