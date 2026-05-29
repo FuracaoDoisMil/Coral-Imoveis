@@ -139,7 +139,7 @@ CREATE TABLE visitas(
     data_visita DATE NOT NULL,
     hora_visita TIME NOT NULL,
 
-    status ENUM('visitado', 'aguardando visita', 'cancelado') NOT NULL,
+    status ENUM('visitado', 'aguardando visita', 'cancelado') NOT NULL DEFAULT 'aguardando visita',
 
     observacoes TEXT,
 
@@ -163,8 +163,10 @@ CREATE TABLE vendas(
     valor_venda DECIMAL(10,2) NOT NULL,
 
     forma_pagamento VARCHAR(20) NOT NULL,
-
-    observacoes TEXT,
+	
+    status ENUM('aguardando_aprovacao', 'concluida', 'cancelada', 'nao_aprovada') NOT NULL DEFAULT 'aguardando_aprovacao',
+    
+    observacoes TEXT,	
 
     vendido_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
@@ -191,7 +193,9 @@ CREATE TABLE locacoes(
 
     data_entrada DATE NOT NULL,
     data_saida DATE NOT NULL,
-
+	
+     status ENUM('aguardando_aprovacao', 'concluida', 'cancelada', 'nao_aprovada') NOT NULL DEFAULT 'aguardando_aprovacao',
+    
     observacoes TEXT,
 
     alocado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
