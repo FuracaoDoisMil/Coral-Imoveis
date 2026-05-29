@@ -116,37 +116,21 @@ function MostrarImoveis(){
                     onChange={(e) => setFiltro(e.target.value)}
                 >
 
-                    <option value="id">
-                        ID
-                    </option>
+                    <option value="id">ID</option>
 
-                    <option value="nome">
-                        Nome
-                    </option>
+                    <option value="nome">Nome</option>
 
-                    <option value="tipo">
-                        Tipo
-                    </option>
+                    <option value="tipo">Tipo</option>
 
-                    <option value="cidade">
-                        Cidade
-                    </option>
+                    <option value="cidade">Cidade</option>
 
-                    <option value="bairro">
-                        Bairro
-                    </option>
+                    <option value="bairro">Bairro</option>
 
-                    <option value="status">
-                        Status
-                    </option>
+                    <option value="status">Status</option>
 
-                    <option value="proprietario">
-                        Proprietário
-                    </option>
+                    <option value="proprietario">Proprietário</option>
 
-                    <option value="funcionario">
-                        Funcionário
-                    </option>
+                    <option value="funcionario">Funcionário</option>
 
                 </select>
 
@@ -439,10 +423,20 @@ function MostrarImoveis(){
 
 
                                 <div className="acoes-imovel">
+                                    
 
-                                    <button
-                                        onClick={() => navigate(`/imoveis/atualizar-imoveis/${imovel.id_imovel}`)}
-                                    >
+                                    <button onClick={() => navigate(`/vendas/cadastrar-vendas/${imovel.id_imovel}`)}>
+                                        Vender
+
+                                    </button>
+
+                                    <button onClick={() => navigate(`/locacoes/cadastrar-locacoes/${imovel.id_imovel}`)}>
+                                        Alugar
+
+                                    </button>
+
+
+                                    <button onClick={() => navigate(`/imoveis/atualizar-imoveis/${imovel.id_imovel}`)}>
 
                                         Editar
 
@@ -450,9 +444,7 @@ function MostrarImoveis(){
 
 
 
-                                    <button
-                                        onClick={() => navigate(`/imoveis/deletar-imoveis/${imovel.id_imovel}`)}
-                                    >
+                                    <button onClick={() => navigate(`/imoveis/deletar-imoveis/${imovel.id_imovel}`)}>
 
                                         Deletar
 
