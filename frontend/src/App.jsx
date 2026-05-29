@@ -31,8 +31,24 @@ import DeletarImoveis from "./pages/pages-Imoveis/DeletarImoveis"
 
 
 import Vendas from "./pages/Vendas"
+import MostrarVendas from "./pages/pages-Vendas/MostrarVendas"
+import CadastrarVendas from "./pages/pages-Vendas/CadastrarVendas"
+import AtualizarVendas from "./pages/pages-Vendas/AtualizarVendas"
+import DeletarVendas from "./pages/pages-Vendas/DeletarVendas"
+
 import Locacoes from "./pages/Locacoes"
+import MostrarLocacoes from "./pages/pages-Locacoes/MostrarLocacoes"
+import CadastrarLocacoes from "./pages/pages-Locacoes/CadastrarLocacoes"
+import AtualizarLocacoes from "./pages/pages-Locacoes/AtualizarLocacoes"
+import DeletarLocacoes from "./pages/pages-Locacoes/DeletarLocacoes"
+
+
+
 import Visitas from "./pages/Visitas"
+import MostrarVisitas from "./pages/pages-Visitas/MostrarVisitas"
+import CadastrarVisitas from "./pages/pages-Visitas/CadastrarVisitas"
+import AtualizarVisitas from "./pages/pages-Visitas/AtualizarVisitas"
+import DeletarVisitas from "./pages/pages-Visitas/DeletarVisitas"
 
 
 import Carros from "./pages/Carros"
@@ -143,10 +159,27 @@ function App() {
 
 
           <Route path="/vendas" element={<Vendas />} />
+          <Route path="/vendas/mostrar-vendas" element={<MostrarVendas/>}></Route>
+          <Route path="/vendas/cadastrar-vendas/:id" element={<CadastrarVendas/>}></Route>
+          <Route path="/vendas/atualizar-vendas/:id" element={<AtualizarVendas/>}></Route>
+          <Route path="/vendas/deletar-vendas/:id" element={<DeletarVendas/>}></Route>
+
+
 
           <Route path="/locacoes" element={<Locacoes />} />
+          <Route path="/locacoes/mostrar-locacoes" element={<MostrarLocacoes/>}></Route>
+          <Route path="/locacoes/cadastrar-locacoes/:id" element={<CadastrarLocacoes/>}></Route>
+          <Route path="/locacoes/atualizar-locacoes/:id" element={<AtualizarLocacoes/>}></Route>
+          <Route path="/locacoes/deletar-locacoes/:id" element={<DeletarLocacoes/>}></Route>
+
 
           <Route path="/visitas" element={<Visitas />} />
+          <Route path="/visitas/mostrar-visitas" element={<MostrarVisitas/>}></Route>
+          <Route path="/visitas/cadastrar-visitas/" element={<CadastrarVisitas/>}></Route>
+          <Route path="/visitas/atualizar-visitas/:id" element={<AtualizarVisitas/>}></Route>
+          <Route path="/visitas/deletar-visitas/:id" element={<DeletarVisitas/>}></Route>
+
+
 
           <Route path="/carros" element={<Carros />} />
           <Route path="/carros/mostrar-carros" element={<MostrarCarros/>}></Route>
