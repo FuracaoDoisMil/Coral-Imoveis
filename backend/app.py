@@ -50,6 +50,29 @@ def listar_imoveis():
     return resultados
 
 
+@app.route("/imoveis/<int:id>", methods=["GET"])
+def buscar_imovel(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM imoveis WHERE id_imovel = %s",
+        (id,)
+    )
+
+    imovel = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not imovel:
+
+        return {"erro": "Imóvel não encontrado"}, 404
+
+    return imovel, 200
+
+
 @app.route("/imoveis", methods=["POST"])
 def criar_imovel():
     conexao = conectar_banco()
@@ -93,7 +116,7 @@ def criar_imovel():
         dados["bairro"],
         dados["cidade"],
         dados["estado"],
-        dados["status"],
+        dados.get("status", "disponivel"),
         dados.get("valor_locacao"),
         dados.get("valor_venda"),
         dados.get("quartos"),
@@ -105,10 +128,13 @@ def criar_imovel():
     ))
 
     conexao.commit()
+
+    idImovel = cursor.lastrowid
+
     cursor.close()
     conexao.close()
 
-    return {"mensagem": "Imóvel criado com sucesso ;D"}
+    return {"mensagem": "Imóvel criado com sucesso ;D", "id_imovel":idImovel}
 
 
 @app.route("/imoveis/<int:id>", methods=["PUT"])
@@ -670,7 +696,7 @@ def deletar_uso_carro(id):
 
 
 #########################################################################################
-#CRUD TELEFONES #
+# CRUD TELEFONES #
 #########################################################################################
 
 @app.route("/telefones", methods=["GET"])
@@ -979,6 +1005,31 @@ def listar_visitas():
     return resultados
 
 
+@app.route("/visitas/<int:id>", methods=["GET"])
+def buscar_visita(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM visitas WHERE id_visita = %s",
+        (id,)
+    )
+
+    visita = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not visita:
+        return {"Erro": "Visita não encontrada :("}, 404
+
+    if visita["hora_visita"] is not None:
+        visita["hora_visita"] = str(visita["hora_visita"])
+
+    return visita, 200
+
+
 @app.route("/visitas", methods=["POST"])
 def criar_visita():
     conexao = conectar_banco()
@@ -1003,7 +1054,7 @@ def criar_visita():
         dados["id_funcionario"],
         dados["data_visita"],
         dados["hora_visita"],
-        dados["status"],
+        dados.get("status", "aguardando visita"),
         dados["observacoes"]
     ))
 
@@ -1070,7 +1121,7 @@ def deletar_visita(id):
 
 
 ###############################################################################################
-#CRUD VENDAS #
+# CRUD VENDAS #
 ###############################################################################################
 
 @app.route("/vendas", methods=["GET"])
@@ -1085,6 +1136,29 @@ def listar_vendas():
     conexao.close()
 
     return resultados
+
+
+@app.route("/vendas/<int:id>", methods=["GET"])
+def buscar_venda(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM vendas WHERE id_venda = %s",
+        (id,)
+    )
+
+    venda = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not venda:
+
+        return {"erro": "Venda não encontrada"}, 404
+
+    return venda, 200
 
 
 @app.route("/vendas", methods=["POST"])
@@ -1189,6 +1263,30 @@ def listar_locacoes():
     conexao.close()
 
     return resultados
+
+
+@app.route("/locacoes/<int:id>", methods=["GET"])
+def buscar_locacao(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM locacoes WHERE id_locacao = %s",
+        (id,)
+    )
+
+    locacao = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not locacao:
+
+        return {"erro": "Locação não encontrada"}, 404
+
+    return locacao, 200
+
 
 
 @app.route("/locacoes", methods=["POST"])
