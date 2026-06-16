@@ -29,8 +29,10 @@ function AtualizarImoveis(){
     const [area, setArea] = useState("")
     const [iptu, setIptu] = useState("")
     const [observacoes, setObservacoes] = useState("")
-    const [imagem, setImagem] = useState(null)
-    const [imagemAtual, setImagemAtual] = useState("")
+    const [imagem_capa, setImagem_Capa] = useState(null)
+    const [imagem_capa_atual, setImagem_CapaAtual] = useState("")
+    const [imagens, setImagens] = useState([])
+    const [imagensAtual, setImagensAtual] = useState([])
 
     useEffect(() => {
 
@@ -85,20 +87,27 @@ function AtualizarImoveis(){
 
             .catch(erro => console.log("ERRO:", erro))
 
+        
         fetch(`http://localhost:5000/imagens-imovel`)
             .then(resposta => resposta.json())
             .then(dados => {
 
-                const imagemImovel = dados.find(
-                    item => item.id_imovel === Number(id)
+                const imagemImovel = dados.filter(
+                    img => img.id_imovel === Number(id) &&
+                    img.caminho_imagem !== null
                 )
 
-                if(imagemImovel){
+                setImagensAtual(imagemImovel)
 
-                    setImagemAtual(
-                        `http://localhost:5000/${imagemImovel.caminho_imagem}`
+                const imagemCapaImovel = dados.find(
+                    imgCapa => imgCapa.id_imovel === Number(id) &&
+                    imgCapa.caminho_imagem_capa !== null
+                )
+
+                if(imagemCapaImovel){
+                    setImagem_CapaAtual(
+                        `http://localhost:5000/${imagemCapaImovel.caminho_imagem_capa}`
                     )
-
                 }
 
             })
@@ -165,20 +174,48 @@ function AtualizarImoveis(){
 
             console.log(dados)
 
-            if(imagem){
+            const formData1 = new FormData()
+            formData1.append("id_imovel", id)
+            if(imagem_capa){
+                formData1.append("imagem_capa", imagem_capa)
+            }
 
-                const formData = new FormData()
+            const respostaImagemCapa = await fetch(
+                `http://localhost:5000/imagens-imovel-capa`,
+                {
+                    method: "POST",
+                    body: formData1
+    
+                })
+                if(!respostaImagemCapa.ok){
+                    throw new Error("Erro ao enviar imagem da capa")
+                }
 
-                formData.append("id_imovel", id)
-                formData.append("imagem", imagem)
+            if(imagens.length > 0){
 
-                await fetch(
-                    "http://localhost:5000/imagens-imovel",
-                    {
-                        method: "POST",
-                        body: formData
+                for(const imagem of imagens){
+
+                    const formData2 = new FormData()
+
+                    formData2.append("id_imovel", id)
+
+                    formData2.append("imagem", imagem)
+
+                    const respostaImagem = await fetch(
+                        "http://localhost:5000/imagens-imovel",
+                        {
+                            method: "POST",
+                            body: formData2
+                        }
+                    )
+
+                    if(!respostaImagem.ok){
+
+                        throw new Error("Erro ao enviar imagem")
+
                     }
-                )
+
+                }
 
             }
 
@@ -363,25 +400,56 @@ function AtualizarImoveis(){
                 />
 
                 <div>
+                    <p>Imagem atual da capa</p>
+    
+                        {imagem_capa_atual?(
+                            <img
+                                src={imagem_capa_atual}
+                                alt="Imagem da capa do anuncio"
+                                width="250"
+                            />
+                    ):(
+                        <p>Sem imagem de capa </p>
+                    )}
+                </div>
+                
+                <input 
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImagem_Capa(e.target.files[0])} 
+                />
 
-                    <p>Imagem atual:</p>
+                <div>
 
-                    {imagemAtual ? (
-                        <img
-                            src={imagemAtual}
-                            alt="Imagem do imóvel"
-                            width="250"
-                        />
+                    <p>Imagens atuais:</p>
+
+                    {imagensAtual.length > 0 ? (
+
+                        imagensAtual.map(imagem => (
+
+                            <img
+                                key={imagem.id_imagem}
+                                src={`http://localhost:5000/${imagem.caminho_imagem}`}
+                                width="250"
+                            />
+
+                        ))
+
                     ) : (
-                        <p>Sem imagem cadastrada</p>
+
+                        <p>Sem imagens cadastradas</p>
+
                     )}
 
                 </div>
 
+
+
                 <input
                     type="file"
+                    multiple
                     accept="image/*"
-                    onChange={(e) => setImagem(e.target.files[0])}
+                    onChange={(e) => setImagens([...e.target.files])}
                 />
 
             </div>
