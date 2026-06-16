@@ -711,3 +711,151 @@ input::placeholder{
     font-size: 14px;
     color: #ddd;
 }
+/*//////////////////
+/* CONTAINER GERAL */
+.detalhes-container{
+    width: 95%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+/* GALERIA */
+.galeria{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
+/* IMAGEM CAPA */
+.imagem-capa{
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* GRID DAS OUTRAS IMAGENS */
+.galeria-secundaria{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* IMAGENS PEQUENAS */
+.imagem-secundaria{
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.imagem-secundaria:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+/* SEÇÃO DE INFORMAÇÕES */
+.info-imovel{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+/* CARD INFO */
+.card-info{
+    background: rgba(255,255,255,0.08);
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+}
+
+/* TITULO */
+.titulo-imovel{
+    font-size: 28px;
+    color: #ffb347;
+    margin-bottom: 15px;
+}
+
+/* GRID DE ATRIBUTOS */
+.atributos{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* ITEM ATRIBUTO */
+.atributo{
+    background: rgba(255,255,255,0.05);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* DESCRIÇÃO */
+.descricao{
+    margin-top: 20px;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+/* COMODIDADES */
+.comodidades{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+/* CARD CONTATO */
+.card-contato{
+    background: rgba(255,255,255,0.08);
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+}
+
+/* INPUTS CONTATO */
+.card-contato input,
+.card-contato textarea{
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* BOTÃO */
+.btn-enviar{
+    width: 100%;
+    padding: 12px;
+    background: #0f3d3e;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-enviar:hover{
+    background: #145858;
+}
+
+/* RESPONSIVO */
+@media(max-width: 900px){
+    .galeria{
+        grid-template-columns: 1fr;
+    }
+
+    .info-imovel{
+        grid-template-columns: 1fr;
+    }
+
+    .atributos{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
