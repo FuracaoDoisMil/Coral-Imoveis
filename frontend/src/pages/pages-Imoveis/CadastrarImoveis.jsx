@@ -1,12 +1,11 @@
-// CadastrarImoveis.jsx
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 function CadastrarImoveis(){
-
     const [idProprietario, setIdProprietario] = useState("")
+    const [Proprietario, setProprietario] = useState([])
     const [idFuncionario, setIdFuncionario] = useState("")
+    const [Funcionario, setFuncionario] = useState([])
     const [nomeImovel, setNomeImovel] = useState("")
     const [tipo, setTipo] = useState("")
     const [cep, setCep] = useState("")
@@ -24,8 +23,34 @@ function CadastrarImoveis(){
     const [area, setArea] = useState("")
     const [iptu, setIptu] = useState("")
     const [observacoes, setObservacoes] = useState("")
-    const [imagem, setImagem] = useState(null)
+    const [imagens, setImagens] = useState([])
+    const [imagem_capa, setImagem_Capa] = useState("")
     const navigate = useNavigate()
+
+
+    useEffect(()=>{
+            fetch(`http://localhost:5000/proprietarios`)
+            
+            .then(resposta => resposta.json())
+
+            .then(dados => setProprietario(dados))
+
+            .catch(erro => {
+                console.log("ERRO", erro)
+            })
+
+            
+            fetch(`http://localhost:5000/funcionarios`)
+
+            .then(resposta => resposta.json())
+
+            .then(dados => setFuncionario(dados))
+
+            .catch(erro => {
+                console.log("ERRO", erro)
+            })
+
+    },[])
 
     async function cadastrarImovel(){
 
@@ -90,30 +115,57 @@ function CadastrarImoveis(){
 
             const idImovel = dados.id_imovel
 
-            if(imagem){
+            
+            const formData1 = new FormData()
+            formData1.append("id_imovel", idImovel)
+            if(imagem_capa){
+                formData1.append("imagem_capa", imagem_capa)
+            }
+            const respostaImagemCapa = await fetch(`http://localhost:5000/imagens-imovel-capa`,{
+                
+                method: "POST",
+                body: formData1
 
-                const formData = new FormData()
+            })            
+            if(!respostaImagemCapa.ok){
+                throw new Error("Erro ao enviar a imagem da capa")
+            }
 
-                formData.append("id_imovel", idImovel)
 
-                formData.append("imagem", imagem)
 
-                await fetch(
-                    "http://localhost:5000/imagens-imovel",
-                    {
+            if(imagens.length > 0){
 
-                        method: "POST",
+                for(const imagem of imagens){
 
-                        body: formData
+                    const formData2 = new FormData()
+
+                    formData2.append("id_imovel", idImovel)
+
+                    formData2.append("imagem", imagem)
+
+                    const respostaImagem = await fetch(
+                        `http://localhost:5000/imagens-imovel`,
+                        {
+                            method: "POST",
+                            body: formData2
+                        }
+                    )
+
+                    if(!respostaImagem.ok){
+
+                        throw new Error("Erro ao enviar imagem")
 
                     }
-                )
+
+                }
 
             }
 
             alert("Imóvel cadastrado com sucesso! :D")
 
             navigate("/imoveis/mostrar-imoveis")
+
+            
 
         }
 
@@ -133,19 +185,46 @@ function CadastrarImoveis(){
 
             <div className="form-grid">
 
-                <input
-                    type="number"
-                    placeholder="ID Proprietário"
+                <select 
                     value={idProprietario}
                     onChange={(e) => setIdProprietario(e.target.value)}
-                />
+                >
+                    <option value="">
+                        Selecione o Proprietario
+                    </option>
 
-                <input
-                    type="number"
-                    placeholder="ID Funcionário"
+                    {Proprietario.map(Proprietario=>(
+                        <option
+                            key={Proprietario.id_proprietario}
+                            value={Proprietario.id_proprietario}
+                        >
+                            {Proprietario.nome} {Proprietario.sobrenome}
+                        </option>
+                    ))}
+
+                </select>
+
+                <select
                     value={idFuncionario}
                     onChange={(e) => setIdFuncionario(e.target.value)}
-                />
+                >
+                    <option value="">
+                        Selecione o Corretor
+                    </option>
+
+                    {Funcionario.filter(Funcionario => Funcionario.tipo_funcionario === "Corretor").map(Funcionario =>
+                        <option
+                            key={Funcionario.id_funcionario}
+                            value={Funcionario.id_funcionario}
+                        >
+
+                            {Funcionario.nome} {Funcionario.sobrenome}
+
+                        </option>
+                    )}
+
+                </select>
+
 
                 <input
                     type="text"
@@ -259,20 +338,43 @@ function CadastrarImoveis(){
                     onChange={(e) => setIptu(e.target.value)}
                 />
 
+                
+                <div className="upload-container">
+
+                    <label className="upload-box">
+                        <input 
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                                setImagem_Capa(e.target.files[0])
+                            }}
+                        />
+                        <span>📸 Selecione uma imagem para capa do anuncio</span>
+                        {imagem_capa && <p>{imagem_capa.name}</p>}
+                    </label>
+
+                    <label className="upload-box">
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={(e) => {
+                                setImagens([...e.target.files])
+                            }}
+                        />
+                        <span>🖼️ Selecione imagens do imóvel</span>
+
+                        {imagens.length > 0 && (
+                            <p>{imagens.length} imagem(ns) selecionada(s)</p>
+                        )}
+                    </label>
+
+                </div>
+
                 <textarea
                     placeholder="Observações"
                     value={observacoes}
                     onChange={(e) => setObservacoes(e.target.value)}
-                />
-
-                <input
-                    type="file"
-
-                    onChange={(e) => {
-
-                        setImagem(e.target.files[0])
-
-                    }}
                 />
 
             </div>
