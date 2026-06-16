@@ -9,7 +9,7 @@ function MostrarImoveis(){
 
     const [imoveis, setImoveis] = useState([])
 
-    const [imagens, setImagens] = useState([])
+    const [imagem_capa, setImagem_Capa] = useState([])
 
     const [pesquisa, setPesquisa] = useState("")
 
@@ -77,8 +77,6 @@ function MostrarImoveis(){
 
             })
 
-
-
         fetch("http://localhost:5000/imagens-imovel")
 
             .then(resposta => resposta.json())
@@ -87,7 +85,7 @@ function MostrarImoveis(){
 
                 console.log(dados)
 
-                setImagens(dados)
+                setImagem_Capa(dados)
 
             })
 
@@ -253,11 +251,10 @@ function MostrarImoveis(){
                             proprietario => proprietario.id_proprietario === imovel.id_proprietario
                         )
 
-                        const imagemImovel = imagens.find(
-                            imagem => imagem.id_imovel === imovel.id_imovel
+                        const imagemCapaImovel = imagem_capa.find(
+                            imagemCapa => imagemCapa.id_imovel === imovel.id_imovel &&
+                            imagemCapa.caminho_imagem_capa !== null
                         )
-
-
 
                         return(
 
@@ -266,11 +263,11 @@ function MostrarImoveis(){
                                 key={imovel.id_imovel}
                             >
 
-                                {imagemImovel && (
+                                {imagemCapaImovel && (
 
                                     <img
                                         className="imagem-imovel"
-                                        src={`http://localhost:5000/${imagemImovel.caminho_imagem}`}
+                                        src={`http://localhost:5000/${imagemCapaImovel.caminho_imagem_capa}`}
                                         alt="Imagem do imóvel"
                                     />
 
@@ -333,7 +330,7 @@ function MostrarImoveis(){
                                 <p>
 
                                     <strong>
-                                        Funcionário:
+                                        Corretor:
                                     </strong>
 
                                     {" "}
@@ -425,28 +422,9 @@ function MostrarImoveis(){
                                 <div className="acoes-imovel">
                                     
 
-                                    <button onClick={() => navigate(`/vendas/cadastrar-vendas/${imovel.id_imovel}`)}>
-                                        Vender
-
-                                    </button>
-
-                                    <button onClick={() => navigate(`/locacoes/cadastrar-locacoes/${imovel.id_imovel}`)}>
-                                        Alugar
-
-                                    </button>
-
-
-                                    <button onClick={() => navigate(`/imoveis/atualizar-imoveis/${imovel.id_imovel}`)}>
-
-                                        Editar
-
-                                    </button>
-
-
-
-                                    <button onClick={() => navigate(`/imoveis/deletar-imoveis/${imovel.id_imovel}`)}>
-
-                                        Deletar
+                                    <button onClick={() => navigate(`/imoveis/detalhes-imoveis/${imovel.id_imovel}`)}>
+                                        
+                                        Mostrar Mais
 
                                     </button>
 
