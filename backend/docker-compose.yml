@@ -11,15 +11,21 @@ services:
   mysql:
     image: mysql:8
     restart: always
+    command: --innodb-buffer-pool-size=64M
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: imobiliaria
     ports:
       - "3307:3306"
     volumes:
+      - mysql_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 10
+      start_period: 30s
+
+volumes:
+  mysql_data:
