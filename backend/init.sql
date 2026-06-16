@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.45, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.46, for Linux (x86_64)
 --
--- Host: localhost    Database: imobiliaria
+-- Host: localhost    Database: Imobiliaria
 -- ------------------------------------------------------
--- Server version	8.0.45-0ubuntu0.24.04.1
+-- Server version	8.0.46-0ubuntu0.24.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -108,7 +108,7 @@ CREATE TABLE `contratos` (
 
 LOCK TABLES `contratos` WRITE;
 /*!40000 ALTER TABLE `contratos` DISABLE KEYS */;
-INSERT INTO `contratos` VALUES (1,1,NULL,1,'venda','ativo','Contrato venda','2026-05-29 15:03:26'),(2,NULL,1,2,'locacao','ativo','Contrato locação 1','2026-05-29 15:03:26'),(3,NULL,2,3,'locacao','ativo','Contrato locação 2','2026-05-29 15:03:26');
+INSERT INTO `contratos` VALUES (1,1,NULL,1,'venda','ativo','Contrato venda','2026-06-15 17:04:22'),(2,NULL,1,2,'locacao','ativo','Contrato locação 1','2026-06-15 17:04:22'),(3,NULL,2,3,'locacao','ativo','Contrato locação 2','2026-06-15 17:04:22');
 /*!40000 ALTER TABLE `contratos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,10 +159,12 @@ DROP TABLE IF EXISTS `imagens_imovel`;
 CREATE TABLE `imagens_imovel` (
   `id_imagem` int NOT NULL AUTO_INCREMENT,
   `id_imovel` int NOT NULL,
-  `caminho_imagem` varchar(255) NOT NULL,
+  `caminho_imagem` varchar(255) DEFAULT NULL,
+  `caminho_imagem_capa` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_imagem`),
   KEY `id_imovel` (`id_imovel`),
-  CONSTRAINT `imagens_imovel_ibfk_1` FOREIGN KEY (`id_imovel`) REFERENCES `imoveis` (`id_imovel`) ON DELETE CASCADE
+  CONSTRAINT `imagens_imovel_ibfk_1` FOREIGN KEY (`id_imovel`) REFERENCES `imoveis` (`id_imovel`) ON DELETE CASCADE,
+  CONSTRAINT `imagens_imovel_chk_1` CHECK ((((`caminho_imagem` is not null) and (`caminho_imagem_capa` is null)) or ((`caminho_imagem_capa` is not null) and (`caminho_imagem` is null))))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -219,7 +221,7 @@ CREATE TABLE `imoveis` (
 
 LOCK TABLES `imoveis` WRITE;
 /*!40000 ALTER TABLE `imoveis` DISABLE KEYS */;
-INSERT INTO `imoveis` VALUES (1,1,1,'Casa Centro','Casa','85660-000','Rua A','100',NULL,'Centro','Dois Vizinhos','PR','disponivel',1800.00,350000.00,3,1,2,120,1500.00,'Casa ampla','2026-05-29 15:03:26'),(2,2,2,'Apartamento Luxo','Apartamento','85660-000','Rua B','200','Ap 301','Centro','Dois Vizinhos','PR','disponivel',2500.00,500000.00,2,1,1,90,2000.00,'Apartamento moderno','2026-05-29 15:03:26'),(3,3,1,'Sala Comercial','Comercial','85660-000','Rua C','50',NULL,'Industrial','Dois Vizinhos','PR','alugado',3200.00,NULL,NULL,NULL,2,70,1000.00,'Ótima localização','2026-05-29 15:03:26'),(4,4,4,'Chacara Boa Vista','Chacara','85660-000','Linha Interior','SN',NULL,'Rural','Dois Vizinhos','PR','disponivel',NULL,800000.00,4,2,3,500,2500.00,'Área rural','2026-05-29 15:03:26'),(5,5,5,'Kitnet Universitaria','Kitnet','85660-000','Rua D','15',NULL,'Centro Norte','Dois Vizinhos','PR','disponivel',900.00,120000.00,1,0,0,35,500.00,'Próxima faculdade','2026-05-29 15:03:26'),(6,6,3,'Sobrado Familiar','Sobrado','85660-000','Rua E','88',NULL,'Jardim','Dois Vizinhos','PR','vendido',NULL,450000.00,3,1,2,150,1800.00,'Sobrado bonito','2026-05-29 15:03:26'),(7,7,6,'Apartamento Popular','Apartamento','85660-000','Rua F','70','Ap 202','Centro Sul','Dois Vizinhos','PR','disponivel',1200.00,220000.00,2,0,1,65,800.00,'Bom custo benefício','2026-05-29 15:03:26'),(8,8,7,'Casa Piscina','Casa','85660-000','Rua G','120',NULL,'Nobre','Dois Vizinhos','PR','disponivel',3500.00,780000.00,4,2,3,250,3500.00,'Piscina aquecida','2026-05-29 15:03:26'),(9,9,8,'Barracao Industrial','Industrial','85660-000','Rua H','500',NULL,'Distrito','Dois Vizinhos','PR','alugado',7000.00,NULL,NULL,NULL,5,1000,5000.00,'Barracão grande','2026-05-29 15:03:26'),(10,10,9,'Terreno Centro','Terreno','85660-000','Rua I','SN',NULL,'Centro','Dois Vizinhos','PR','disponivel',NULL,180000.00,NULL,NULL,NULL,300,600.00,'Terreno plano','2026-05-29 15:03:26');
+INSERT INTO `imoveis` VALUES (1,1,1,'Casa Centro','Casa','85660-000','Rua A','100',NULL,'Centro','Dois Vizinhos','PR','disponivel',1800.00,350000.00,3,1,2,120,1500.00,'Casa ampla','2026-06-15 17:04:21'),(2,2,2,'Apartamento Luxo','Apartamento','85660-000','Rua B','200','Ap 301','Centro','Dois Vizinhos','PR','disponivel',2500.00,500000.00,2,1,1,90,2000.00,'Apartamento moderno','2026-06-15 17:04:21'),(3,3,1,'Sala Comercial','Comercial','85660-000','Rua C','50',NULL,'Industrial','Dois Vizinhos','PR','alugado',3200.00,NULL,NULL,NULL,2,70,1000.00,'Ótima localização','2026-06-15 17:04:21'),(4,4,4,'Chacara Boa Vista','Chacara','85660-000','Linha Interior','SN',NULL,'Rural','Dois Vizinhos','PR','disponivel',NULL,800000.00,4,2,3,500,2500.00,'Área rural','2026-06-15 17:04:21'),(5,5,5,'Kitnet Universitaria','Kitnet','85660-000','Rua D','15',NULL,'Centro Norte','Dois Vizinhos','PR','disponivel',900.00,120000.00,1,0,0,35,500.00,'Próxima faculdade','2026-06-15 17:04:21'),(6,6,3,'Sobrado Familiar','Sobrado','85660-000','Rua E','88',NULL,'Jardim','Dois Vizinhos','PR','vendido',NULL,450000.00,3,1,2,150,1800.00,'Sobrado bonito','2026-06-15 17:04:21'),(7,7,6,'Apartamento Popular','Apartamento','85660-000','Rua F','70','Ap 202','Centro Sul','Dois Vizinhos','PR','disponivel',1200.00,220000.00,2,0,1,65,800.00,'Bom custo benefício','2026-06-15 17:04:21'),(8,8,7,'Casa Piscina','Casa','85660-000','Rua G','120',NULL,'Nobre','Dois Vizinhos','PR','disponivel',3500.00,780000.00,4,2,3,250,3500.00,'Piscina aquecida','2026-06-15 17:04:21'),(9,9,8,'Barracao Industrial','Industrial','85660-000','Rua H','500',NULL,'Distrito','Dois Vizinhos','PR','alugado',7000.00,NULL,NULL,NULL,5,1000,5000.00,'Barracão grande','2026-06-15 17:04:21'),(10,10,9,'Terreno Centro','Terreno','85660-000','Rua I','SN',NULL,'Centro','Dois Vizinhos','PR','disponivel',NULL,180000.00,NULL,NULL,NULL,300,600.00,'Terreno plano','2026-06-15 17:04:21');
 /*!40000 ALTER TABLE `imoveis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,7 +260,7 @@ CREATE TABLE `locacoes` (
 
 LOCK TABLES `locacoes` WRITE;
 /*!40000 ALTER TABLE `locacoes` DISABLE KEYS */;
-INSERT INTO `locacoes` VALUES (1,3,2,2,3200.00,'PIX','2026-05-01','2027-05-01','aguardando_aprovacao','Contrato anual','2026-05-29 15:03:26'),(2,9,3,3,7000.00,'Boleto','2026-06-01','2027-06-01','aguardando_aprovacao','Empresa','2026-05-29 15:03:26');
+INSERT INTO `locacoes` VALUES (1,3,2,2,3200.00,'PIX','2026-05-01','2027-05-01','aguardando_aprovacao','Contrato anual','2026-06-15 17:04:22'),(2,9,3,3,7000.00,'Boleto','2026-06-01','2027-06-01','aguardando_aprovacao','Empresa','2026-06-15 17:04:22');
 /*!40000 ALTER TABLE `locacoes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,7 +399,7 @@ CREATE TABLE `vendas` (
 
 LOCK TABLES `vendas` WRITE;
 /*!40000 ALTER TABLE `vendas` DISABLE KEYS */;
-INSERT INTO `vendas` VALUES (1,6,1,1,450000.00,'Financiamento','aguardando_aprovacao','Venda concluída','2026-05-29 15:03:26');
+INSERT INTO `vendas` VALUES (1,6,1,1,450000.00,'Financiamento','aguardando_aprovacao','Venda concluída','2026-06-15 17:04:22');
 /*!40000 ALTER TABLE `vendas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,4 +448,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-29 13:10:46
+-- Dump completed on 2026-06-15 14:06:46
