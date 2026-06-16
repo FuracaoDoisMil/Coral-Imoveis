@@ -1503,6 +1503,27 @@ def listar_imagens():
 
     return resultados
 
+@app.route("/imagens-imoveis/<int:id>", methods=["GET"])
+def buscar_imagem(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM imagens_imovel WHERE id_imagem = %s",
+        (id,)
+    )
+
+    imagem = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not imagem:
+
+        return {"erro": "Imagem não encontrada"}, 404
+
+    return imagem, 200
 
 @app.route("/imagens-imovel", methods=["POST"])
 def criar_imagem():
@@ -1550,6 +1571,52 @@ def criar_imagem():
         "caminho": caminho_banco
     }
 
+@app.route("/imagens-imovel-capa", methods=["POST"])
+def criar_imagem_capa():
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    id_imovel = request.form.get("id_imovel")
+
+    imagem = request.files.get("imagem_capa")
+
+    if not imagem:
+
+        return {"erro": "Nenhuma imagem enviada"}, 400
+
+    nome_arquivo = secure_filename(imagem.filename)
+
+    caminho_arquivo = os.path.join(
+        app.config["UPLOAD_FOLDER"],
+        nome_arquivo
+    )
+
+    imagem.save(caminho_arquivo)
+
+    caminho_banco = f"uploads/{nome_arquivo}"
+
+    cursor.execute("""
+        INSERT INTO imagens_imovel(
+            id_imovel,
+            caminho_imagem_capa
+        )
+        VALUES (%s, %s)
+    """, (
+        id_imovel,
+        caminho_banco
+    ))
+
+    conexao.commit()
+
+    cursor.close()
+    conexao.close()
+
+    return {
+        "mensagem": "Imagem cadastrada com sucesso ;D",
+        "caminho": caminho_banco
+    }
+
 
 @app.route("/imagens-imovel/<int:id>", methods=["PUT"])
 def atualizar_imagem(id):
@@ -1575,6 +1642,31 @@ def atualizar_imagem(id):
     conexao.close()
 
     return {"mensagem": "Imagem atualizada com sucesso ;D"}
+
+@app.route("/imagens-imovel-capa/<int:id>", methods=["PUT"])
+def atualizar_imagem_capa(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+
+    dados = request.json
+
+    cursor.execute("""
+        UPDATE imagens_imovel SET
+            id_imovel = %s,
+            caminho_imagem_capa = %s
+        WHERE id_imagem = %s
+    """, (
+        dados["id_imovel"],
+        dados["caminho_imagem_capa"],
+        id
+    ))
+
+    conexao.commit()
+
+    cursor.close()
+    conexao.close()
+
+    return {"mensagem": "Imagem da capa atualizada com sucesso ;D"}
 
 
 @app.route("/imagens-imovel/<int:id>", methods=["DELETE"])
