@@ -242,14 +242,19 @@ CREATE TABLE contratos(
 
 CREATE TABLE imagens_imovel(
     id_imagem INT AUTO_INCREMENT PRIMARY KEY,
-
     id_imovel INT NOT NULL,
 
-    caminho_imagem VARCHAR(255) NOT NULL,
+    caminho_imagem VARCHAR(255),
+    caminho_imagem_capa VARCHAR(255),
 
     FOREIGN KEY (id_imovel)
     REFERENCES imoveis(id_imovel)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+	CHECK(
+		(caminho_imagem IS NOT NULL AND caminho_imagem_capa IS NULL)
+        OR
+        (caminho_imagem_capa IS NOT NULL AND caminho_imagem IS NULL)
+    )
 );
 
 
