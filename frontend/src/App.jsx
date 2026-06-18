@@ -25,6 +25,7 @@ import DeletarProprietarios from "./pages/pages-Proprietarios/DeletarProprietari
 
 import Imoveis from "./pages/Imoveis"
 import MostrarImoveis from "./pages/pages-Imoveis/MostrarImoveis"
+import DetalhesImoveis from "./pages/pages-Imoveis/DetalhesImoveis"
 import CadastrarImoveis from "./pages/pages-Imoveis/CadastrarImoveis"
 import AtualizarImoveis from "./pages/pages-Imoveis/AtualizarImoveis"
 import DeletarImoveis from "./pages/pages-Imoveis/DeletarImoveis"
@@ -153,6 +154,7 @@ function App() {
 
           <Route path="/imoveis" element={<Imoveis />} />
           <Route path="/imoveis/mostrar-imoveis" element={<MostrarImoveis/>}></Route>
+          <Route path="/imoveis/detalhes-imoveis/:id" element={<DetalhesImoveis/>}></Route>
           <Route path="/imoveis/cadastrar-imoveis" element={<CadastrarImoveis/>}></Route>
           <Route path="/imoveis/atualizar-imoveis/:id" element={<AtualizarImoveis/>}></Route>
           <Route path="/imoveis/deletar-imoveis/:id" element={<DeletarImoveis/>}></Route>
