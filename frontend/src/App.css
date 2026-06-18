@@ -729,9 +729,13 @@ input::placeholder{
 /* IMAGEM CAPA */
 .imagem-capa{
     width: 100%;
-    height: 400px;
-    object-fit: cover;
+    max-height: 600px;
+
+    /*object-fit: contain;*/
+
     border-radius: 12px;
+
+    background: #111;
 }
 
 /* GRID DAS OUTRAS IMAGENS */
@@ -745,8 +749,13 @@ input::placeholder{
 .imagem-secundaria{
     width: 100%;
     height: 190px;
-    object-fit: cover;
+
+   /* object-fit: contain; */
+
+    background-color: #111;
+
     border-radius: 10px;
+
     transition: 0.3s;
 }
 
