@@ -25,7 +25,7 @@ function Carros(){
     return(
         <div>
             <h1>Gerenciar Carros 🏎️</h1>
-            <div className="caixinhas_aba_carros">
+            <div className="caixinhas_aba_funcionalidades">
                 <Link to="/carros/mostrar-carros" className="caixinha">
                     <h3>Mostrar Carros</h3>
                 </Link>
