@@ -60,6 +60,10 @@ import DeletarCarros from "./pages/pages-Carros/DeletarCarros"
 
 
 import Contratos from "./pages/Contratos"
+import MostrarContratos from "./pages/pages-Contratos/MostrarContratos"
+import CadastrarContratos from "./pages/pages-Contratos/CadastrarContratos"
+import AtualizarContratos from "./pages/pages-Contratos/AtualizarContratos"
+import DeletarContratos from "./pages/pages-Contratos/DeletarContratos"
 
 function App() {
 
@@ -190,6 +194,10 @@ function App() {
           <Route path="/carros/deletar-carros/:id" element={<DeletarCarros/>}></Route>
 
           <Route path="/contratos" element={<Contratos />} />
+          <Route path="/contratos/mostrar-contratos" element={<MostrarContratos/>}></Route>
+          <Route path="/contratos/cadastrar-contratos" element={<CadastrarContratos/>}></Route>
+          <Route path="/contratos/atualizar-contratos/:id" element={<AtualizarContratos/>}></Route>
+          <Route path="/contratos/deletar-contratos/:id" element={<DeletarContratos/>}></Route>
 
         </Routes>
 
