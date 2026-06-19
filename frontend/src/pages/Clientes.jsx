@@ -25,7 +25,7 @@ function Clientes(){
     return(
         <div>
             <h1>Gerenciar Clientes 🤝</h1>
-            <div className="caixinhas_aba_clientes">
+            <div className="caixinhas_aba_funcionalidades">
                 <Link to="/clientes/mostrar-clientes" className="caixinha">
                     <h3>Mostrar Clientes</h3>
                 </Link>
