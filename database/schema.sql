@@ -220,15 +220,15 @@ CREATE TABLE contratos(
 
     tipo_contrato ENUM('venda', 'locacao') NOT NULL,
 
-    status ENUM('ativo', 'encerrado', 'cancelado') NOT NULL,
+    status ENUM('aguardando_aprovacao', 'aprovado', 'rejeitado') NOT NULL,
 	observacoes text,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (id_venda)
-    REFERENCES vendas(id_venda),
+    REFERENCES vendas(id_venda) ON DELETE CASCADE,
 
     FOREIGN KEY (id_locacao)
-    REFERENCES locacoes(id_locacao),
+    REFERENCES locacoes(id_locacao) ON DELETE CASCADE,
 
     FOREIGN KEY (id_funcionario)
     REFERENCES funcionarios(id_funcionario),
@@ -452,6 +452,6 @@ VALUES
 INSERT INTO contratos
 (id_venda, id_locacao, id_funcionario, tipo_contrato, status, observacoes)
 VALUES
-(1,NULL,1,'venda','ativo','Contrato venda'),
-(NULL,1,2,'locacao','ativo','Contrato locação 1'),
-(NULL,2,3,'locacao','ativo','Contrato locação 2');
+(1,NULL,1,'venda','aprovado','Contrato venda'),
+(NULL,1,2,'locacao','rejeitado','Contrato locação 1'),
+(NULL,2,3,'locacao','aguardando_aprovacao','Contrato locação 2');
