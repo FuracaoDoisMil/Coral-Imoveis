@@ -25,7 +25,7 @@ function Imoveis(){
     return(
         <div>
             <h1>Gerenciar Imoveis 🏢</h1>
-            <div className="caixinhas_aba_imoveis">
+            <div className="caixinhas_aba_funcionalidades">
                 <Link to="/imoveis/mostrar-imoveis" className="caixinha">
                     <h3>Mostrar Imoveis</h3>
                 </Link>
