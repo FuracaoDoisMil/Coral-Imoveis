@@ -94,7 +94,7 @@
   /*flex-wrap: wrap; */
 }
 
-.caixinhas_aba_funcionarios{
+.caixinhas_aba_funcionalidades{
   display: grid;
 
   grid-template-columns: repeat(2, 250px);
@@ -107,105 +107,6 @@
 
   /*flex-wrap: wrap; */
 }
-
-.caixinhas_aba_clientes{
-  display: grid;
-
-  grid-template-columns: repeat(2, 250px);
-
-  gap: 20px;
-
-  justify-content: center;
-
-  margin-top: 40px;
-
-  /*flex-wrap: wrap; */
-}
-
-.caixinhas_aba_proprietarios{
-  display: grid;
-
-  grid-template-columns: repeat(2, 250px);
-
-  gap: 20px;
-
-  justify-content: center;
-
-  margin-top: 40px;
-
-  /*flex-wrap: wrap; */
-}
-
-.caixinhas_aba_imoveis{
-  display: grid;
-
-  grid-template-columns: repeat(2, 250px);
-
-  gap: 20px;
-
-  justify-content: center;
-
-  margin-top: 40px;
-
-  /*flex-wrap: wrap; */
-}
-
-.caixinhas_aba_vendas{
-  display: grid;
-
-  grid-template-columns: repeat(1, 250px);
-
-  gap: 20px;
-
-  justify-content: center;
-
-  margin-top: 40px;
-
-  /*flex-wrap: wrap; */
-}
-
-.caixinhas_aba_locacoes{
-  display: grid;
-
-  grid-template-columns: repeat(1, 250px);
-
-  gap: 20px;
-
-  justify-content: center;
-
-  margin-top: 40px;
-
-  /*flex-wrap: wrap; */
-}
-
-.caixinhas_aba_visitas{
-  display: grid;
-
-  grid-template-columns: repeat(2, 250px);
-
-  gap: 20px;
-
-  justify-content: center;
-
-  margin-top: 40px;
-
-  /*flex-wrap: wrap; */
-}
-
-.caixinhas_aba_carros{
-  display: grid;
-
-  grid-template-columns: repeat(2, 250px);
-
-  gap: 20px;
-
-  justify-content: center;
-
-  margin-top: 40px;
-
-  /*flex-wrap: wrap; */
-}
-
 
 .caixinha{
   width: 250px;
@@ -867,4 +768,71 @@ input::placeholder{
     .atributos{
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* BOTÕES DETALHES IMÓVEL */
+
+.acoes-detalhes{
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 30px;
+
+    margin-bottom: 40px;
+
+    flex-wrap: wrap;
+}
+
+.btn-atualizar,
+.btn-deletar-detalhes,
+.btn-voltar{
+
+    border: none;
+
+    padding: 12px 20px;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.btn-atualizar{
+    background-color: #e74c3c;
+}
+
+.btn-atualizar:hover{
+    transform: translateY(-3px);
+
+    box-shadow: 0 0 15px rgba(52,152,219,0.5);
+}
+
+.btn-deletar-detalhes{
+    background-color: #e74c3c;
+}
+
+.btn-deletar-detalhes:hover{
+    transform: translateY(-3px);
+
+    box-shadow: 0 0 15px rgba(231,76,60,0.5);
+}
+
+.btn-voltar{
+    background-color: #e74c3c;
+}
+
+.btn-voltar:hover{
+    transform: translateY(-3px);
+
+    box-shadow: 0 0 15px rgba(46,204,113,0.5);
 }
