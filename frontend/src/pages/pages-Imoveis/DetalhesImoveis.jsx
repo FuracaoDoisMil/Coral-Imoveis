@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 
 function DetalhesImoveis(){
 
     const { id } = useParams()
+    const navigate = useNavigate()
 
     const [imovel, setImovel] = useState(null)
     const [funcionarios, setFuncionarios] = useState([])
@@ -270,6 +271,31 @@ function DetalhesImoveis(){
                     </p>
 
                 </div>
+
+            </div>
+            
+            <div className="acoes-detalhes">
+
+                <button
+                    className="btn-atualizar"
+                    onClick={() => navigate(`/imoveis/atualizar-imoveis/${id}`)}
+                >
+                    Atualizar Imóvel
+                </button>
+
+                <button
+                    className="btn-deletar-detalhes"
+                    onClick={() => navigate(`/imoveis/deletar-imoveis/${id}`)}
+                >
+                    Deletar Imóvel
+                </button>
+
+                <button
+                    className="btn-voltar"
+                    onClick={() => navigate(`/imoveis/mostrar-imoveis`)}
+                >
+                    Voltar
+                </button>
 
             </div>
 
