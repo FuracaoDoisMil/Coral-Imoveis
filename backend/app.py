@@ -1163,6 +1163,7 @@ def buscar_venda(id):
 
 @app.route("/vendas", methods=["POST"])
 def criar_venda():
+
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
@@ -1187,18 +1188,64 @@ def criar_venda():
         dados["observacoes"]
     ))
 
+    id_venda = cursor.lastrowid
+
+    cursor.execute("""
+        INSERT INTO contratos(
+            id_venda,
+            id_funcionario,
+            tipo_contrato,
+            status,
+            observacoes
+        )
+        VALUES (%s, %s, %s, %s, %s)
+    """, (
+        id_venda,
+        dados["id_funcionario"],
+        "venda",
+        "aguardando_aprovacao",
+        "Aguardando aprovação do gerente"
+    ))
+
     conexao.commit()
 
     cursor.close()
     conexao.close()
 
-    return {"mensagem": "Venda criada com sucesso ;D"}
+    return {
+        "mensagem": "Venda criada e enviada para aprovação"
+    }
 
 
 @app.route("/vendas/<int:id>", methods=["PUT"])
 def atualizar_venda(id):
+
     conexao = conectar_banco()
-    cursor = conexao.cursor()
+    cursor = conexao.cursor(dictionary=True)
+
+    
+    cursor.execute("""
+        SELECT status
+        FROM vendas
+        WHERE id_venda = %s
+    """, (id,))
+
+    venda = cursor.fetchone()
+
+    if not venda:
+        cursor.close()
+        conexao.close()
+
+        return {"erro": "Venda não encontrada"}, 404
+
+    if venda["status"] in ["concluida", "nao_aprovada"]:
+
+        cursor.close()
+        conexao.close()
+
+        return {
+            "erro": "Não é possível editar uma venda concluída ou não aprovada"
+        }, 400
 
     dados = request.json
 
@@ -1227,6 +1274,7 @@ def atualizar_venda(id):
     conexao.close()
 
     return {"mensagem": "Venda atualizada com sucesso ;D"}
+
 
 
 @app.route("/vendas/<int:id>", methods=["DELETE"])
@@ -1318,19 +1366,65 @@ def criar_locacao():
         dados["data_saida"],
         dados["observacoes"]
     ))
+    
+    id_locacao = cursor.lastrowid
+
+    cursor.execute("""
+        INSERT INTO contratos(
+            id_locacao,
+            id_funcionario,
+            tipo_contrato,
+            status,
+            observacoes
+        )
+        VALUES (%s, %s, %s, %s, %s)
+    """, (
+        id_locacao,
+        dados["id_funcionario"],
+        "locacao",
+        "aguardando_aprovacao",
+        "Aguardando aprovação do gerente"
+    ))
 
     conexao.commit()
 
     cursor.close()
     conexao.close()
 
-    return {"mensagem": "Locação criada com sucesso ;D"}
+    return {
+        "mensagem": "Locacao criada e enviada para aprovação"
+    }
 
 
 @app.route("/locacoes/<int:id>", methods=["PUT"])
 def atualizar_locacao(id):
+
     conexao = conectar_banco()
-    cursor = conexao.cursor()
+    cursor = conexao.cursor(dictionary=True)
+
+    
+    cursor.execute("""
+        SELECT status
+        FROM locacoes
+        WHERE id_locacao = %s
+    """, (id,))
+
+    locacao = cursor.fetchone()
+
+    if not locacao:
+        cursor.close()
+        conexao.close()
+
+        return {"erro": "Locação não encontrada"}, 404
+
+    if locacao["status"] in ["concluida", "nao_aprovada"]:
+
+        cursor.close()
+        conexao.close()
+
+        return {
+            "erro": "Não é possível editar uma locação concluída ou não aprovada"
+        }, 400
 
     dados = request.json
 
@@ -1363,7 +1457,6 @@ def atualizar_locacao(id):
     conexao.close()
 
     return {"mensagem": "Locação atualizada com sucesso ;D"}
-
 
 @app.route("/locacoes/<int:id>", methods=["DELETE"])
 def deletar_locacao(id):
@@ -1401,90 +1494,175 @@ def listar_contratos():
     return resultados
 
 
-@app.route("/contratos", methods=["POST"])
-def criar_contrato():
+@app.route("/contratos/<int:id>", methods=["GET"])
+def buscar_contrato(id):
+
     conexao = conectar_banco()
-    cursor = conexao.cursor()
-
-    dados = request.json
-
-    cursor.execute("""
-        INSERT INTO contratos(
-            id_venda,
-            id_locacao,
-            id_funcionario,
-            tipo_contrato,
-            status,
-            observacoes
-        )
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """, (
-        dados["id_venda"],
-        dados["id_locacao"],
-        dados["id_funcionario"],
-        dados["tipo_contrato"],
-        dados["status"],
-        dados["observacoes"]
-    ))
-
-    conexao.commit()
-
-    cursor.close()
-    conexao.close()
-
-    return {"mensagem": "Contrato criado com sucesso ;D"}
-
-
-@app.route("/contratos/<int:id>", methods=["PUT"])
-def atualizar_contrato(id):
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
-
-    dados = request.json
-
-    cursor.execute("""
-        UPDATE contratos SET
-            id_venda = %s,
-            id_locacao = %s,
-            id_funcionario = %s,
-            tipo_contrato = %s,
-            status = %s,
-            observacoes = %s
-        WHERE id_contrato = %s
-    """, (
-        dados["id_venda"],
-        dados["id_locacao"],
-        dados["id_funcionario"],
-        dados["tipo_contrato"],
-        dados["status"],
-        dados["observacoes"],
-        id
-    ))
-
-    conexao.commit()
-
-    cursor.close()
-    conexao.close()
-
-    return {"mensagem": "Contrato atualizado com sucesso ;D"}
-
-
-@app.route("/contratos/<int:id>", methods=["DELETE"])
-def deletar_contrato(id):
-    conexao = conectar_banco()
-    cursor = conexao.cursor()
+    cursor = conexao.cursor(dictionary=True)
 
     cursor.execute(
-        "DELETE FROM contratos WHERE id_contrato = %s",
+        "SELECT * FROM contratos WHERE id_contrato = %s",
         (id,)
     )
 
+    contrato = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not contrato:
+
+        return {"erro": "Contrato não encontrado"}, 404
+    return contrato, 200
+
+
+
+@app.route("/contratos/<int:id>/aprovar", methods=["PUT"])
+def aprovar_contrato(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM contratos WHERE id_contrato = %s",
+        (id,)
+    )
+
+    contrato = cursor.fetchone()
+
+    
+    if not contrato:
+
+        cursor.close()
+        conexao.close()
+
+        return {"erro": "Contrato não encontrado"}, 404
+
+    if contrato["status"] != "aguardando_aprovacao":
+
+        cursor.close()
+        conexao.close()
+
+        return {
+            "erro": "Contrato já foi processado"
+        }, 400
+
+    cursor.execute("""
+        UPDATE contratos
+        SET status = 'aprovado'
+        WHERE id_contrato = %s
+    """, (id,))
+
+    if contrato["id_venda"]:
+
+        cursor.execute("""
+            UPDATE vendas
+            SET status = 'concluida'
+            WHERE id_venda = %s
+        """, (contrato["id_venda"],))
+
+        cursor.execute("""
+            SELECT id_imovel
+            FROM vendas
+            WHERE id_venda = %s
+        """, (contrato["id_venda"],))
+
+        venda = cursor.fetchone()
+
+        cursor.execute("""
+            UPDATE imoveis
+            SET status = 'vendido'
+            WHERE id_imovel = %s
+        """, (venda["id_imovel"],))
+
+    elif contrato["id_locacao"]:
+
+        cursor.execute("""
+            UPDATE locacoes
+            SET status = 'concluida'
+            WHERE id_locacao = %s
+        """, (contrato["id_locacao"],))
+
+        cursor.execute("""
+            SELECT id_imovel
+            FROM locacoes
+            WHERE id_locacao = %s
+        """, (contrato["id_locacao"],))
+
+        locacao = cursor.fetchone()
+
+        cursor.execute("""
+            UPDATE imoveis
+            SET status = 'alugado'
+            WHERE id_imovel = %s
+        """, (locacao["id_imovel"],))
+
     conexao.commit()
 
     cursor.close()
     conexao.close()
 
-    return {"mensagem": "Contrato removido com sucesso ;D"}
+    return {"mensagem": "Contrato aprovado"}
+
+@app.route("/contratos/<int:id>/rejeitar", methods=["PUT"])
+def rejeitar_contrato(id):
+
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM contratos WHERE id_contrato = %s",
+        (id,)
+    )
+
+    contrato = cursor.fetchone()
+
+    if not contrato:
+
+        cursor.close()
+        conexao.close()
+
+        return {"erro": "Contrato não encontrado"}, 404
+
+
+    if contrato["status"] != "aguardando_aprovacao":
+
+        cursor.close()
+        conexao.close()
+
+        return {
+            "erro": "Contrato já foi processado"
+        }, 400
+
+    cursor.execute("""
+        UPDATE contratos
+        SET status = 'rejeitado'
+        WHERE id_contrato = %s
+    """, (id,))
+
+    if contrato["id_venda"]:
+
+        cursor.execute("""
+            UPDATE vendas
+            SET status = 'nao_aprovada'
+            WHERE id_venda = %s
+        """, (contrato["id_venda"],))
+
+    elif contrato["id_locacao"]:
+
+        cursor.execute("""
+            UPDATE locacoes
+            SET status = 'nao_aprovada'
+            WHERE id_locacao = %s
+        """, (contrato["id_locacao"],))
+
+    conexao.commit()
+
+    cursor.close()
+    conexao.close()
+
+    return {"mensagem": "Contrato rejeitado"}
+
 
 ###############################################################################################
 # CRUD IMAGENS IMOVEL #
@@ -1502,6 +1680,8 @@ def listar_imagens():
     conexao.close()
 
     return resultados
+
+
 
 @app.route("/imagens-imoveis/<int:id>", methods=["GET"])
 def buscar_imagem(id):
