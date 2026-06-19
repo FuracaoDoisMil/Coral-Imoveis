@@ -26,7 +26,7 @@ function Proprietarios(){
     return(
         <div>
             <h1>Gerenciar Proprietarios 🤝</h1>
-            <div className="caixinhas_aba_proprietarios">
+            <div className="caixinhas_aba_funcionalidades">
                 <Link to = "/proprietarios/mostrar-proprietarios" className ="caixinha">
                     <h3>Mostrar Proprietarios</h3>
                 
