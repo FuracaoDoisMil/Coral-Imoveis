@@ -330,7 +330,7 @@ function MostrarFuncionarios(){
 
                                             <button
                                                 onClick={() =>
-                                                    navigate(`/funcionarios/atualizar-funcionarios/${funcionario.id_funcionario}`)
+                                                    navigate(`/admin/funcionarios/atualizar-funcionarios/${funcionario.id_funcionario}`)
                                                 }
                                             >
                                                 Editar
@@ -338,7 +338,7 @@ function MostrarFuncionarios(){
 
                                             <button
                                                 onClick={() =>
-                                                    navigate(`/funcionarios/deletar-funcionarios/${funcionario.id_funcionario}`)
+                                                    navigate(`/admin/funcionarios/deletar-funcionarios/${funcionario.id_funcionario}`)
                                                 }
                                             >
                                                 Deletar
