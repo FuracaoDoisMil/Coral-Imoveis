@@ -58,7 +58,7 @@ function DeletarLocacoes(){
 
             alert("Locação deletada!")
 
-            navigate("/locacoes/mostrar-locacoes")
+            navigate("/admin/locacoes/mostrar-locacoes")
 
         })
 
@@ -107,7 +107,7 @@ function DeletarLocacoes(){
 
                 <button
                     className="btn-cancelar"
-                    onClick={() => navigate("/locacoes/mostrar-locacoes")}
+                    onClick={() => navigate("/admin/locacoes/mostrar-locacoes")}
                 >
                     Cancelar
                 </button>
