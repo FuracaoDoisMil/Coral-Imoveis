@@ -56,7 +56,7 @@ function DeletarVendas(){
 
             alert("Venda deletada!")
 
-            navigate("/vendas/mostrar-vendas")
+            navigate("/admin/vendas/mostrar-vendas")
 
         })
 
@@ -105,7 +105,7 @@ function DeletarVendas(){
 
                 <button
                     className="btn-cancelar"
-                    onClick={() => navigate("/locacoes/mostrar-locacoes")}
+                    onClick={() => navigate("/admin/locacoes/mostrar-locacoes")}
                 >
                     Cancelar
                 </button>
