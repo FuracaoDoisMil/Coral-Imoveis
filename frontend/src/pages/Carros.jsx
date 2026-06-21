@@ -26,11 +26,11 @@ function Carros(){
         <div>
             <h1>Gerenciar Carros 🏎️</h1>
             <div className="caixinhas_aba_funcionalidades">
-                <Link to="/carros/mostrar-carros" className="caixinha">
+                <Link to="mostrar-carros" className="caixinha">
                     <h3>Mostrar Carros</h3>
                 </Link>
 
-                <Link to="/carros/cadastrar-carros" className="caixinha">
+                <Link to="cadastrar-carros" className="caixinha">
                     <h3>Cadastrar carros</h3>
                 </Link>
             </div>
