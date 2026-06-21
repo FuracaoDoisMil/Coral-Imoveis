@@ -58,7 +58,7 @@ function DeletarVisitas(){
 
             alert("Visita deletada com sucesso!")
 
-            navigate("/visitas/mostrar-visitas")
+            navigate("/admin/visitas/mostrar-visitas")
 
         })
 
@@ -128,7 +128,7 @@ function DeletarVisitas(){
 
                 <button
                     className="btn-cancelar"
-                    onClick={() => navigate("/visitas/mostrar-visitas")}
+                    onClick={() => navigate("/admin/visitas/mostrar-visitas")}
                 >
                     Cancelar
                 </button>
