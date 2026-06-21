@@ -142,7 +142,7 @@ function MostrarVendas(){
 
                                             <button
                                                 onClick={() =>
-                                                    navigate(`/vendas/atualizar-vendas/${venda.id_venda}`)
+                                                    navigate(`/admin/vendas/atualizar-vendas/${venda.id_venda}`)
                                                 }
                                             >
                                                 Editar
@@ -150,7 +150,7 @@ function MostrarVendas(){
 
                                             <button
                                                 onClick={() =>
-                                                    navigate(`/vendas/deletar-vendas/${venda.id_venda}`)
+                                                    navigate(`/admin/vendas/deletar-vendas/${venda.id_venda}`)
                                                 }
                                             >
                                                 Deletar
