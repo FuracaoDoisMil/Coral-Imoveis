@@ -163,7 +163,7 @@ function CadastrarImoveis(){
 
             alert("Imóvel cadastrado com sucesso! :D")
 
-            navigate("/imoveis/mostrar-imoveis")
+            navigate("/admin/imoveis/mostrar-imoveis")
 
             
 
@@ -388,7 +388,7 @@ function CadastrarImoveis(){
 
             <button
                 className="botao-cancelar"
-                onClick={() => navigate("/imoveis/mostrar-imoveis")}
+                onClick={() => navigate("/admin/imoveis/mostrar-imoveis")}
             >
                 Cancelar
             </button>
