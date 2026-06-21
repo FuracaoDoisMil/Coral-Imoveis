@@ -63,7 +63,7 @@ function AtualizarVendas(){
 
             alert("Venda atualizada!")
 
-            navigate("/vendas/mostrar-vendas")
+            navigate("/admin/vendas/mostrar-vendas")
 
         })
 
