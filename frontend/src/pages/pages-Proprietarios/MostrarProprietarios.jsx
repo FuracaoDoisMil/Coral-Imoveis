@@ -183,10 +183,10 @@ function MostrarProprietarios(){
                                     </td>
                                     <td>{proprietarios.situacao}</td>
                                     <td>
-                                        <button onClick={() => navigate(`/proprietarios/atualizar-proprietarios/${proprietarios.id_proprietario}`)}>
+                                        <button onClick={() => navigate(`/admin/proprietarios/atualizar-proprietarios/${proprietarios.id_proprietario}`)}>
                                             Editar
                                         </button>
-                                        <button onClick={() => navigate(`/proprietarios/deletar-proprietarios/${proprietarios.id_proprietario}`)}>
+                                        <button onClick={() => navigate(`/admin/proprietarios/deletar-proprietarios/${proprietarios.id_proprietario}`)}>
                                             Deletar
                                         </button>
                                     </td>
