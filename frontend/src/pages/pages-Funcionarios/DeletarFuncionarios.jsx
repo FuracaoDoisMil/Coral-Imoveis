@@ -69,7 +69,7 @@ function DeletarFuncionarios(){
 
             alert("Funcionário deletado com sucesso!")
 
-            navigate("/funcionarios/mostrar-funcionarios")
+            navigate("/admin/funcionarios/mostrar-funcionarios")
 
         })
 
@@ -164,7 +164,7 @@ return(
                 Confirmar Exclusão
             </button>
 
-            <button className="btn-cancelar" onClick={() => navigate("/funcionarios/mostrar-funcionarios")}>
+            <button className="btn-cancelar" onClick={() => navigate("/admin/funcionarios/mostrar-funcionarios")}>
                 Cancelar
             </button>
 
