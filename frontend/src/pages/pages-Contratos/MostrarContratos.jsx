@@ -3,159 +3,151 @@ import { useNavigate } from "react-router-dom"
 
 function MostrarContratos(){
 
+    const navigate = useNavigate()
 
-const navigate = useNavigate()
+    const [contratos, setContratos] = useState([])
+    const [funcionarios, setFuncionarios] = useState([])
+    const [pesquisa, setPesquisa] = useState("")
+    const [filtro, setFiltro] = useState("id")
 
-const [contratos, setContratos] = useState([])
+    useEffect(() => {
 
-const [pesquisa, setPesquisa] = useState("")
+        fetch("http://localhost:5000/contratos")
+            .then(resposta => resposta.json())
+            .then(dados => {
+                console.log(dados)
+                setContratos(dados)
+            })
+            .catch(erro => {
+                console.log("ERRO:", erro)
+            })
 
-const [filtro, setFiltro] = useState("id")
+        fetch("http://localhost:5000/funcionarios")
+            .then(resposta => resposta.json())
+            .then(dados => {
+                console.log(dados)
+                setFuncionarios(dados)
+            })
+            .catch(erro => {
+                console.log("ERRO:", erro)
+            })
 
-useEffect(() => {
+    }, [])
 
-    fetch("http://localhost:5000/contratos")
+    return(
 
-        .then(resposta => resposta.json())
+        <div>
 
-        .then(dados => {
+            <h1>Contratos</h1>
 
-            console.log(dados)
+            <div className="filtro-container">
 
-            setContratos(dados)
+                <select
+                    value={filtro}
+                    onChange={(e) => setFiltro(e.target.value)}
+                >
+                    <option value="id">ID Contrato</option>
+                    <option value="nome">Nome Funcionário</option>
+                    <option value="tipo">Tipo</option>
+                    <option value="status">Status</option>
+                </select>
 
-        })
+                <input
+                    type="text"
+                    placeholder="Pesquisar..."
+                    value={pesquisa}
+                    onChange={(e) => setPesquisa(e.target.value)}
+                />
 
-        .catch(erro => {
+            </div>
 
-            console.log("ERRO:", erro)
+            <div className="tabela-container">
 
-        })
+                <table>
 
-}, [])
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tipo</th>
+                            <th>Status</th>
+                            <th>Nome Funcionário</th>
+                            <th>ID Venda</th>
+                            <th>ID Locação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
 
-return(
+                    <tbody>
 
-    <div>
+                        {contratos && contratos
+                            .filter(contrato => {
 
-        <h1>Contratos</h1>
+                                if (filtro === "id") {
+                                    return contrato.id_contrato
+                                        ?.toString()
+                                        .includes(pesquisa)
+                                }
 
-        <div className="filtro-container">
+                                if (filtro === "tipo") {
+                                    return contrato.tipo_contrato
+                                        ?.toLowerCase()
+                                        .includes(pesquisa.toLowerCase())
+                                }
 
-            <select
-                value={filtro}
-                onChange={(e) => setFiltro(e.target.value)}
-            >
+                                if (filtro === "status") {
+                                    return contrato.status
+                                        ?.toLowerCase()
+                                        .includes(pesquisa.toLowerCase())
+                                }
 
-                <option value="id">ID</option>
-                <option value="tipo">Tipo</option>
-                <option value="status">Status</option>
+                                if (filtro === "nome") {
+                                    const funcionario = funcionarios.find(
+                                        f => f.id_funcionario === contrato.id_funcionario
+                                    )
+                                    return `${funcionario?.nome} ${funcionario?.sobrenome}`
+                                        ?.toLowerCase()
+                                        .includes(pesquisa.toLowerCase())
+                                }
 
-            </select>
+                            })
+                            .map(contrato => {
 
-            <input
-                type="text"
-                placeholder="Pesquisar..."
-                value={pesquisa}
-                onChange={(e) => setPesquisa(e.target.value)}
-            />
+                                const funcionario = funcionarios.find(
+                                    f => f.id_funcionario === contrato.id_funcionario
+                                )
 
-        </div>
+                                return (
+                                    <tr key={contrato.id_contrato}>
+                                        <td>{contrato.id_contrato}</td>
+                                        <td>{contrato.tipo_contrato}</td>
+                                        <td>{contrato.status}</td>
+                                        <td>{funcionario ? `${funcionario.nome} ${funcionario.sobrenome}` : "-"}</td>
+                                        <td>{contrato.id_venda ?? "-"}</td>
+                                        <td>{contrato.id_locacao ?? "-"}</td>
+                                        <td>
+                                            <button
+                                                onClick={() =>
+                                                    navigate(`/admin/contratos/detalhes-contratos/${contrato.id_contrato}`)
+                                                }
+                                            >
+                                                Detalhes
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
 
-        <div className="tabela-container">
+                            })
+                        }
 
-            <table>
+                    </tbody>
 
-                <thead>
+                </table>
 
-                    <tr>
-
-                        <th>ID</th>
-                        <th>Tipo</th>
-                        <th>Status</th>
-                        <th>ID Funcionário</th>
-                        <th>ID Venda</th>
-                        <th>ID Locação</th>
-                        <th>Ações</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {contratos
-
-                        .filter(contrato => {
-
-                            if(filtro === "id"){
-
-                                return contrato.id_contrato
-                                    ?.toString()
-                                    .includes(pesquisa)
-
-                            }
-
-                            if(filtro === "tipo"){
-
-                                return contrato.tipo_contrato
-                                    ?.toLowerCase()
-                                    .includes(pesquisa.toLowerCase())
-
-                            }
-
-                            if(filtro === "status"){
-
-                                return contrato.status
-                                    ?.toLowerCase()
-                                    .includes(pesquisa.toLowerCase())
-
-                            }
-
-                        })
-
-                        .map(contrato => (
-
-                            <tr key={contrato.id_contrato}>
-
-                                <td>{contrato.id_contrato}</td>
-
-                                <td>{contrato.tipo_contrato}</td>
-
-                                <td>{contrato.status}</td>
-
-                                <td>{contrato.id_funcionario}</td>
-
-                                <td>{contrato.id_venda ?? "-"}</td>
-
-                                <td>{contrato.id_locacao ?? "-"}</td>
-
-                                <td>
-
-                                    <button
-                                        onClick={() =>
-                                            navigate(`/contratos/detalhes-contratos/${contrato.id_contrato}`)
-                                        }
-                                    >
-                                        Detalhes
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        ))}
-
-                </tbody>
-
-            </table>
+            </div>
 
         </div>
 
-    </div>
-
-)
-
+    )
 
 }
 
