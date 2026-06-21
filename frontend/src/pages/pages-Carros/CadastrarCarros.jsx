@@ -104,7 +104,7 @@ function CadastrarCarros(){
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/carros/mostrar-carros")}
+                onClick={() => navigate("/admin/carros/mostrar-carros")}
             >
                 Cancelar
             </button>
