@@ -27,12 +27,12 @@ function Proprietarios(){
         <div>
             <h1>Gerenciar Proprietarios 🤝</h1>
             <div className="caixinhas_aba_funcionalidades">
-                <Link to = "/proprietarios/mostrar-proprietarios" className ="caixinha">
+                <Link to = "mostrar-proprietarios" className ="caixinha">
                     <h3>Mostrar Proprietarios</h3>
                 
                 </Link>
 
-                <Link to="/proprietarios/cadastrar-proprietarios" className="caixinha">
+                <Link to="cadastrar-proprietarios" className="caixinha">
 
                     <h3>Cadastrar Proprietarios</h3>
 
