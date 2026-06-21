@@ -53,7 +53,7 @@ function CadastrarLocacoes(){
 
             alert("Locação cadastrada!")
 
-            navigate("/locacoes/mostrar-locacoes")
+            navigate("/admin/locacoes/mostrar-locacoes")
 
         })
 
