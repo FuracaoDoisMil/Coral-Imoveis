@@ -76,7 +76,7 @@ function AtualizarCarros(){
 
             alert("Carro atualizado com sucesso! :D")
 
-            navigate("/carros/mostrar-carros")
+            navigate("/admin/carros/mostrar-carros")
 
         })
 
@@ -153,7 +153,7 @@ function AtualizarCarros(){
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/carros/mostrar-carros")}
+                onClick={() => navigate("/admin/carros/mostrar-carros")}
             >
                 Cancelar
             </button>
