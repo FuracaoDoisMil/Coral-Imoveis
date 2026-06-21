@@ -1,183 +1,178 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
 
-function MostrarClientes(){
+import { useNavigate, useParams } from "react-router-dom"
 
-    const [clientes, setClientes] = useState([])
+function DeletarClientes(){
 
-    const [telefone, setTelefone] = useState([])
-
-    const [pesquisa, setPesquisa] = useState("")
-
-    const [filtro, setFiltro] = useState("nome")
+    const { id } = useParams()
 
     const navigate = useNavigate()
 
+    const [cliente, setClientes] = useState(null)
+
+    const [telefone, setTelefone] = useState("")
+
     useEffect(() => {
 
-        fetch(`http://localhost:5000/clientes`)
+        fetch(`http://localhost:5000/clientes/${id}`)
+
             .then(resposta => resposta.json())
 
             .then(dados => {
+
                 console.log(dados)
+
                 setClientes(dados)
+
+                return fetch(`http://localhost:5000/telefones/clientes/${id}`)
+
             })
 
-            .catch(erro => console.log("ERRO:", erro))
+            .then(resposta => {
 
-        fetch(`http://localhost:5000/telefones`) 
-            .then(resposta => resposta.json())
+                if(!resposta.ok){
+
+                    return null
+
+                }
+
+                return resposta.json()
+
+            })
 
             .then(dados => {
-                console.log(dados)
-                setTelefone(dados)  
+
+                if(dados){
+
+                    const telefoneFormatado = dados.numero
+                        .replace(/^(\d{2})(\d)/g, "($1) $2")
+                        .replace(/(\d{5})(\d)/, "$1-$2")
+
+                    setTelefone(telefoneFormatado)
+
+                }
+
             })
 
-            .catch(erro => console.log("ERRO:", erro))
+            .catch(erro => {
 
-    }, [])
+                console.log("ERRO:", erro)
+
+            })
+
+    }, [id])
+
+
+    function deletarClientes(){
+
+        const confirmar = window.confirm(
+            "Tem certeza que deseja deletar este cliente?"
+        )
+
+        if(!confirmar){
+
+            return
+
+        }
+
+        fetch(`http://localhost:5000/clientes/${id}`, {
+
+            method: "DELETE"
+
+        })
+
+        .then(resposta => resposta.json())
+
+        .then(dados => {
+
+            console.log(dados)
+
+            alert("Cliente deletado com sucesso! :D")
+
+            navigate("/admin/clientes/mostrar-clientes")
+
+        })
+
+        .catch(erro => {
+
+            console.log("ERRO:", erro)
+
+        })
+
+    }
+
+    if(!cliente){
+
+        return <h2>Carregando...</h2>
+
+    }
 
     return(
+
         <div>
-            <h1>Clientes</h1>
 
-            <div className="filtro-container">
-                <select value={filtro} onChange={(e) => setFiltro(e.target.value)}>
+            <h1>Deletar Cliente</h1>
 
-                    <option value="id">ID</option>
+            <div className="card-deletar">
 
-                    <option value="nome">Nome</option>
+                <p>
+                    <strong>ID:</strong> {cliente.id_cliente}
+                </p>
 
-                    <option value="sobrenome">Sobrenome</option>
+                <p>
+                    <strong>Nome:</strong> {cliente.nome}
+                </p>
 
-                    <option value="sexo">Sexo</option>
+                <p>
+                    <strong>Sobrenome:</strong> {cliente.sobrenome}
+                </p>
 
-                    <option value="cpf">CPF</option>
+                <p>
+                    <strong>Sexo:</strong> {cliente.sexo}
+                </p>
 
-                    <option value="dt_nascimento">Data de Nascimento</option>
+                <p>
+                    <strong>CPF:</strong> {cliente.CPF}
+                </p>
 
-                    <option value="telefone">Telefone</option>
+                <p>
+                    <strong>Data de Nascimento:</strong>{" "}
+                    {new Date(cliente.dt_nascimento)
+                        .toLocaleDateString("pt-BR")}
+                </p>
 
-                    <option value="sem_telefone">Sem Telefone</option>
+                <p>
+                    <strong>E-mail:</strong> {cliente.email}
+                </p>
 
-                    <option value="email">E-mail</option>
+                <p>
+                    <strong>Telefone:</strong> {telefone || "Sem telefone"}
+                </p>
 
-                    <option value="situacao">Situação</option>
-                    
-                </select>
+                <p>
+                    <strong>Situação:</strong> {cliente.situacao}
+                </p>
 
-                <input
-                    type="text"
-                    placeholder="Pesquisar cliente..."
-                    value={pesquisa}
-                    onChange={(e) => setPesquisa(e.target.value)}
-                />
+                <button
+                    className="btn-deletar"
+                    onClick={deletarClientes}
+                >
+                    Confirmar Exclusão
+                </button>
+
+                <button
+                    className="btn-cancelar"
+                    onClick={() => navigate("/admin/clientes/mostrar-clientes")}
+                >
+                    Cancelar
+                </button>
+
             </div>
 
-            <div className="tabela-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Sobrenome</th>
-                            <th>Sexo</th>
-                            <th>CPF</th>
-                            <th>Data de Nascimento</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>Situação</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {clientes
-                            .filter(cliente => {
-                                const telefoneCliente = telefone.find(
-                                    tel => tel.id_cliente === cliente.id_cliente
-                                )
-
-                                if(filtro === "id"){
-                                    return cliente.id_cliente
-                                    ?.toString()
-                                    .includes(pesquisa)
-                                }
-                                if(filtro === "nome"){
-                                    return cliente.nome
-                                    ?.toLowerCase()
-                                    .includes(pesquisa.toLowerCase())
-                                }
-                                if(filtro === "sobrenome"){
-                                    return cliente.sobrenome
-                                    ?.toLowerCase()
-                                    .includes(pesquisa.toLowerCase())
-                                }
-                                if(filtro === "sexo"){
-                                    return cliente.sexo
-                                    ?.toLowerCase()
-                                    .includes(pesquisa.toLowerCase())
-                                }
-                                if(filtro === "cpf"){
-                                    return cliente.CPF
-                                    ?.includes(pesquisa)
-                                }
-                                if(filtro === "dt_nascimento"){
-                                    return new Date(cliente.dt_nascimento)
-                                    .toLocaleDateString("pt-BR")
-                                    .includes(pesquisa)
-                                }
-                                if(filtro === "telefone"){
-                                    return telefoneCliente?.numero
-                                    ?.includes(pesquisa)
-                                }
-                                if(filtro === "sem_telefone"){
-                                    return telefoneCliente?.numero === null
-                                    ?.includes(pesquisa)
-                                }
-                                if(filtro === "email"){
-                                    return cliente.email
-                                    ?.toLowerCase()
-                                    .includes(pesquisa.toLowerCase())
-                                }
-                                if(filtro === "situacao"){
-                                    return cliente.situacao
-                                    ?.toLowerCase()
-                                    .includes(pesquisa.toLowerCase())
-                                }
-                            })
-                            .map(cliente => {
-                                const telefoneCliente = telefone.find(
-                                    tel => tel.id_cliente === cliente.id_cliente
-                                )
-
-                                return(
-                                    <tr key={cliente.id_cliente}>
-                                        <td>{cliente.id_cliente}</td>
-                                        <td>{cliente.nome}</td>
-                                        <td>{cliente.sobrenome}</td>
-                                        <td>{cliente.sexo}</td>
-                                        <td>{cliente.CPF}</td>
-                                        <td>{new Date(cliente.dt_nascimento).toLocaleDateString("pt-BR")}</td>
-                                        <td>{cliente.email}</td>
-                                        <td>{telefoneCliente ? telefoneCliente.numero : "Sem telefone"}</td>
-                                        <td>{cliente.situacao}</td>
-                                        <td>
-                                            <button onClick={() => navigate(`/clientes/atualizar-clientes/${cliente.id_cliente}`)}>
-                                                Editar
-                                            </button>
-                                            <button onClick={() => navigate(`/clientes/deletar-clientes/${cliente.id_cliente}`)}>
-                                                Deletar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                    </tbody>
-                </table>
-            </div>
         </div>
+
     )
+
 }
 
-export default MostrarClientes
+export default DeletarClientes
