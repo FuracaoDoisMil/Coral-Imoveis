@@ -26,11 +26,11 @@ function Clientes(){
         <div>
             <h1>Gerenciar Clientes 🤝</h1>
             <div className="caixinhas_aba_funcionalidades">
-                <Link to="/clientes/mostrar-clientes" className="caixinha">
+                <Link to="mostrar-clientes" className="caixinha">
                     <h3>Mostrar Clientes</h3>
                 </Link>
 
-                <Link to="/clientes/cadastrar-clientes" className="caixinha">
+                <Link to="cadastrar-clientes" className="caixinha">
                     <h3>Cadastrar Clientes</h3>
                 </Link>
             </div>
