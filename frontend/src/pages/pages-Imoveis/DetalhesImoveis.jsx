@@ -278,21 +278,21 @@ function DetalhesImoveis(){
 
                 <button
                     className="btn-atualizar"
-                    onClick={() => navigate(`/imoveis/atualizar-imoveis/${id}`)}
+                    onClick={() => navigate(`/admin/imoveis/atualizar-imoveis/${id}`)}
                 >
                     Atualizar Imóvel
                 </button>
 
                 <button
                     className="btn-deletar-detalhes"
-                    onClick={() => navigate(`/imoveis/deletar-imoveis/${id}`)}
+                    onClick={() => navigate(`/admin/imoveis/deletar-imoveis/${id}`)}
                 >
                     Deletar Imóvel
                 </button>
 
                 <button
                     className="btn-voltar"
-                    onClick={() => navigate(`/imoveis/mostrar-imoveis`)}
+                    onClick={() => navigate(`/admin/imoveis/mostrar-imoveis`)}
                 >
                     Voltar
                 </button>
