@@ -27,12 +27,12 @@ function Funcionarios(){
         <div>
             <h1>Gerenciar Funcionarios 👨‍💼👩‍💼</h1>
             <div className="caixinhas_aba_funcionalidades">
-                <Link to = "/funcionarios/mostrar-funcionarios" className ="caixinha">
+                <Link to = "mostrar-funcionarios" className ="caixinha">
                     <h3>Mostrar Funcionarios</h3>
                 
                 </Link>
 
-                <Link to="/funcionarios/cadastrar-funcionarios" className="caixinha">
+                <Link to="cadastrar-funcionarios" className="caixinha">
 
                     <h3>Cadastrar Funcionarios</h3>
 
