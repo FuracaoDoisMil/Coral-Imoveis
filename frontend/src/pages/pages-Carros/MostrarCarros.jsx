@@ -97,10 +97,10 @@ function MostrarCarros(){
                                         <td>{carro.placa_carro}</td>
                                         <td>{carro.situacao}</td>
                                         <td>
-                                            <button onClick={() => navigate(`/carros/atualizar-carros/${carro.id_carro}`)}>
+                                            <button onClick={() => navigate(`/admin/carros/atualizar-carros/${carro.id_carro}`)}>
                                                 Editar
                                             </button>
-                                            <button onClick={() => navigate(`/carros/deletar-carros/${carro.id_carro}`)}>
+                                            <button onClick={() => navigate(`/admin/carros/deletar-carros/${carro.id_carro}`)}>
                                                 Deletar
                                             </button>
                                         </td>
