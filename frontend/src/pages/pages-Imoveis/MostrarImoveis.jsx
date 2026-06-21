@@ -422,7 +422,7 @@ function MostrarImoveis(){
                                 <div className="acoes-imovel">
                                     
 
-                                    <button onClick={() => navigate(`/imoveis/detalhes-imoveis/${imovel.id_imovel}`)}>
+                                    <button onClick={() => navigate(`/admin/imoveis/detalhes-imoveis/${imovel.id_imovel}`)}>
                                         
                                         Mostrar Mais
 
