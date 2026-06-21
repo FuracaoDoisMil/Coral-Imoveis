@@ -179,7 +179,7 @@ function AtualizarClientes() {
 
             setSenha("")
 
-            navigate("/clientes/mostrar-clientes")
+            navigate("/admin/clientes/mostrar-clientes")
 
         })
 
@@ -315,7 +315,7 @@ function AtualizarClientes() {
 
             <button
                 className="btn-cancelar"
-                onClick={() => navigate("/clientes/mostrar-clientes")}
+                onClick={() => navigate("/admin/clientes/mostrar-clientes")}
             >
                 Cancelar
             </button>
