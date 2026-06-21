@@ -26,11 +26,11 @@ function Vendas(){
         <div>
             <h1>Gerenciar Visitas 🏢 </h1>
             <div className="caixinhas_aba_funcionalidades">
-                <Link to="/visitas/mostrar-visitas" className="caixinha">
+                <Link to="mostrar-visitas" className="caixinha">
                     <h3>Mostrar Visitas</h3>
                 </Link>
 
-                <Link to="/visitas/cadastrar-visitas" className="caixinha">
+                <Link to="cadastrar-visitas" className="caixinha">
                     <h3>Cadastrar Visitas</h3>
                 </Link>
 
