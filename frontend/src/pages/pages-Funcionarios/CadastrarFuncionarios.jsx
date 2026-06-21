@@ -299,7 +299,7 @@ function CadastrarFuncionarios(){
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/funcionarios/mostrar-funcionarios")}
+                onClick={() => navigate("/admin/funcionarios/mostrar-funcionarios")}
             >
                 Cancelar
             </button>
