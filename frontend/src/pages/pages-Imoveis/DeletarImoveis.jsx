@@ -78,7 +78,7 @@ function DeletarImoveis(){
 
             alert("Imóvel deletado com sucesso! :D")
 
-            navigate("/imoveis/mostrar-imoveis")
+            navigate("/admin/imoveis/mostrar-imoveis")
 
         })
 
@@ -208,7 +208,7 @@ function DeletarImoveis(){
 
                 <button
                     className="btn-cancelar"
-                    onClick={() => navigate("/imoveis/mostrar-imoveis")}
+                    onClick={() => navigate("/admin/imoveis/mostrar-imoveis")}
                 >
                     Cancelar
                 </button>
