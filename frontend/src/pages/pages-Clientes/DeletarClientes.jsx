@@ -89,7 +89,7 @@ function DeletarClientes(){
 
             alert("Cliente deletado com sucesso! :D")
 
-            navigate("/clientes/mostrar-clientes")
+            navigate("/admin/clientes/mostrar-clientes")
 
         })
 
@@ -162,7 +162,7 @@ function DeletarClientes(){
 
                 <button
                     className="btn-cancelar"
-                    onClick={() => navigate("/clientes/mostrar-clientes")}
+                    onClick={() => navigate("/admin/clientes/mostrar-clientes")}
                 >
                     Cancelar
                 </button>
