@@ -225,7 +225,7 @@ function CadastrarClientes(){
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/clientes/mostrar-clientes")}
+                onClick={() => navigate("/admin/clientes/mostrar-clientes")}
             >
                 Cancelar
             </button>
