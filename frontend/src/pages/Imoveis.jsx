@@ -26,11 +26,11 @@ function Imoveis(){
         <div>
             <h1>Gerenciar Imoveis 🏢</h1>
             <div className="caixinhas_aba_funcionalidades">
-                <Link to="/imoveis/mostrar-imoveis" className="caixinha">
+                <Link to="mostrar-imoveis" className="caixinha">
                     <h3>Mostrar Imoveis</h3>
                 </Link>
 
-                <Link to="/imoveis/cadastrar-imoveis" className="caixinha">
+                <Link to="cadastrar-imoveis" className="caixinha">
                     <h3>Cadastrar Imoveis</h3>
                 </Link>
             </div>
