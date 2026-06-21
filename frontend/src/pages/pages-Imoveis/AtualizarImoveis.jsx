@@ -221,7 +221,7 @@ function AtualizarImoveis(){
 
             alert("Imóvel atualizado com sucesso! :D")
 
-            navigate("/imoveis/mostrar-imoveis")
+            navigate("/admin/imoveis/mostrar-imoveis")
 
         }catch(erro){
 
@@ -463,7 +463,7 @@ function AtualizarImoveis(){
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/imoveis/mostrar-imoveis")}
+                onClick={() => navigate("/admin/imoveis/mostrar-imoveis")}
             >
                 Cancelar
             </button>
