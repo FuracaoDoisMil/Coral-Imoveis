@@ -26,7 +26,7 @@ function Locacoes(){
         <div>
             <h1>Gerenciar Locacoes 💸</h1>
             <div className="caixinhas_aba_funcionalidades">
-                <Link to="/locacoes/mostrar-locacoes" className="caixinha">
+                <Link to="mostrar-locacoes" className="caixinha">
                     <h3>Mostrar Locações</h3>
                 </Link>
             </div>
