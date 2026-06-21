@@ -51,7 +51,7 @@ function CadastrarVisitas(){
 
             alert("Visita cadastrada com sucesso!")
 
-            navigate("/visitas/mostrar-visitas")
+            navigate("/admin/visitas/mostrar-visitas")
 
         })
 
@@ -140,7 +140,7 @@ function CadastrarVisitas(){
             
             <button
                 className="btn-cancelar"
-                onClick={() => navigate("/visitas")}
+                onClick={() => navigate("/admin/visitas")}
             >
                 Cancelar
             </button>
