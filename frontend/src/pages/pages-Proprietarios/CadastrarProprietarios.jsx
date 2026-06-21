@@ -258,7 +258,7 @@ function CadastrarProprietarios(){
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/proprietarios/mostrar-proprietarios")}
+                onClick={() => navigate("/admin/proprietarios/mostrar-proprietarios")}
             >
                 Cancelar
             </button>
