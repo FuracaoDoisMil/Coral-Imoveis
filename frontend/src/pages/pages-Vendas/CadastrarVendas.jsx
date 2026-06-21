@@ -49,7 +49,7 @@ function CadastrarVendas(){
 
             alert("Venda cadastrada com sucesso! :D")
 
-            navigate("/vendas/mostrar-vendas")
+            navigate("/admin/vendas/mostrar-vendas")
 
         })
 
