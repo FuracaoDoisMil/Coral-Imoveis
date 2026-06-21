@@ -142,7 +142,7 @@ function MostrarLocacoes(){
 
                                             <button
                                                 onClick={() =>
-                                                    navigate(`/locacoes/atualizar-locacoes/${locacao.id_locacao}`)
+                                                    navigate(`/admin/locacoes/atualizar-locacoes/${locacao.id_locacao}`)
                                                 }
                                             >
                                                 Editar
@@ -150,7 +150,7 @@ function MostrarLocacoes(){
 
                                             <button
                                                 onClick={() =>
-                                                    navigate(`/locacoes/deletar-locacoes/${locacao.id_locacao}`)
+                                                    navigate(`/admin/locacoes/deletar-locacoes/${locacao.id_locacao}`)
                                                 }
                                             >
                                                 Deletar
