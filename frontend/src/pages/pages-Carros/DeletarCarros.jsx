@@ -62,7 +62,7 @@ function DeletarCarros(){
 
             alert("Carro deletado com sucesso! :D")
 
-            navigate("/carros/mostrar-carros")
+            navigate("/admin/carros/mostrar-carros")
 
         })
 
@@ -113,7 +113,7 @@ function DeletarCarros(){
 
                 <button
                     className="btn-cancelar"
-                    onClick={() => navigate("/carros/mostrar-carros")}
+                    onClick={() => navigate("/admin/carros/mostrar-carros")}
                 >
                     Cancelar
                 </button>
