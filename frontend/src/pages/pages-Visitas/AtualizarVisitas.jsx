@@ -84,7 +84,7 @@ function AtualizarVisitas(){
 
             alert("Visita atualizada com sucesso!")
 
-            navigate("/visitas/mostrar-visitas")
+            navigate("/admin/visitas/mostrar-visitas")
 
         })
 
@@ -168,7 +168,7 @@ function AtualizarVisitas(){
                 Atualizar
             </button>
 
-            <button className="btn-cancelar" onClick={() => navigate("/visitas/mostrar-visitas")}>
+            <button className="btn-cancelar" onClick={() => navigate("/admin/visitas/mostrar-visitas")}>
                 Cancelar
             </button>            
 
