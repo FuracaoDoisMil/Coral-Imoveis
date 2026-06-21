@@ -65,7 +65,7 @@ function AtualizarLocacoes(){
 
             alert("Locação atualizada!")
 
-            navigate("/locacoes/mostrar-locacoes")
+            navigate("/admin/locacoes/mostrar-locacoes")
 
         })
 
