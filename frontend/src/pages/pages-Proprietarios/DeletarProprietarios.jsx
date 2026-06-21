@@ -89,7 +89,7 @@ function DeletarProprietarios(){
 
             alert("Proprietario deletado com sucesso! :D")
 
-            navigate("/proprietarios/mostrar-proprietarios")
+            navigate("/admin/proprietarios/mostrar-proprietarios")
 
         })
 
@@ -166,7 +166,7 @@ function DeletarProprietarios(){
 
                 <button
                     className="btn-cancelar"
-                    onClick={() => navigate("/proprietarios/mostrar-proprietarios")}
+                    onClick={() => navigate("/admin/proprietarios/mostrar-proprietarios")}
                 >
                     Cancelar
                 </button>
