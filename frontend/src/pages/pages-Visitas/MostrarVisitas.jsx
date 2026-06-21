@@ -95,7 +95,7 @@ function MostrarVisitas(){
 
                                     <button
                                         onClick={() =>
-                                            navigate(`/visitas/atualizar-visitas/${visita.id_visita}`)
+                                            navigate(`/admin/visitas/atualizar-visitas/${visita.id_visita}`)
                                         }
                                     >
                                         Editar
@@ -103,7 +103,7 @@ function MostrarVisitas(){
 
                                     <button
                                         onClick={() =>
-                                            navigate(`/visitas/deletar-visitas/${visita.id_visita}`)
+                                            navigate(`/admin/visitas/deletar-visitas/${visita.id_visita}`)
                                         }
                                     >
                                         Deletar
