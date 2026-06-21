@@ -188,7 +188,7 @@ useEffect(() => {
 
             alert("Proprietário atualizado com sucesso! :D")
 
-            navigate("/proprietarios/mostrar-proprietarios")
+            navigate("/admin/proprietarios/mostrar-proprietarios")
 
         })
 
@@ -351,7 +351,7 @@ useEffect(() => {
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/proprietarios/mostrar-proprietarios")}
+                onClick={() => navigate("/admin/proprietarios/mostrar-proprietarios")}
             >
                 Cancelar
             </button>
