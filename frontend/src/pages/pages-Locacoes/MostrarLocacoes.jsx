@@ -142,14 +142,6 @@ function MostrarLocacoes(){
 
                                             <button
                                                 onClick={() =>
-                                                    navigate(`/admin/locacoes/atualizar-locacoes/${locacao.id_locacao}`)
-                                                }
-                                            >
-                                                Editar
-                                            </button>
-
-                                            <button
-                                                onClick={() =>
                                                     navigate(`/admin/locacoes/deletar-locacoes/${locacao.id_locacao}`)
                                                 }
                                             >
