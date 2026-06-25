@@ -151,6 +151,48 @@ function DetalhesContratos() {
 
     }, [id])
 
+    async function aprovarContrato() {
+
+        try {
+
+            await fetch(
+                `http://localhost:5000/contratos/${id}/aprovar`,
+                { method: "PUT" }
+            )
+
+            setContrato(prev => ({ ...prev, status: "aprovado" }))
+
+            window.print()
+
+            navigate("/admin/contratos/mostrar-contratos")
+
+        } catch (erro) {
+
+            console.log("ERRO ao aprovar:", erro)
+
+        }
+
+    }
+
+    async function rejeitarContrato() {
+
+        try {
+
+            await fetch(
+                `http://localhost:5000/contratos/${id}/rejeitar`,
+                { method: "PUT" }
+            )
+
+            navigate("/admin/contratos/mostrar-contratos")
+
+        } catch (erro) {
+
+            console.log("ERRO ao rejeitar:", erro)
+
+        }
+
+    }
+
     if (
         !contrato ||
         !transacao ||
@@ -371,7 +413,7 @@ function DetalhesContratos() {
 
                 <div className="card-item">
                     <strong>Valor Locação</strong>
-                    <p>R$ {imovel.valor_locacao}</p>
+                    <p>R$ {imovel.valor_locacao || "-"}</p>
                 </div>
 
                 <div className="card-item">
@@ -415,12 +457,29 @@ function DetalhesContratos() {
                 <hr />
 
                 <p>
-                    Nome e assinatura do gerente
+                    Assinatura do gerente
                 </p>
 
             </div>
 
             <div className="acoes-detalhes">
+
+                {contrato.status === "aguardando_aprovacao" && (
+                    <>
+                        <button
+                            onClick={aprovarContrato}
+                            
+                        >
+                            ✅ Aprovar e Imprimir
+                        </button>
+
+                        <button
+                            onClick={rejeitarContrato}
+                        >
+                            ❌ Rejeitar
+                        </button>
+                    </>
+                )}
 
                 <button
                     onClick={() => window.print()}
