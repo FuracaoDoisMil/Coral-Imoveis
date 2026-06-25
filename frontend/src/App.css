@@ -852,7 +852,7 @@ input::placeholder{
 
     box-shadow: 0px 4px 20px rgba(0,0,0,0.2);
 
-    color: black;
+    color: black !important;
 
 }
 
@@ -928,6 +928,12 @@ input::placeholder{
 
     border-radius: 8px;
 
+    color: black !important;
+
+}
+
+.card-item p {
+    color: #333 !important;
 }
 
 .card-item strong {
@@ -942,6 +948,10 @@ input::placeholder{
 
     text-align: center;
 
+}
+
+.assinatura-gerente p {
+    color: black !important;
 }
 
 .assinatura-gerente hr {
@@ -996,22 +1006,6 @@ input::placeholder{
 
 }
 
-.acoes-detalhes button:first-child {
-
-    background-color: green;
-
-    color: white;
-
-}
-
-.acoes-detalhes button:last-child {
-
-    background-color: coral;
-
-    color: white;
-
-}
-
 @media print {
 
     body {
@@ -1046,4 +1040,51 @@ input::placeholder{
 
     }
 
+}
+
+
+.btn-admin{
+    position: fixed; /* 👈 fixa na tela */
+    top: 20px;
+    right: 30px;
+
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+
+    padding: 10px 16px;
+
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+
+    z-index: 999; /* fica acima de tudo */
+
+    transition: 0.3s;
+}
+
+.btn-admin:hover{
+    color: coral;
+    border-color: coral;
+    box-shadow: 0 0 10px rgba(255,127,80,0.5);
+}
+
+.telefone-imobiliaria {
+    position: fixed;
+    top: 22px;
+    left: 30px;
+    color: white;
+    font-size: 20px;
+    z-index: 999;
+}
+
+.frase {
+    position: fixed;
+    top: 50px;
+    left: 30px;
+    color: white;
+    font-size: 16px;
+    z-index: 999;
 }
