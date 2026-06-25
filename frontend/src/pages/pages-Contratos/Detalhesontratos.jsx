@@ -162,8 +162,6 @@ function DetalhesContratos() {
 
             setContrato(prev => ({ ...prev, status: "aprovado" }))
 
-            window.print()
-
             navigate("/admin/contratos/mostrar-contratos")
 
         } catch (erro) {
@@ -237,11 +235,6 @@ function DetalhesContratos() {
                             contrato.criado_em
                         ).toLocaleDateString()}
                     </p>
-                </div>
-
-                <div className="card-item">
-                    <strong>Observações</strong>
-                    <p>{contrato.observacoes || "Nenhuma"}</p>
                 </div>
 
             </div>
@@ -470,13 +463,13 @@ function DetalhesContratos() {
                             onClick={aprovarContrato}
                             
                         >
-                            ✅ Aprovar e Imprimir
+                            ✅ Aprovar Contrato
                         </button>
 
                         <button
                             onClick={rejeitarContrato}
                         >
-                            ❌ Rejeitar
+                            ❌ Rejeitar Contrato
                         </button>
                     </>
                 )}
