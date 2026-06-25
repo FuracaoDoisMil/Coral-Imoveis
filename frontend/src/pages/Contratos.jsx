@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-function Clientes(){
+function Contratos(){
     const [clientes, setClientes] = useState([])
     
     useEffect(() => {
@@ -24,17 +24,13 @@ function Clientes(){
 
     return(
         <div>
-            <h1>Gerenciar Clientes 🤝</h1>
+            <h1>Gerenciar Contratos</h1>
             <div className="caixinhas_aba_funcionalidades">
-                <Link to="mostrar-clientes" className="caixinha">
-                    <h3>Mostrar Clientes</h3>
-                </Link>
-
-                <Link to="cadastrar-clientes" className="caixinha">
-                    <h3>Cadastrar Clientes</h3>
+                <Link to="mostrar-contratos" className="caixinha">
+                    <h3>Mostrar Contratos</h3>
                 </Link>
             </div>
         </div>
     )
 }
-export default Clientes
+export default Contratos
