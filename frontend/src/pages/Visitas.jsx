@@ -29,12 +29,6 @@ function Vendas(){
                 <Link to="mostrar-visitas" className="caixinha">
                     <h3>Mostrar Visitas</h3>
                 </Link>
-
-                <Link to="cadastrar-visitas" className="caixinha">
-                    <h3>Cadastrar Visitas</h3>
-                </Link>
-
-
             </div>
         </div>
     )
