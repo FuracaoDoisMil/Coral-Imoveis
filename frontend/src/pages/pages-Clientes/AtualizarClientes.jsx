@@ -299,7 +299,7 @@ function AtualizarClientes() {
 
                 <input
                     type="password"
-                    placeholder="Nova senha (Ou senha atual, caso não queira trocar)"
+                    placeholder="Nova senha (Ou deixe em branco)"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                 />
