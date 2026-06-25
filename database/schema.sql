@@ -104,6 +104,8 @@ CREATE TABLE imoveis(
 
     FOREIGN KEY (id_funcionario)
     REFERENCES funcionarios(id_funcionario)
+
+    CHECK (valor_locacao IS NOT NULL OR valor_venda IS NOT NULL);
 );
 
 CREATE TABLE uso_do_carro(
