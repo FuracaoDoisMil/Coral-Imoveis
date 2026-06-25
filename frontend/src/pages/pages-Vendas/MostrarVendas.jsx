@@ -142,14 +142,6 @@ function MostrarVendas(){
 
                                             <button
                                                 onClick={() =>
-                                                    navigate(`/admin/vendas/atualizar-vendas/${venda.id_venda}`)
-                                                }
-                                            >
-                                                Editar
-                                            </button>
-
-                                            <button
-                                                onClick={() =>
                                                     navigate(`/admin/vendas/deletar-vendas/${venda.id_venda}`)
                                                 }
                                             >
