@@ -16,56 +16,40 @@ function DetalhesImoveis(){
 
         fetch(`http://localhost:5000/imoveis/${id}`)
             .then(resposta => resposta.json())
-
             .then(dados => {
                 console.log(dados)
-
                 setImovel(dados)
             })
-            
             .catch(erro => {
-            
                 console.log("ERRO:", erro)
-            
             })
 
         fetch("http://localhost:5000/funcionarios")
             .then(resposta => resposta.json())
-            
             .then(dados => {
-            
                 console.log(dados)
                 setFuncionarios(dados)
-            
             })
-            
             .catch(erro => {
                 console.log("ERRO:", erro)
             })
 
         fetch("http://localhost:5000/proprietarios")
             .then(resposta => resposta.json())
-
             .then(dados => {
-                
                 console.log(dados)
-                
                 setProprietarios(dados)
             })
             .catch(erro => {
-            
                 console.log("ERRO:", erro)
-            
             })
 
         fetch("http://localhost:5000/imagens-imovel")
             .then(resposta => resposta.json())
-            
             .then(dados => {
                 console.log(dados)
                 setImagens(dados)
             })
-            
             .catch(erro => {
                 console.log("ERRO:", erro)
             })
@@ -96,21 +80,20 @@ function DetalhesImoveis(){
         proprietario => proprietario.id_proprietario === imovel.id_proprietario
     )
 
-
-
     const miniaturas = imagens.filter(imagem => {
 
-    if(imagem.id_imovel !== Number(id)){
-        return false
-    }
+        if(imagem.id_imovel !== Number(id)){
+            return false
+        }
 
-    if(imagemSelecionada?.id_imagem === imagem.id_imagem){
-        return false
-    }
+        if(imagemSelecionada?.id_imagem === imagem.id_imagem){
+            return false
+        }
 
-    return true
+        return true
+    })
 
-})
+    const imovelDisponivel = imovel.status === "disponivel"
 
     return(
 
@@ -120,45 +103,41 @@ function DetalhesImoveis(){
                 {imovel.nome_imovel}
             </h1>
 
-        <div className="galeria">
+            <div className="galeria">
 
-            {imagemSelecionada && (
-
-                <img
-                    className="imagem-capa"
-                    src={`http://localhost:5000/${
-                        imagemSelecionada.caminho_imagem_capa ??
-                        imagemSelecionada.caminho_imagem
-                    }`}
-                    alt="Imagem Principal"
-                />
-
-            )}
-
-            <div className="galeria-secundaria">
-
-                {miniaturas.map(imagem => (
+                {imagemSelecionada && (
 
                     <img
-                        key={imagem.id_imagem}
-
-                        className="imagem-secundaria"
-
+                        className="imagem-capa"
                         src={`http://localhost:5000/${
-                            imagem.caminho_imagem_capa ??
-                            imagem.caminho_imagem
+                            imagemSelecionada.caminho_imagem_capa ??
+                            imagemSelecionada.caminho_imagem
                         }`}
-
-                        alt="Imagem do imóvel"
-
-                        onClick={() => setImagemSelecionada(imagem)}
+                        alt="Imagem Principal"
                     />
 
-                ))}
+                )}
+
+                <div className="galeria-secundaria">
+
+                    {miniaturas.map(imagem => (
+
+                        <img
+                            key={imagem.id_imagem}
+                            className="imagem-secundaria"
+                            src={`http://localhost:5000/${
+                                imagem.caminho_imagem_capa ??
+                                imagem.caminho_imagem
+                            }`}
+                            alt="Imagem do imóvel"
+                            onClick={() => setImagemSelecionada(imagem)}
+                        />
+
+                    ))}
+
+                </div>
 
             </div>
-
-        </div>
 
             <div className="info-imovel">
 
@@ -273,14 +252,39 @@ function DetalhesImoveis(){
                 </div>
 
             </div>
-            
+
             <div className="acoes-detalhes">
+
+                {imovelDisponivel && (
+                    <>
+                        <button
+                            className="btn-atualizar"
+                            onClick={() => navigate(`/admin/vendas/cadastrar-vendas/${id}`)}
+                        >
+                            Vender Imóvel
+                        </button>
+
+                        <button
+                            className="btn-atualizar"
+                            onClick={() => navigate(`/admin/locacoes/cadastrar-locacoes/${id}`)}
+                        >
+                            Alugar Imóvel
+                        </button>
+                    </>
+                )}
 
                 <button
                     className="btn-atualizar"
                     onClick={() => navigate(`/admin/imoveis/atualizar-imoveis/${id}`)}
                 >
                     Atualizar Imóvel
+                </button>
+
+                <button 
+                    className="btn-atualizar"
+                    onClick={()=> navigate(`/admin/visitas/cadastrar-visitas/${id}`)}
+                >
+                    Agendar Visita
                 </button>
 
                 <button
