@@ -43,12 +43,15 @@ function PaginaInicial() {
 
             {/* Navbar */}
             <nav className="navbar">
-                <span className="logo">Coral Imóveis</span>
+                <span className="logo">🪸 Coral Imóveis</span>
                 <div className="menu">
                     <Link to="/admin">
-                        <button>Sistema Administrativo</button>
+                        <button className="btn-admin">Sistema Administrativo</button>
                     </Link>
                 </div>
+                <span className="telefone-imobiliaria">
+                    📞 (44) 99999-9999</span>
+                    <p className="frase">Gostou de algum imovel? Ligue e agende uma visita!</p>
             </nav>
 
             {/* Conteúdo */}
