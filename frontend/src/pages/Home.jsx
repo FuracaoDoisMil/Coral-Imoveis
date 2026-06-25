@@ -32,13 +32,11 @@ import DeletarImoveis from "./pages-Imoveis/DeletarImoveis"
 import Vendas from "./Vendas"
 import MostrarVendas from "./pages-Vendas/MostrarVendas"
 import CadastrarVendas from "./pages-Vendas/CadastrarVendas"
-import AtualizarVendas from "./pages-Vendas/AtualizarVendas"
 import DeletarVendas from "./pages-Vendas/DeletarVendas"
 
 import Locacoes from "./Locacoes"
 import MostrarLocacoes from "./pages-Locacoes/MostrarLocacoes"
 import CadastrarLocacoes from "./pages-Locacoes/CadastrarLocacoes"
-import AtualizarLocacoes from "./pages-Locacoes/AtualizarLocacoes"
 import DeletarLocacoes from "./pages-Locacoes/DeletarLocacoes"
 
 
@@ -55,13 +53,13 @@ import MostrarCarros from "./pages-Carros/MostrarCarros"
 import CadastrarCarros from "./pages-Carros/CadastrarCarros"
 import AtualizarCarros from "./pages-Carros/AtualizarCarros"
 import DeletarCarros from "./pages-Carros/DeletarCarros"
-
+import AtualizarUsoCarro from "./pages-Carros/AtualizarUsoCarro"
+import CadastrarUsoCarro from "./pages-Carros/CadastrarUsoCarro"
 
 import Contratos from "./Contratos"
 import MostrarContratos from "./pages-Contratos/MostrarContratos"
 import DetalhesContratos from "./pages-Contratos/DetalhesContratos"
 import CadastrarContratos from "./pages-Contratos/CadastrarContratos"
-import AtualizarContratos from "./pages-Contratos/AtualizarContratos"
 import DeletarContratos from "./pages-Contratos/DeletarContratos"
 
 function Home() {
@@ -166,7 +164,6 @@ function Home() {
           <Route path="vendas" element={<Vendas />} />
           <Route path="vendas/mostrar-vendas" element={<MostrarVendas/>}></Route>
           <Route path="vendas/cadastrar-vendas/:id" element={<CadastrarVendas/>}></Route>
-          <Route path="vendas/atualizar-vendas/:id" element={<AtualizarVendas/>}></Route>
           <Route path="vendas/deletar-vendas/:id" element={<DeletarVendas/>}></Route>
 
 
@@ -174,13 +171,12 @@ function Home() {
           <Route path="locacoes" element={<Locacoes />} />
           <Route path="locacoes/mostrar-locacoes" element={<MostrarLocacoes/>}></Route>
           <Route path="locacoes/cadastrar-locacoes/:id" element={<CadastrarLocacoes/>}></Route>
-          <Route path="locacoes/atualizar-locacoes/:id" element={<AtualizarLocacoes/>}></Route>
           <Route path="locacoes/deletar-locacoes/:id" element={<DeletarLocacoes/>}></Route>
 
 
           <Route path="visitas" element={<Visitas />} />
           <Route path="visitas/mostrar-visitas" element={<MostrarVisitas/>}></Route>
-          <Route path="visitas/cadastrar-visitas/" element={<CadastrarVisitas/>}></Route>
+          <Route path="visitas/cadastrar-visitas/:id" element={<CadastrarVisitas/>}></Route>
           <Route path="visitas/atualizar-visitas/:id" element={<AtualizarVisitas/>}></Route>
           <Route path="visitas/deletar-visitas/:id" element={<DeletarVisitas/>}></Route>
 
@@ -191,12 +187,13 @@ function Home() {
           <Route path="carros/cadastrar-carros" element={<CadastrarCarros/>}></Route>
           <Route path="carros/atualizar-carros/:id" element={<AtualizarCarros/>}></Route>
           <Route path="carros/deletar-carros/:id" element={<DeletarCarros/>}></Route>
+          <Route path="carros/retorno-carro/:id" element={<AtualizarUsoCarro/>}></Route>
+          <Route path="carros/usar-carro/:id" element={<CadastrarUsoCarro/>}></Route>
 
           <Route path="contratos" element={<Contratos />} />
           <Route path="contratos/mostrar-contratos" element={<MostrarContratos/>}></Route>
           <Route path="contratos/detalhes-contratos/:id" element={<DetalhesContratos/>}></Route>
           <Route path="contratos/cadastrar-contratos" element={<CadastrarContratos/>}></Route>
-          <Route path="contratos/atualizar-contratos/:id" element={<AtualizarContratos/>}></Route>
           <Route path="contratos/deletar-contratos/:id" element={<DeletarContratos/>}></Route>
 
         </Routes>
