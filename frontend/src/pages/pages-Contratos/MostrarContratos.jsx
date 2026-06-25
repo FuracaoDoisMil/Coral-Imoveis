@@ -132,6 +132,13 @@ function MostrarContratos(){
                                             >
                                                 Detalhes
                                             </button>
+
+                                            <button
+                                                onClick={()=> 
+                                                    navigate(`/admin/contratos/deletar-contratos/${contrato.id_contrato}`)}    
+                                            >
+                                                Deletar
+                                            </button>
                                         </td>
                                     </tr>
                                 )
