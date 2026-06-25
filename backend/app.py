@@ -117,13 +117,13 @@ def criar_imovel():
         dados["cidade"],
         dados["estado"],
         dados.get("status", "disponivel"),
-        dados.get("valor_locacao"),
-        dados.get("valor_venda"),
-        dados.get("quartos"),
-        dados.get("suites"),
-        dados.get("vagas_garagem"),
-        dados.get("area"),
-        dados.get("iptu"),
+        dados.get("valor_locacao")or None,
+        dados.get("valor_venda")or None,
+        dados.get("quartos")or None,
+        dados.get("suites")or None,
+        dados.get("vagas_garagem")or None,
+        dados.get("area")or None,
+        dados.get("iptu")or None,
         dados.get("observacoes")
     ))
 
@@ -176,13 +176,13 @@ def atualizar_imovel(id):
         dados["cidade"],
         dados["estado"],
         dados["status"],
-        dados.get("valor_locacao"),
-        dados.get("valor_venda"),
-        dados.get("quartos"),
-        dados.get("suites"),
-        dados.get("vagas_garagem"),
-        dados.get("area"),
-        dados.get("iptu"),
+        dados.get("valor_locacao") or None,
+        dados.get("valor_venda") or None,
+        dados.get("quartos")or None,
+        dados.get("suites")or None,
+        dados.get("vagas_garagem")or None,
+        dados.get("area")or None,
+        dados.get("iptu")or None,
         dados.get("observacoes"),
         id
     ))
@@ -537,9 +537,21 @@ def criar_carro():
 @app.route("/carros/<int:id>", methods=["PUT"])
 def atualizar_carro(id):
     conexao = conectar_banco()
-    cursor = conexao.cursor()
+    cursor = conexao.cursor(dictionary=True)
 
     dados = request.json
+
+    cursor.execute("SELECT * FROM carro WHERE id_carro = %s", (id,))
+    carro = cursor.fetchone()
+
+    if not carro:
+        cursor.close()
+        conexao.close()
+        return {"erro": "Carro não encontrado"}, 404
+
+    modelo = dados.get("modelo_carro") or carro["modelo_carro"]
+    placa = dados.get("placa_carro") or carro["placa_carro"]
+    situacao = dados.get("situacao") or carro["situacao"]
 
     cursor.execute("""
         UPDATE carro SET
@@ -547,12 +559,7 @@ def atualizar_carro(id):
             placa_carro = %s,
             situacao = %s
         WHERE id_carro = %s
-    """, (
-        dados["modelo_carro"],
-        dados["placa_carro"],
-        dados["situacao"],
-        id
-    ))
+    """, (modelo, placa, situacao, id))
 
     conexao.commit()
     cursor.close()
@@ -928,9 +935,14 @@ def criar_cliente():
 @app.route("/clientes/<int:id>", methods=["PUT"])
 def atualizar_cliente(id):
     conexao = conectar_banco()
-    cursor = conexao.cursor()
+    cursor = conexao.cursor(dictionary=True)
 
     dados = request.json
+
+    cursor.execute("SELECT senha FROM clientes WHERE id_cliente = %s", (id,))
+    cliente = cursor.fetchone()
+
+    senha = dados.get("senha") or cliente["senha"]
 
     cursor.execute("""
         UPDATE clientes SET
@@ -950,13 +962,12 @@ def atualizar_cliente(id):
         dados["CPF"],
         dados["dt_nascimento"],
         dados["email"],
-        dados["senha"],
+        senha,
         dados["situacao"],
         id
     ))
 
     conexao.commit()
-
     cursor.close()
     conexao.close()
 
@@ -1030,8 +1041,8 @@ def buscar_visita(id):
     return visita, 200
 
 
-@app.route("/visitas", methods=["POST"])
-def criar_visita():
+@app.route("/visitas/<int:id>", methods=["POST"])
+def criar_visita(id):
     conexao = conectar_banco()
     cursor = conexao.cursor()
 
@@ -1280,13 +1291,22 @@ def atualizar_venda(id):
 @app.route("/vendas/<int:id>", methods=["DELETE"])
 def deletar_venda(id):
     conexao = conectar_banco()
-    cursor = conexao.cursor()
+    cursor = conexao.cursor(dictionary=True)
 
-    cursor.execute(
-        "DELETE FROM vendas WHERE id_venda = %s",
-        (id,)
-    )
+    cursor.execute("SELECT status FROM vendas WHERE id_venda = %s", (id,))
+    venda = cursor.fetchone()
 
+    if not venda:
+        cursor.close()
+        conexao.close()
+        return {"erro": "Venda não encontrada"}, 404
+
+    if venda["status"] == "concluida":
+        cursor.close()
+        conexao.close()
+        return {"erro": "Não é possível deletar uma venda concluída"}, 400
+
+    cursor.execute("DELETE FROM vendas WHERE id_venda = %s", (id,))
     conexao.commit()
 
     cursor.close()
@@ -1458,16 +1478,26 @@ def atualizar_locacao(id):
 
     return {"mensagem": "Locação atualizada com sucesso ;D"}
 
+
 @app.route("/locacoes/<int:id>", methods=["DELETE"])
 def deletar_locacao(id):
     conexao = conectar_banco()
-    cursor = conexao.cursor()
+    cursor = conexao.cursor(dictionary=True)
 
-    cursor.execute(
-        "DELETE FROM locacoes WHERE id_locacao = %s",
-        (id,)
-    )
+    cursor.execute("SELECT status FROM locacoes WHERE id_locacao = %s", (id,))
+    locacao = cursor.fetchone()
 
+    if not locacao:
+        cursor.close()
+        conexao.close()
+        return {"erro": "Locação não encontrada"}, 404
+
+    if locacao["status"] == "concluida":
+        cursor.close()
+        conexao.close()
+        return {"erro": "Não é possível deletar uma locação concluída"}, 400
+
+    cursor.execute("DELETE FROM locacoes WHERE id_locacao = %s", (id,))
     conexao.commit()
 
     cursor.close()
@@ -1663,6 +1693,32 @@ def rejeitar_contrato(id):
 
     return {"mensagem": "Contrato rejeitado"}
 
+
+@app.route("/contratos/<int:id>", methods=["DELETE"])
+def deletar_contrato(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    cursor.execute("SELECT status FROM contratos WHERE id_contrato = %s", (id,))
+    contrato = cursor.fetchone()
+
+    if not contrato:
+        cursor.close()
+        conexao.close()
+        return {"erro": "Contrato não encontrado"}, 404
+
+    if contrato["status"] in ["aprovado", "rejeitado"]:
+        cursor.close()
+        conexao.close()
+        return {"erro": "Não é possível deletar um contrato aprovado ou rejeitado"}, 400
+
+    cursor.execute("DELETE FROM contratos WHERE id_contrato = %s", (id,))
+    conexao.commit()
+
+    cursor.close()
+    conexao.close()
+
+    return {"mensagem": "Contrato deletado com sucesso"}
 
 ###############################################################################################
 # CRUD IMAGENS IMOVEL #
