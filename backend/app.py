@@ -1922,6 +1922,37 @@ def deletar_imagem(id):
 
     return {"mensagem": "Imagem removida com sucesso ;D"}
 
+@app.route("/login", methods=["POST"])
+def login():
+    conexao = conectar_banco()
+    cursor = conexao.cursor(dictionary=True)
+
+    dados = request.json
+
+    cursor.execute("""
+        SELECT * FROM funcionarios
+        WHERE email = %s AND senha = %s
+    """, (
+        dados["email"],
+        dados["senha"]
+    ))
+
+    funcionario = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    if not funcionario:
+        return {"erro": "Email ou senha incorretos"}, 400
+
+    return {
+        "id_funcionario": funcionario["id_funcionario"],
+        "nome": funcionario["nome"],
+        "sobrenome": funcionario["sobrenome"],
+        "tipo_funcionario": funcionario["tipo_funcionario"],
+        "email": funcionario["email"]
+    }, 200
+
 
 @app.route("/uploads/<filename>")
 def uploaded_file(filename):
