@@ -2,6 +2,8 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import Admin from "./pages/Home"
 import VitrinDetalhesImoveis from "./pages/VitrineDetalhesImoveis"
+import Login from "./pages/Login"
+import RotaProtegida from "./components/RotaProtegida"
 
 function PaginaInicial() {
 
@@ -150,8 +152,13 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<PaginaInicial />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/imoveis/:id" element={<VitrinDetalhesImoveis />} />
-            <Route path="/admin/*" element={<Admin />} />
+            <Route path="/admin/*" element={
+                <RotaProtegida>
+                    <Admin />
+                </RotaProtegida>
+            } />
         </Routes>
     )
 }
