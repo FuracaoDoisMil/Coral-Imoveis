@@ -1921,7 +1921,9 @@ def deletar_imagem(id):
     conexao.close()
 
     return {"mensagem": "Imagem removida com sucesso ;D"}
-
+###############################################################################################
+# ROTA DE LOGIN #
+###############################################################################################
 @app.route("/login", methods=["POST"])
 def login():
     conexao = conectar_banco()
