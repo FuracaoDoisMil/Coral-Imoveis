@@ -1,62 +1,66 @@
-import { useState } from "react"
-
+import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 function CadastrarVendas(){
 
     const { id } = useParams()
-
     const navigate = useNavigate()
+
+    const [clientes, setClientes] = useState([])
+    const [funcionarios, setFuncionarios] = useState([])
 
     const [idCliente, setIdCliente] = useState("")
     const [idFuncionario, setIdFuncionario] = useState("")
     const [valorVenda, setValorVenda] = useState("")
     const [formaPagamento, setFormaPagamento] = useState("")
-    const [status, setStatus] = useState("aguardando_aprovacao")
     const [observacoes, setObservacoes] = useState("")
+
+    useEffect(() => {
+
+        fetch("http://localhost:5000/clientes")
+            .then(resposta => resposta.json())
+            .then(dados => setClientes(dados))
+            .catch(erro => console.log("ERRO:", erro))
+
+        fetch("http://localhost:5000/funcionarios")
+            .then(resposta => resposta.json())
+            .then(dados => setFuncionarios(dados))
+            .catch(erro => console.log("ERRO:", erro))
+
+        fetch(`http://localhost:5000/imoveis/${id}`)
+            .then(resposta => resposta.json())
+            .then(dados => setValorVenda(dados.valor_venda || ""))
+            .catch(erro => console.log("ERRO:", erro))
+
+    }, [])
 
     function cadastrarVenda(){
 
         fetch("http://localhost:5000/vendas", {
-
             method: "POST",
-
             headers: {
-
                 "Content-Type": "application/json"
-
             },
-
             body: JSON.stringify({
-
                 id_imovel: id,
                 id_cliente: idCliente,
                 id_funcionario: idFuncionario,
                 valor_venda: valorVenda,
                 forma_pagamento: formaPagamento,
-                status,
                 observacoes
-
             })
-
         })
 
         .then(resposta => resposta.json())
 
         .then(dados => {
-
             console.log(dados)
-
             alert("Venda cadastrada com sucesso! :D")
-
             navigate("/admin/vendas/mostrar-vendas")
-
         })
 
         .catch(erro => {
-
             console.log("ERRO:", erro)
-
         })
 
     }
@@ -69,19 +73,31 @@ function CadastrarVendas(){
 
             <div className="form-grid">
 
-                <input
-                    type="number"
-                    placeholder="ID Cliente"
+                <select
                     value={idCliente}
                     onChange={(e) => setIdCliente(e.target.value)}
-                />
+                >
+                    <option value="">Selecione o Cliente</option>
+                    {clientes.map(cliente => (
+                        <option key={cliente.id_cliente} value={cliente.id_cliente}>
+                            {cliente.nome} {cliente.sobrenome}
+                        </option>
+                    ))}
+                </select>
 
-                <input
-                    type="number"
-                    placeholder="ID Funcionário"
+                <select
                     value={idFuncionario}
                     onChange={(e) => setIdFuncionario(e.target.value)}
-                />
+                >
+                    <option value="">Selecione o Corretor</option>
+                {funcionarios
+                    .filter(funcionario => funcionario.tipo_funcionario === "Corretor")
+                    .map(funcionario => (
+                        <option key={funcionario.id_funcionario} value={funcionario.id_funcionario}>
+                            {funcionario.nome} {funcionario.sobrenome}
+                        </option>
+                    ))}
+                </select>
 
                 <input
                     type="number"
@@ -96,29 +112,6 @@ function CadastrarVendas(){
                     value={formaPagamento}
                     onChange={(e) => setFormaPagamento(e.target.value)}
                 />
-
-                <select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                >
-
-                    <option value="aguardando_aprovacao">
-                        aguardando_aprovacao
-                    </option>
-
-                    <option value="concluida">
-                        concluida
-                    </option>
-
-                    <option value="cancelada">
-                        cancelada
-                    </option>
-
-                    <option value="nao_aprovada">
-                        nao_aprovada
-                    </option>
-
-                </select>
 
                 <textarea
                     placeholder="Observações"
