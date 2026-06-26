@@ -290,16 +290,25 @@ function CadastrarFuncionarios(){
 
             </div>
 
-            <button
-                className="botao-cadastrar"
-                onClick={cadastrarfuncionarios}
-            >
-                Cadastrar
-            </button>
+            <td>
+                {(tipo === "Gerente") && (
+                    <>
+                        <button
+                            className="botao-cadastrar"
+                            onClick={cadastrarfuncionarios}
+                        >
+                            Cadastrar
+                        </button>   
+                    </>
+                )}
+
+            </td>
+
+
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/admin/funcionarios/mostrar-funcionarios")}
+                onClick={() => navigate("/admin/funcionarios")}
             >
                 Cancelar
             </button>
