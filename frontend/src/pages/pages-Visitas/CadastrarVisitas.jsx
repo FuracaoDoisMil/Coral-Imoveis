@@ -123,7 +123,7 @@ function CadastrarVisitas(){
 
             <button
                 className="btn-cancelar"
-                onClick={() => navigate("/admin/visitas/mostrar-visitas")}
+                onClick={() => navigate("/admin/visitas")}
             >
                 Cancelar
             </button>
