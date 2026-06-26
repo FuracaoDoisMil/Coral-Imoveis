@@ -54,7 +54,6 @@ import CadastrarUsoCarro from "./pages-Carros/CadastrarUsoCarro"
 import Contratos from "./Contratos"
 import MostrarContratos from "./pages-Contratos/MostrarContratos"
 import DetalhesContratos from "./pages-Contratos/DetalhesContratos"
-import CadastrarContratos from "./pages-Contratos/CadastrarContratos"
 import DeletarContratos from "./pages-Contratos/DeletarContratos"
 
 function Home() {
@@ -80,7 +79,7 @@ function Home() {
 
               <div className="caixinhas">
 
-                {/* Todos veem clientes e imóveis */}
+                
                 <Link to="clientes" className="caixinha">
                   <h3>Clientes</h3>
                   <p>Gerenciar clientes</p>
@@ -106,7 +105,7 @@ function Home() {
                   </>
                 )}
 
-                {/* Todos veem visitas e carros */}
+      
                 <Link to="visitas" className="caixinha">
                   <h3>Visitas</h3>
                   <p>Gerenciar visitas</p>
@@ -117,23 +116,19 @@ function Home() {
                   <p>Gerenciar carros</p>
                 </Link>
 
-                {/* Só Secretario e Gerente */}
-                {(tipo === "Secretario" || tipo === "Gerente") && (
-                  <>
-                    <Link to="proprietarios" className="caixinha">
-                      <h3>Proprietários</h3>
-                      <p>Gerenciar proprietários</p>
-                    </Link>
+                
+              
+                <Link to="proprietarios" className="caixinha">
+                  <h3>Proprietários</h3>
+                    <p>Gerenciar proprietários</p>
+                </Link>
 
-                    <Link to="funcionarios" className="caixinha">
-                      <h3>Funcionários</h3>
-                      <p>Gerenciar equipe</p>
-                    </Link>
-                  </>
-                )}
-
-                {/* Só Gerente */}
-                {tipo === "Gerente" && (
+                <Link to="funcionarios" className="caixinha">
+                  <h3>Funcionários</h3>
+                    <p>Gerenciar equipe</p>
+                </Link>
+                
+                {(tipo === "Gerente" || tipo === "Corretor") && (
                   <Link to="contratos" className="caixinha">
                     <h3>Contratos</h3>
                     <p>Gerenciar contratos</p>
@@ -198,7 +193,6 @@ function Home() {
           <Route path="contratos" element={<Contratos />} />
           <Route path="contratos/mostrar-contratos" element={<MostrarContratos />} />
           <Route path="contratos/detalhes-contratos/:id" element={<DetalhesContratos />} />
-          <Route path="contratos/cadastrar-contratos" element={<CadastrarContratos />} />
           <Route path="contratos/deletar-contratos/:id" element={<DeletarContratos />} />
 
         </Routes>
