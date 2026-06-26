@@ -25,7 +25,7 @@ function Vendas(){
     return(
         <div>
             <h1>Gerenciar Visitas 🏢 </h1>
-            <div className="caixinhas_aba_funcionalidades">
+            <div className="caixinha_aba_funcionalidade_unica">
                 <Link to="mostrar-visitas" className="caixinha">
                     <h3>Mostrar Visitas</h3>
                 </Link>
