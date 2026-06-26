@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 function CadastrarUsoCarro(){
-
     const { id } = useParams()
     const navigate = useNavigate()
 
@@ -111,13 +110,14 @@ function CadastrarUsoCarro(){
                 />
 
             </div>
-
+            
             <button
                 className="botao-cadastrar"
                 onClick={registrarSaida}
             >
                 Registrar Saída
             </button>
+                    
 
             <button
                 className="botao-cadastrar"
