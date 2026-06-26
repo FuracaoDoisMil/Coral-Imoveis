@@ -103,9 +103,9 @@ CREATE TABLE imoveis(
     REFERENCES proprietarios(id_proprietario),
 
     FOREIGN KEY (id_funcionario)
-    REFERENCES funcionarios(id_funcionario)
+    REFERENCES funcionarios(id_funcionario),
 
-    CHECK (valor_locacao IS NOT NULL OR valor_venda IS NOT NULL);
+    CHECK (valor_locacao IS NOT NULL OR valor_venda IS NOT NULL)
 );
 
 CREATE TABLE uso_do_carro(
@@ -259,201 +259,103 @@ CREATE TABLE imagens_imovel(
     )
 );
 
+-- =============================================================
+-- FUNCIONÁRIOS (1 Gerente, 1 Secretário, 3 Corretores)
+-- =============================================================
 
--- =========================
--- FUNCIONARIOS
--- =========================
+INSERT INTO funcionarios (tipo_funcionario, nome, sobrenome, sexo, CPF, dt_nascimento, email, senha, salario, situacao, CNH_numero, CNH_categoria, CNH_validade) VALUES
+('Gerente',    'Carlos',  'Souza',     'M', '111.111.111-11', '1980-05-10', 'carlos.gerente@coral.com',    '123456', 8000.00, 'ativo', '12345678900', 'B', '2028-01-01'),
+('Secretario', 'Ana',     'Lima',      'F', '222.222.222-22', '1995-03-22', 'ana.secretaria@coral.com',    '123456', 3500.00, 'ativo', NULL, NULL, NULL),
+('Corretor',   'Joao',    'Silva',     'M', '333.333.333-33', '1990-07-15', 'joao.corretor@coral.com',     '123456', 4500.00, 'ativo', '98765432100', 'B', '2027-06-01'),
+('Corretor',   'Mariana', 'Oliveira',  'F', '444.444.444-44', '1992-11-30', 'mariana.corretor@coral.com',  '123456', 4500.00, 'ativo', '11122233344', 'B', '2026-12-01'),
+('Corretor',   'Pedro',   'Fernandes', 'M', '555.555.555-55', '1988-04-05', 'pedro.corretor@coral.com',    '123456', 4500.00, 'ativo', '55566677788', 'B', '2027-03-01');
 
-INSERT INTO funcionarios
-(tipo_funcionario, nome, sobrenome, sexo, CPF, dt_nascimento, email, senha, salario, situacao, CNH_numero, CNH_categoria, CNH_validade)
-VALUES
-('Corretor', 'Joao', 'Silva', 'M', '111.111.111-11', '1990-05-10', 'joao@imob.com', '123', 3500.00, 'ativo', '123456789', 'B', '2030-01-01'),
-('Secretario', 'Maria', 'Oliveira', 'F', '222.222.222-22', '1992-03-15', 'maria@imob.com', '123', 2800.00, 'ativo', NULL, NULL, NULL),
-('Gerente', 'Carlos', 'Souza', 'M', '333.333.333-33', '1985-07-20', 'carlos@imob.com', '123', 8000.00, 'ativo', '987654321', 'B', '2029-05-10'),
-('Corretor', 'Ana', 'Pereira', 'F', '444.444.444-44', '1995-09-12', 'ana@imob.com', '123', 4000.00, 'ativo', '555555555', 'AB', '2031-03-15'),
-('Corretor', 'Lucas', 'Fernandes', 'M', '555.555.555-55', '1998-11-25', 'lucas@imob.com', '123', 3200.00, 'ativo', '666666666', 'B', '2028-06-20'),
-('Secretario', 'Juliana', 'Costa', 'F', '666.666.666-66', '1991-08-14', 'juliana@imob.com', '123', 2900.00, 'ativo', NULL, NULL, NULL),
-('Corretor', 'Pedro', 'Almeida', 'M', '777.777.777-77', '1989-04-30', 'pedro@imob.com', '123', 4100.00, 'ativo', '777777777', 'A', '2030-09-09'),
-('Gerente', 'Fernanda', 'Lima', 'F', '888.888.888-88', '1980-12-01', 'fernanda@imob.com', '123', 9500.00, 'ativo', '888888888', 'B', '2032-02-02'),
-('Corretor', 'Rafael', 'Mendes', 'M', '999.999.999-99', '1993-06-17', 'rafael@imob.com', '123', 3600.00, 'ativo', '999999999', 'AB', '2029-12-12'),
-('Secretario', 'Patricia', 'Rocha', 'F', '101.101.101-10', '1994-10-08', 'patricia@imob.com', '123', 3000.00, 'ativo', NULL, NULL, NULL);
+-- =============================================================
+-- PROPRIETÁRIOS
+-- =============================================================
 
+INSERT INTO proprietarios (nome, sobrenome, sexo, CPF, CNPJ, dt_nascimento, email, situacao) VALUES
+('Roberto',  'Alves',    'M', '666.666.666-66', NULL,                  '1975-08-20', 'roberto@email.com',  'ativo'),
+('Fernanda', 'Martins',  'F', '777.777.777-77', NULL,                  '1982-02-14', 'fernanda@email.com', 'ativo'),
+('Empresa',  'Imóveis',  'M', NULL,             '12.345.678/0001-99',  NULL,         'empresa@email.com',  'ativo');
 
--- =========================
+-- =============================================================
 -- CLIENTES
--- =========================
+-- =============================================================
 
-INSERT INTO clientes
-(nome, sobrenome, sexo, CPF, dt_nascimento, email, senha, situacao)
-VALUES
-('Bruno', 'Martins', 'M', '121.121.121-12', '1999-02-10', 'bruno@gmail.com', '123', 'ativo'),
+INSERT INTO clientes (nome, sobrenome, sexo, CPF, dt_nascimento, email, senha, situacao) VALUES
+('Lucas',    'Pereira',  'M', '888.888.888-88', '1998-06-12', 'lucas@email.com',    '123456', 'ativo'),
+('Beatriz',  'Costa',    'F', '999.999.999-99', '2000-09-25', 'beatriz@email.com',  '123456', 'ativo'),
+('Ricardo',  'Nunes',    'M', '101.010.101-01', '1985-01-30', 'ricardo@email.com',  '123456', 'ativo');
 
-('Camila', 'Dias', 'F', '131.131.131-13', '1997-04-11', 'camila@gmail.com', '123', 'ativo'),
+-- =============================================================
+-- IMÓVEIS (6 imóveis, todos com corretor como id_funcionario)
+-- =============================================================
 
-('Diego', 'Santos', 'M', '141.141.141-14', '1988-01-05', 'diego@gmail.com', '123', 'ativo'),
+INSERT INTO imoveis (id_proprietario, id_funcionario, nome_imovel, tipo, cep, endereco, numero, bairro, cidade, estado, status, valor_locacao, valor_venda, quartos, suites, vagas_garagem, area, iptu, observacoes) VALUES
+(1, 3, 'Casa Jardim das Flores',  'Casa',      '85660-000', 'Rua das Flores',    '100', 'Jardim',      'Dois Vizinhos', 'PR', 'disponivel', 1800.00,  350000.00, 3, 1, 2, 120.00, 1500.00, 'Casa ampla com quintal'),
+(1, 3, 'Casa Praia Paraíso',      'Casa',      '88000-000', 'Av. Beira Mar',     '200', 'Centro',      'Florianópolis', 'SC', 'disponivel', 3500.00,  750000.00, 4, 2, 2, 200.00, 3000.00, 'Casa de praia com vista para o mar'),
+(2, 4, 'Apartamento Centro',      'Apartamento','85660-100','Rua Central',       '300', 'Centro',      'Dois Vizinhos', 'PR', 'disponivel', 1200.00,  220000.00, 2, 1, 1,  70.00,  800.00, 'Apartamento bem localizado'),
+(2, 4, 'Prédio Comercial Norte',  'Comercial', '85660-200', 'Av. Brasil',        '400', 'Centro Norte','Dois Vizinhos', 'PR', 'disponivel', 5000.00, 1200000.00, NULL, NULL, 5, 500.00, 8000.00, 'Prédio comercial com 5 andares'),
+(3, 5, 'Barracão Industrial',     'Barracão',  '85660-300', 'Rua Industrial',    '500', 'Distrito',    'Dois Vizinhos', 'PR', 'disponivel', 4000.00,  900000.00, NULL, NULL, 10, 800.00, 6000.00, 'Barracão com pé direito alto'),
+(3, 5, 'Casa Bairro Novo',        'Casa',      '85660-400', 'Rua Nova',          '600', 'Bairro Novo', 'Dois Vizinhos', 'PR', 'disponivel', 1500.00,  280000.00, 3, 0, 1,  90.00, 1000.00, 'Casa nova com acabamento moderno');
 
-('Elaine', 'Ferreira', 'F', '151.151.151-15', '1990-09-22', 'elaine@gmail.com', '123', 'ativo'),
+-- =============================================================
+-- IMAGENS DOS IMÓVEIS
+-- (caminho_imagem_capa = capa | caminho_imagem = secundária)
+-- =============================================================
 
-('Fabio', 'Gomes', 'M', '161.161.161-16', '1992-03-19', 'fabio@gmail.com', '123', 'ativo'),
+-- Imóvel 1 - Casa Jardim das Flores
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem_capa) VALUES (1, 'uploads/casa1.jpg');
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem) VALUES (1, 'uploads/quarto1.jpeg');
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem) VALUES (1, 'uploads/banheiro1.jpeg');
 
-('Gabriela', 'Ribeiro', 'F', '171.171.171-17', '2000-07-01', 'gabriela@gmail.com', '123', 'ativo'),
+-- Imóvel 2 - Casa Praia Paraíso
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem_capa) VALUES (2, 'uploads/casa_praia1.jpeg');
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem) VALUES (2, 'uploads/comodo1.jpg');
 
-('Henrique', 'Alves', 'M', '181.181.181-18', '1996-08-08', 'henrique@gmail.com', '123', 'ativo'),
+-- Imóvel 3 - Apartamento Centro
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem_capa) VALUES (3, 'uploads/casa2.jpg');
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem) VALUES (3, 'uploads/quarto1.jpeg');
 
-('Isabela', 'Teixeira', 'F', '191.191.191-19', '1994-12-12', 'isabela@gmail.com', '123', 'ativo'),
+-- Imóvel 4 - Prédio Comercial Norte
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem_capa) VALUES (4, 'uploads/predio.jpg');
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem) VALUES (4, 'uploads/comodo1.jpg');
 
-('Jean', 'Barbosa', 'M', '202.202.202-20', '1987-06-25', 'jean@gmail.com', '123', 'ativo'),
+-- Imóvel 5 - Barracão Industrial
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem_capa) VALUES (5, 'uploads/barracao1.jpg');
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem) VALUES (5, 'uploads/barracao2.jpg');
 
-('Karen', 'Moreira', 'F', '212.212.212-21', '1998-05-30', 'karen@gmail.com', '123', 'ativo');
+-- Imóvel 6 - Casa Bairro Novo
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem_capa) VALUES (6, 'uploads/casa3.jpeg');
+INSERT INTO imagens_imovel (id_imovel, caminho_imagem) VALUES (6, 'uploads/banheiro1.jpeg');
 
+-- =============================================================
+-- VENDA (somente corretor como id_funcionario)
+-- =============================================================
 
--- =========================
--- PROPRIETARIOS
--- =========================
+INSERT INTO vendas (id_imovel, id_cliente, id_funcionario, valor_venda, forma_pagamento, observacoes) VALUES
+(1, 1, 3, 350000.00, 'Financiamento', 'Venda financiada pelo banco');
 
-INSERT INTO proprietarios
-(nome, sobrenome, sexo, CPF, CNPJ, dt_nascimento, email, situacao, senha)
-VALUES
-('Alberto', 'Moraes', 'M', '303.303.303-30', NULL, '1970-01-01', 'alberto@gmail.com', 'ativo', '123'),
-('Beatriz', 'Campos', 'F', '313.313.313-31', NULL, '1982-02-02', 'beatriz@gmail.com', 'ativo', '123'),
-('Construtora', 'Alpha', 'M', NULL, '11.111.111/0001-11', NULL, 'alpha@gmail.com', 'ativo', '123'),
-('Daniel', 'Cardoso', 'M', '323.323.323-32', NULL, '1975-03-03', 'daniel@gmail.com', 'ativo', '123'),
-('Empresa', 'Beta', 'M', NULL, '22.222.222/0001-22', NULL, 'beta@gmail.com', 'ativo', '123'),
-('Eduarda', 'Nunes', 'F', '333.333.333-34', NULL, '1988-04-04', 'eduarda@gmail.com', 'ativo', '123'),
-('Felipe', 'Rezende', 'M', '343.343.343-34', NULL, '1990-05-05', 'felipe@gmail.com', 'ativo', '123'),
-('Grupo', 'Omega', 'M', NULL, '33.333.333/0001-33', NULL, 'omega@gmail.com', 'ativo', '123'),
-('Helena', 'Batista', 'F', '353.353.353-35', NULL, '1993-06-06', 'helena@gmail.com', 'ativo', '123'),
-('Igor', 'Freitas', 'M', '363.363.363-36', NULL, '1986-07-07', 'igor@gmail.com', 'ativo', '123');
+INSERT INTO contratos (id_venda, id_funcionario, tipo_contrato, status, observacoes) VALUES
+(1, 3, 'venda', 'aguardando_aprovacao', 'Aguardando aprovação do gerente');
 
+-- =============================================================
+-- LOCAÇÃO (somente corretor como id_funcionario)
+-- =============================================================
 
--- =========================
+INSERT INTO locacoes (id_imovel, id_cliente, id_funcionario, valor_aluguel, forma_pagamento, data_entrada, data_saida, observacoes) VALUES
+(3, 2, 4, 1200.00, 'Pix', '2026-07-01', '2027-07-01', 'Locação anual');
+
+INSERT INTO contratos (id_locacao, id_funcionario, tipo_contrato, status, observacoes) VALUES
+(1, 4, 'locacao', 'aguardando_aprovacao', 'Aguardando aprovação do gerente');
+-- =============================================================
 -- CARROS
--- =========================
+-- =============================================================
 
-INSERT INTO carro
-(modelo_carro, placa_carro, situacao)
-VALUES
-('Onix', 'ABC1D23', 'disponivel'),
-('HB20', 'DEF2G34', 'disponivel'),
-('Corolla', 'HIJ3K45', 'indisponivel'),
-('Civic', 'LMN4O56', 'disponivel'),
-('Tracker', 'PQR5S67', 'disponivel'),
-('Compass', 'TUV6W78', 'indisponivel'),
-('Gol', 'XYZ7A89', 'disponivel'),
-('Argo', 'BCD8E90', 'disponivel'),
-('Creta', 'FGH9I01', 'disponivel'),
-('Renegade', 'JKL0M12', 'indisponivel');
-
-
--- =========================
--- TELEFONES
--- =========================
-
-INSERT INTO telefone (numero, id_funcionario)
-VALUES
-('46999991111', 1),
-('46999991112', 2),
-('46999991113', 3);
-
-INSERT INTO telefone (numero, id_cliente)
-VALUES
-('46999992221', 1),
-('46999992222', 2),
-('46999992223', 3);
-
-INSERT INTO telefone (numero, id_proprietario)
-VALUES
-('46999993331', 1),
-('46999993332', 2),
-('46999993333', 3),
-('46999993334', 4);
-
-
--- =========================
--- IMOVEIS
--- =========================
-
-INSERT INTO imoveis
-(id_proprietario, id_funcionario, nome_imovel, tipo, cep, endereco, numero, complemento, bairro, cidade, estado, status, valor_locacao, valor_venda, quartos, suites, vagas_garagem, area, iptu, observacoes)
-VALUES
-(1, 1, 'Casa Centro', 'Casa', '85660-000', 'Rua A', '100', NULL, 'Centro', 'Dois Vizinhos', 'PR', 'disponivel', 1800, 350000, 3, 1, 2, 120, 1500, 'Casa ampla'),
-(2, 2, 'Apartamento Luxo', 'Apartamento', '85660-000', 'Rua B', '200', 'Ap 301', 'Centro', 'Dois Vizinhos', 'PR', 'disponivel', 2500, 500000, 2, 1, 1, 90, 2000, 'Apartamento moderno'),
-(3, 1, 'Sala Comercial', 'Comercial', '85660-000', 'Rua C', '50', NULL, 'Industrial', 'Dois Vizinhos', 'PR', 'alugado', 3200, NULL, NULL, NULL, 2, 70, 1000, 'Ótima localização'),
-(4, 4, 'Chacara Boa Vista', 'Chacara', '85660-000', 'Linha Interior', 'SN', NULL, 'Rural', 'Dois Vizinhos', 'PR', 'disponivel', NULL, 800000, 4, 2, 3, 500, 2500, 'Área rural'),
-(5, 5, 'Kitnet Universitaria', 'Kitnet', '85660-000', 'Rua D', '15', NULL, 'Centro Norte', 'Dois Vizinhos', 'PR', 'disponivel', 900, 120000, 1, 0, 0, 35, 500, 'Próxima faculdade'),
-(6, 3, 'Sobrado Familiar', 'Sobrado', '85660-000', 'Rua E', '88', NULL, 'Jardim', 'Dois Vizinhos', 'PR', 'vendido', NULL, 450000, 3, 1, 2, 150, 1800, 'Sobrado bonito'),
-(7, 6, 'Apartamento Popular', 'Apartamento', '85660-000', 'Rua F', '70', 'Ap 202', 'Centro Sul', 'Dois Vizinhos', 'PR', 'disponivel', 1200, 220000, 2, 0, 1, 65, 800, 'Bom custo benefício'),
-(8, 7, 'Casa Piscina', 'Casa', '85660-000', 'Rua G', '120', NULL, 'Nobre', 'Dois Vizinhos', 'PR', 'disponivel', 3500, 780000, 4, 2, 3, 250, 3500, 'Piscina aquecida'),
-(9, 8, 'Barracao Industrial', 'Industrial', '85660-000', 'Rua H', '500', NULL, 'Distrito', 'Dois Vizinhos', 'PR', 'alugado', 7000, NULL, NULL, NULL, 5, 1000, 5000, 'Barracão grande'),
-(10, 9, 'Terreno Centro', 'Terreno', '85660-000', 'Rua I', 'SN', NULL, 'Centro', 'Dois Vizinhos', 'PR', 'disponivel', NULL, 180000, NULL, NULL, NULL, 300, 600, 'Terreno plano');
-
-
--- =========================
--- USO DO CARRO
--- =========================
-
-INSERT INTO uso_do_carro
-(id_funcionario, id_carro, data_saida, hora_saida, data_retorno, hora_retorno, observacoes)
-VALUES
-(1,1,'2026-05-01','08:00:00','2026-05-01','12:00:00','Visita cliente'),
-(2,2,'2026-05-02','09:00:00','2026-05-02','11:00:00','Entrega documentos'),
-(3,3,'2026-05-03','10:00:00','2026-05-03','15:00:00','Reunião'),
-(4,4,'2026-05-04','13:00:00','2026-05-04','18:00:00','Visitas'),
-(5,5,'2026-05-05','07:30:00','2026-05-05','10:30:00','Captação'),
-(6,6,'2026-05-06','08:00:00',NULL,NULL,'Em uso'),
-(7,7,'2026-05-07','14:00:00','2026-05-07','17:00:00','Contrato'),
-(8,8,'2026-05-08','09:00:00','2026-05-08','12:00:00','Banco'),
-(9,9,'2026-05-09','15:00:00','2026-05-09','18:00:00','Cliente'),
-(10,10,'2026-05-10','08:00:00',NULL,NULL,'Em uso');
-
-
--- =========================
--- VISITAS
--- =========================
-
-INSERT INTO visitas
-(id_cliente, id_imovel, id_funcionario, data_visita, hora_visita, status, observacoes)
-VALUES
-(1,1,1,'2026-05-11','09:00:00','visitado','Gostou'),
-(2,2,2,'2026-05-12','10:00:00','aguardando visita','Primeira visita'),
-(3,3,3,'2026-05-13','14:00:00','cancelado','Cliente desistiu'),
-(4,4,4,'2026-05-14','15:00:00','visitado','Analisando'),
-(5,5,5,'2026-05-15','16:00:00','visitado','Interessado'),
-(6,6,6,'2026-05-16','11:00:00','aguardando visita','Agendada'),
-(7,7,7,'2026-05-17','13:00:00','visitado','Gostou muito'),
-(8,8,8,'2026-05-18','17:00:00','cancelado','Sem interesse'),
-(9,9,9,'2026-05-19','08:00:00','visitado','Retornará'),
-(10,10,10,'2026-05-20','09:30:00','aguardando visita','Confirmada');
-
-
--- =========================
--- VENDAS
--- =========================
-
-INSERT INTO vendas
-(id_imovel, id_cliente, id_funcionario, valor_venda, forma_pagamento, observacoes)
-VALUES
-(6,1,1,450000,'Financiamento','Venda concluída');
-
-
--- =========================
--- LOCACOES
--- =========================
-
-INSERT INTO locacoes
-(id_imovel, id_cliente, id_funcionario, valor_aluguel, forma_pagamento, data_entrada, data_saida, observacoes)
-VALUES
-(3,2,2,3200,'PIX','2026-05-01','2027-05-01','Contrato anual'),
-(9,3,3,7000,'Boleto','2026-06-01','2027-06-01','Empresa');
-
-
--- =========================
--- CONTRATOS
--- =========================
-
-INSERT INTO contratos
-(id_venda, id_locacao, id_funcionario, tipo_contrato, status, observacoes)
-VALUES
-(1,NULL,1,'venda','aprovado','Contrato venda'),
-(NULL,1,2,'locacao','rejeitado','Contrato locação 1'),
-(NULL,2,3,'locacao','aguardando_aprovacao','Contrato locação 2');
+INSERT INTO carro (modelo_carro, placa_carro, situacao) VALUES
+('Chevrolet Onix',   'ABC-1234', 'disponivel'),
+('Volkswagen Polo',  'DEF-5678', 'disponivel'),
+('Hyundai HB20',     'GHI-9012', 'disponivel'),
+('Toyota Corolla',   'JKL-3456', 'disponivel'),
+('Fiat Strada',      'MNO-7890', 'disponivel');
