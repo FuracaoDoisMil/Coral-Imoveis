@@ -387,8 +387,8 @@ function CadastrarImoveis(){
             </button>
 
             <button
-                className="botao-cancelar"
-                onClick={() => navigate("/admin/imoveis/mostrar-imoveis")}
+                className="botao-cadastrar"
+                onClick={() => navigate("/admin/imoveis")}
             >
                 Cancelar
             </button>
