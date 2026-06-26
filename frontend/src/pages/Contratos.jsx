@@ -25,7 +25,7 @@ function Contratos(){
     return(
         <div>
             <h1>Gerenciar Contratos</h1>
-            <div className="caixinhas_aba_funcionalidades">
+            <div className="caixinha_aba_funcionalidade_unica">
                 <Link to="mostrar-contratos" className="caixinha">
                     <h3>Mostrar Contratos</h3>
                 </Link>
