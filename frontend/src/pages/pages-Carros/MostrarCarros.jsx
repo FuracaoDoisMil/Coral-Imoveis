@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function MostrarCarros(){
-
+    const funcionario = JSON.parse(localStorage.getItem("funcionario"))
+    const tipo = funcionario?.tipo_funcionario 
     const [carros, setCarros] = useState([])
     const [pesquisa, setPesquisa] = useState("")
     const [filtro, setFiltro] = useState("modelo")
@@ -71,28 +72,33 @@ function MostrarCarros(){
                                     <td>{carro.placa_carro}</td>
                                     <td>{carro.situacao}</td>
                                     <td>
+                                        {(tipo ==="Secretario"  || tipo === "Gerente") && (
+                                            <>
+                                                {carro.situacao === "disponivel" && (
+                                                    <button onClick={() => navigate(`/admin/carros/usar-carro/${carro.id_carro}`)}>
+                                                        Usar Carro
+                                                    </button>
+                                                )}
 
-                                        {carro.situacao === "disponivel" && (
-                                            <button onClick={() => navigate(`/admin/carros/usar-carro/${carro.id_carro}`)}>
-                                                Usar Carro
-                                            </button>
+                                                {carro.situacao === "indisponivel" && (
+
+                                                    <button onClick={() => navigate(`/admin/carros/retorno-carro/${carro.id_carro}`)}>
+                                                        Registrar Retorno
+                                                    </button>
+                                                )}
+
+                                                <button onClick={() => navigate(`/admin/carros/atualizar-carros/${carro.id_carro}`)}>
+                                                    Editar
+                                                </button>
+
+                                                <button onClick={() => navigate(`/admin/carros/deletar-carros/${carro.id_carro}`)}>
+                                                    Deletar
+                                                </button>
+                                            </>
                                         )}
-
-                                        {carro.situacao === "indisponivel" && (
-                                            <button onClick={() => navigate(`/admin/carros/retorno-carro/${carro.id_carro}`)}>
-                                                Registrar Retorno
-                                            </button>
-                                        )}
-
-                                        <button onClick={() => navigate(`/admin/carros/atualizar-carros/${carro.id_carro}`)}>
-                                            Editar
-                                        </button>
-
-                                        <button onClick={() => navigate(`/admin/carros/deletar-carros/${carro.id_carro}`)}>
-                                            Deletar
-                                        </button>
 
                                     </td>
+
                                 </tr>
                             ))}
                     </tbody>
