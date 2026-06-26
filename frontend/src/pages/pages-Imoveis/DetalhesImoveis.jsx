@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
 function DetalhesImoveis(){
+    const funcionario = JSON.parse(localStorage.getItem("funcionario"))
+    const tipo = funcionario?.tipo_funcionario
 
     const { id } = useParams()
     const navigate = useNavigate()
@@ -255,7 +257,7 @@ function DetalhesImoveis(){
 
             <div className="acoes-detalhes">
 
-                {imovelDisponivel && (
+                {imovelDisponivel && (tipo === "Corretor" || tipo === "Gerente") && (
                     <>
                         <button
                             className="btn-atualizar"
@@ -273,33 +275,41 @@ function DetalhesImoveis(){
                     </>
                 )}
 
-                <button
-                    className="btn-atualizar"
-                    onClick={() => navigate(`/admin/imoveis/atualizar-imoveis/${id}`)}
-                >
-                    Atualizar Imóvel
-                </button>
+                {(tipo === "Corretor" || tipo === "Gerente") && (
+                    <>
+                        <button
+                            className="btn-atualizar"
+                            onClick={() => navigate(`/admin/imoveis/atualizar-imoveis/${id}`)}
+                        >
+                            Atualizar Imóvel
+                        </button>
 
-                <button 
-                    className="btn-atualizar"
-                    onClick={()=> navigate(`/admin/visitas/cadastrar-visitas/${id}`)}
-                >
-                    Agendar Visita
-                </button>
+                        <button
+                            className="btn-deletar-detalhes"
+                            onClick={() => navigate(`/admin/imoveis/deletar-imoveis/${id}`)}
+                        >
+                            Deletar Imóvel
+                        </button>
+                    </>
+                )}
 
-                <button
-                    className="btn-deletar-detalhes"
-                    onClick={() => navigate(`/admin/imoveis/deletar-imoveis/${id}`)}
-                >
-                    Deletar Imóvel
-                </button>
+                {(tipo === "Secretario" || tipo === "Gerente") && (
+                    <button
+                        className="btn-atualizar"
+                        onClick={() => navigate(`/admin/visitas/cadastrar-visitas/${id}`)}
+                    >
+                        Agendar Visita
+                    </button>
+                )}
 
-                <button
-                    className="btn-voltar"
-                    onClick={() => navigate(`/admin/imoveis/mostrar-imoveis`)}
-                >
-                    Voltar
-                </button>
+                {(tipo === "Secretario" || tipo === "Gerente" || tipo === "Corretor") && (
+                    <button
+                        className="btn-voltar"
+                        onClick={() => navigate(`/admin/imoveis/mostrar-imoveis`)}
+                    >
+                        Voltar
+                    </button>
+                )}
 
             </div>
 
