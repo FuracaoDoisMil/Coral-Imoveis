@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 function AtualizarUsoCarro(){
-
     const { id } = useParams()
 
     const navigate = useNavigate()
@@ -101,13 +100,14 @@ function AtualizarUsoCarro(){
                 />
 
             </div>
-
-            <button
-                className="botao-cadastrar"
-                onClick={registrarRetorno}
-            >
-                Registrar Retorno
-            </button>
+            
+                <button
+                    className="botao-cadastrar"
+                    onClick={registrarRetorno}
+                >
+                    Registrar Retorno
+                </button>
+                    
 
             <button
                 className="botao-cadastrar"
