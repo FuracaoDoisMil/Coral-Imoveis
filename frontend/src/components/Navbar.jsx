@@ -13,14 +13,8 @@ function Navbar(){
             <Link to="/admin" className="logo">
                 🪸 Coral Imóveis
             </Link>
-            <button onClick={logout} style={{
-                background: "none",
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: "10px",
-                padding: "8px 16px",
-                color: "white",
-                cursor: "pointer"
-            }}>
+            
+            <button onClick={logout} className="btn-sair">
                 Sair
             </button>
         </header>
