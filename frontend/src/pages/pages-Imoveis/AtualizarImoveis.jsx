@@ -259,16 +259,18 @@ function AtualizarImoveis(){
                     value={idFuncionario}
                     onChange={(e) => setIdFuncionario(e.target.value)}
                 >
-                    <option value="">Selecione o Funcionário</option>
+                    <option value="">Selecione o Corretor</option>
 
-                    {funcionarios.map(funcionario => (
-                        <option
-                            key={funcionario.id_funcionario}
-                            value={funcionario.id_funcionario}
-                        >
-                            {funcionario.nome} {funcionario.sobrenome}
-                        </option>
-                    ))}
+                    {funcionarios
+                        .filter(funcionario => funcionario.tipo_funcionario === "Corretor")
+                        .map(funcionario => (
+                            <option
+                                key={funcionario.id_funcionario}
+                                value={funcionario.id_funcionario}
+                            >
+                                {funcionario.nome} {funcionario.sobrenome}
+                            </option>
+                        ))}
                 </select>
 
                 <input
