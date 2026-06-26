@@ -1,7 +1,10 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-function CadastrarCarros(){
+function CadastrarCarros(){ 
+    const funcionario = JSON.parse(localStorage.getItem("funcionario"))
+    const tipo = funcionario?.tipo_funcionario
+
 
     const [modelo, setModelo] = useState("")
     const [placa, setPlaca] = useState("")
@@ -95,16 +98,20 @@ function CadastrarCarros(){
 
             </div>
 
-            <button
-                className="botao-cadastrar"
-                onClick={cadastrarCarros}
-            >
-                Cadastrar
-            </button>
+            {(tipo ==="Secretario"  || tipo === "Gerente") && (
+                <>
+                    <button
+                        className="botao-cadastrar"
+                        onClick={cadastrarCarros}
+                    >
+                        Cadastrar
+                    </button>
+                </>
+            )}
 
             <button
                 className="botao-cadastrar"
-                onClick={() => navigate("/admin/carros/mostrar-carros")}
+                onClick={() => navigate("/admin/carros")}
             >
                 Cancelar
             </button>
