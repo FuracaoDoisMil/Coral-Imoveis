@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function MostrarFuncionarios(){
+    const funcionario = JSON.parse(localStorage.getItem("funcionario"))
+    const tipo = funcionario?.tipo_funcionario 
 
     const [funcionarios, setFuncionarios] = useState([])
 
@@ -327,22 +329,25 @@ function MostrarFuncionarios(){
                                         </td>
 
                                         <td>
+                                            {(tipo ==="Secretario"  || tipo === "Gerente") && (
+                                                <>
+                                                    <button
+                                                        onClick={() =>
+                                                            navigate(`/admin/funcionarios/atualizar-funcionarios/${funcionario.id_funcionario}`)
+                                                        }
+                                                    >
+                                                        Editar
+                                                    </button>
 
-                                            <button
-                                                onClick={() =>
-                                                    navigate(`/admin/funcionarios/atualizar-funcionarios/${funcionario.id_funcionario}`)
-                                                }
-                                            >
-                                                Editar
-                                            </button>
-
-                                            <button
-                                                onClick={() =>
-                                                    navigate(`/admin/funcionarios/deletar-funcionarios/${funcionario.id_funcionario}`)
-                                                }
-                                            >
-                                                Deletar
-                                            </button>
+                                                    <button
+                                                        onClick={() =>
+                                                            navigate(`/admin/funcionarios/deletar-funcionarios/${funcionario.id_funcionario}`)
+                                                        }
+                                                    >
+                                                        Deletar
+                                                    </button>
+                                                </>
+                                            )}
 
                                         </td>
 
