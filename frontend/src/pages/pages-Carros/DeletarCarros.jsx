@@ -103,7 +103,7 @@ function DeletarCarros(){
                 <p>
                     <strong>Situação:</strong> {carro.situacao}
                 </p>
-
+                
                 <button
                     className="btn-deletar"
                     onClick={deletarCarro}
